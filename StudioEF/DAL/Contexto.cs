@@ -20,7 +20,7 @@ namespace StudioEF.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data source= Database/StudioEA.db");
+            optionsBuilder.UseSqlite(@"Data source= ./Data/StudioEF.db");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
