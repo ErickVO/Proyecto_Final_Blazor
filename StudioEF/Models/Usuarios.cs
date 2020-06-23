@@ -10,10 +10,25 @@ namespace StudioEF.Models
     public class Usuarios
     {
         [Key]
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int UsuarioId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
         public String Nombres { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
         public String NombreUsuario { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DataType(DataType.Password)]
         public String Contrasena { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [EmailAddress]
         public String Email { get; set; }
 
 

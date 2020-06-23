@@ -9,14 +9,35 @@ namespace StudioEF.Models
    public class Eventos
     {
         [Key]
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         public int EventoId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int UsuarioId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int FotografoId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [MinLength(4,ErrorMessage ="Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(30,ErrorMessage ="Ha alcanzado el maximo de caracteres.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una descripcion.")]
         public string Descripcion { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public string Lugar { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public DateTime FechaInicio { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public DateTime FechaFin { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Precio { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public bool Disponible { get; set; }
 
         [ForeignKey("EventoId")]
