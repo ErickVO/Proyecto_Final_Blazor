@@ -10,14 +10,34 @@ namespace StudioEF.Models
     public class Articulos
     {
         [Key]
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         public int ArticuloId { get; set; }
-        public int UsuarioId { get; set; }
-        public string Descripcion { get; set; }
-        public int  CategoriaId { get; set; }
-        public decimal Stock { get; set; }
-        public decimal Precio { get; set; }
-        public decimal Costo { get; set; }
 
+        [Range(minimum: 1, maximum: 200000000,ErrorMessage ="Este campo debe poseer un rango mayor a 0.")]
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        public int UsuarioId { get; set; }
+
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [MinLength(5,ErrorMessage ="Este campo no puede contener menos de 5 caracteres.")]
+        [MaxLength(40, ErrorMessage ="Ha alcanzado el maximo de caracteres.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una descripcion.")]
+        public string Descripcion { get; set; }
+
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [Range(minimum: 1, maximum:200000000,ErrorMessage ="Este  campo debe poseer un rango mayor a 0.")]
+        public int  CategoriaId { get; set; }
+
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        public decimal Stock { get; set; }
+        
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public decimal Precio { get; set; }
+
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public decimal Costo { get; set; }
+       
         [ForeignKey("ArticulosId")]
         public List<ComprasDetalle> ComprasDetalle { get; set; }
 

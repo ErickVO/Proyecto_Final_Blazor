@@ -9,9 +9,19 @@ namespace StudioEF.Models
     public class Compras
     {
         [Key]
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int CompraId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [Range(minimum: 1, maximum: 200000000, ErrorMessage = "Este campo debe poseer un rango mayor a 0.")]
         public int UsuarioId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Monto { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DataType(DataType.DateTime)]
         public DateTime Fecha { get; set; }
 
         [ForeignKey("ComprasId")]

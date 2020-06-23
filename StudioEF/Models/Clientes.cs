@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudioEF.Pages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,15 +10,51 @@ namespace StudioEF.Models
     public class Clientes
     {
         [Key]
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         public int ClienteId { get; set; }
+
+        [Range(1,20000000,ErrorMessage ="Este campo debe tener un rango mayor a 0.")]
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         public int UsuarioId { get; set; }
-        public String Nombres { get; set; }
-        public String Apellidos { get; set; }
-        public String Cedula { get; set; }
-        public String Direccion { get; set; }
-        public String Telefono { get; set; }
-        public String Celular { get; set; }
-        public String Sexo { get; set; }
+
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [MinLength(3,ErrorMessage ="Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(30,ErrorMessage ="Ha alcanzo el maximo de caracteres.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese los nombres.")]
+        public string Nombres { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(30, ErrorMessage = "Ha alcanzo el maximo de caracteres.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese los apellidos.")]
+        public string Apellidos { get; set; }
+
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [Phone(ErrorMessage ="Este campo solo debe contener numeros.")]
+        [StringLength(11,ErrorMessage ="Este campo debe contener 11 caracteres.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una cedula.")]
+        public string Cedula { get; set; }
+
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una dirección.")]
+        public string Direccion { get; set; }
+
+        [Phone(ErrorMessage = "Este campo solo debe contener numeros.")]
+        [StringLength(10, ErrorMessage = "Este campo debe contener 10 caracteres.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese un telefono.")]
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        public string Telefono { get; set; }
+
+        [Phone(ErrorMessage = "Este campo solo debe contener numeros.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese un telefono.")]
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        public string Celular { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        public string Sexo { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DataType(DataType.Date)]
         public DateTime FechaNacimiento { get; set; }
 
         [ForeignKey("ClienteId")]

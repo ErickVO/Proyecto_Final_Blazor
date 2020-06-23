@@ -8,11 +8,28 @@ namespace StudioEF.Models
     public class ComprasDetalle
     {
         [Key]
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int ComprasDetalleId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int CompraId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [Range(minimum: 1, maximum: 200000000, ErrorMessage = "Este  campo debe poseer un rango mayor a 0.")]
         public int ArticuloId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [MinLength(5, ErrorMessage = "Este campo no puede contener menos de 5 caracteres.")]
+        [MaxLength(40, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una descripcion.")]
         public string Descripcion { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal CantidadArticulos { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Costo { get; set; }
 
 
