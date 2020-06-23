@@ -8,14 +8,36 @@ namespace StudioEF.Models
     public class VentasDetalle
     {
         [Key]
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int VentasDetalleId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int VentaId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int ArticuloId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [MinLength(4, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
+        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una descripcion.")]
         public String Descripcion { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int Cantidad { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal PrecioArticulo { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int EventoId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal PrecioEvento { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Monto { get; set; }
 
         public VentasDetalle()

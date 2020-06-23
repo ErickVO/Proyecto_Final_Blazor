@@ -9,11 +9,27 @@ namespace StudioEF.Models
     public class Ventas
     {
         [Key]
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int VentaId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public int ClienteId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
         public String Nombres { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
         public String Apellidos { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public DateTime Fecha { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Total { get; set; }
 
         [ForeignKey("VentaId")]
