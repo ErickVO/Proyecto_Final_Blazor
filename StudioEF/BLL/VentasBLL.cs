@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using StudioEA.Entidades;
-using StudioEA.DAL;
+using StudioEF.Models;
+using StudioEF.DAL;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
-namespace StudioEA.BLL
+namespace StudioEF.BLL
 {
     public class VentasBLL
     {

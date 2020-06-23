@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StudioEA.DAL;
+using StudioEF.DAL;
 using StudioEF.Models;
 using System;
 using System.Collections.Generic;

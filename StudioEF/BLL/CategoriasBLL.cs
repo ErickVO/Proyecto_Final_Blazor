@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StudioEA.DAL;
-using StudioEA.Entidades;
+using StudioEF.DAL;
+using StudioEF.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace StudioEA.BLL
+namespace StudioEF.BLL
 {
     public class CategoriasBLL
     {

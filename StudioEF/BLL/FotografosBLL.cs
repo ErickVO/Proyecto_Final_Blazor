@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using StudioEA.Entidades;
+using StudioEF.Models;
 using Microsoft.EntityFrameworkCore;
-using StudioEA.DAL;
+using StudioEF.DAL;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace StudioEA.BLL
+namespace StudioEF.BLL
 {
     public class FotografosBLL
     {
