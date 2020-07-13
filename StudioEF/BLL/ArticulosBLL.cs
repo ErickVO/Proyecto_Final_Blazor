@@ -13,6 +13,20 @@ namespace StudioEF.BLL
     {
         public static bool Guardar(Articulos articulos)
         {
+            if (!Existe(articulos.ArticuloId))
+            {
+               return Insertar(articulos);
+            }
+            else
+            {
+               return Modificar(articulos);
+            }
+
+          
+        }
+
+        private static bool Insertar(Articulos articulos)
+        {
             Contexto db = new Contexto();
             bool paso = false;
 
@@ -34,7 +48,7 @@ namespace StudioEF.BLL
             return paso;
         }
 
-        public static bool Modificar(Articulos articulos)
+        private static bool Modificar(Articulos articulos)
         {
             Contexto db = new Contexto();
             bool paso = false;
@@ -54,6 +68,27 @@ namespace StudioEF.BLL
             }
             return paso;
         }
+
+        private static bool Existe(int id)
+        {
+            Contexto db = new Contexto();
+            bool encontrado = false;
+
+            try
+            {
+                encontrado = db.Articulos.Any(d => d.ArticuloId == id);
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return encontrado;
+        }
+    
 
         public static bool Eliminar(int id)
         {
