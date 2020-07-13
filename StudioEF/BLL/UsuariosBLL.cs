@@ -10,7 +10,20 @@ namespace StudioEF.BLL
 {
     public class UsuariosBLL
     {
-        public static bool Guardar(Usuarios usuario)
+        public static bool Guardar(Usuarios usuarios)
+        {
+            if (!Existe(usuarios.UsuarioId))
+            {
+                return Insertar(usuarios);
+            }
+            else
+            {
+                return Modificar(usuarios);
+            }
+
+        }
+
+        public static bool Insertar(Usuarios usuario)
         {
             bool paso = false;
             Contexto db = new Contexto();
@@ -50,6 +63,26 @@ namespace StudioEF.BLL
                 db.Dispose();
             }
             return paso;
+        }
+
+        private static bool Existe(int id)
+        {
+            Contexto db = new Contexto();
+            bool encontrado = false;
+
+            try
+            {
+                encontrado = db.Usuarios.Any(d => d.UsuarioId == id);
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return encontrado;
         }
 
         public static bool Eliminar(int id)

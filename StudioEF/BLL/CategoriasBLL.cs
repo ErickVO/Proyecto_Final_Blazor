@@ -13,6 +13,19 @@ namespace StudioEF.BLL
     {
         public static bool Guardar(Categorias categorias)
         {
+            if (!Existe(categorias.CategoriaId))
+            {
+                return Insertar(categorias);
+            }
+            else
+            {
+                return Modificar(categorias);
+            }
+
+        }
+
+        public static bool Insertar(Categorias categorias)
+        {
             Contexto db = new Contexto();
             bool paso = false;
 
@@ -53,6 +66,26 @@ namespace StudioEF.BLL
                 db.Dispose();
             }
             return paso;
+        }
+
+        private static bool Existe(int id)
+        {
+            Contexto db = new Contexto();
+            bool encontrado = false;
+
+            try
+            {
+                encontrado = db.Categorias.Any(d => d.CategoriaId == id);
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return encontrado;
         }
 
         public static bool Eliminar(int id)
