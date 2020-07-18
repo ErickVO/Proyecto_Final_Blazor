@@ -13,6 +13,19 @@ namespace StudioEF.BLL
     {
         public static bool Guardar(Compras compras)
         {
+            if (!Existe(compras.CompraId))
+            {
+                return Insertar(compras);
+            }
+            else
+            {
+                return Modificar(compras);
+            }
+
+        }
+
+        public static bool Insertar(Compras compras)
+        {
             Contexto db = new Contexto();
             bool paso = false;
 
@@ -60,6 +73,26 @@ namespace StudioEF.BLL
                 db.Dispose();
             }
             return paso;
+        }
+
+        private static bool Existe(int id)
+        {
+            Contexto db = new Contexto();
+            bool encontrado = false;
+
+            try
+            {
+                encontrado = db.Compras.Any(d => d.CompraId == id);
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return encontrado;
         }
 
         public static bool Eliminar(int id)

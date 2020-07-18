@@ -13,6 +13,19 @@ namespace StudioEF.BLL
     {
         public static bool Guardar(Eventos eventos)
         {
+            if (!Existe(eventos.EventoId))
+            {
+                return Insertar(eventos);
+            }
+            else
+            {
+                return Modificar(eventos);
+            }
+
+        }
+
+        public static bool Insertar(Eventos eventos)
+        {
             Contexto db = new Contexto();
             bool paso = false;
 
@@ -53,6 +66,26 @@ namespace StudioEF.BLL
                 db.Dispose();
             }
             return paso;
+        }
+
+        private static bool Existe(int id)
+        {
+            Contexto db = new Contexto();
+            bool encontrado = false;
+
+            try
+            {
+                encontrado = db.Eventos.Any(d => d.EventoId == id);
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return encontrado;
         }
 
         public static bool Eliminar(int id)

@@ -11,7 +11,20 @@ namespace StudioEF.BLL
 {
     public class FotografosBLL
     {
-        public static bool Guardar(Fotografos fotografo)
+        public static bool Guardar(Fotografos fotografos)
+        {
+            if (!Existe(fotografos.FotografoId))
+            {
+                return Insertar(fotografos);
+            }
+            else
+            {
+                return Modificar(fotografos);
+            }
+
+        }
+
+        public static bool Insertar(Fotografos fotografo)
         {
             bool paso = false;
             Contexto db = new Contexto();
@@ -51,6 +64,26 @@ namespace StudioEF.BLL
                 db.Dispose();
             }
             return paso;
+        }
+
+        private static bool Existe(int id)
+        {
+            Contexto db = new Contexto();
+            bool encontrado = false;
+
+            try
+            {
+                encontrado = db.Fotografos.Any(d => d.FotografoId == id);
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                db.Dispose();
+            }
+            return encontrado;
         }
 
         public static bool Eliminar(int id)
