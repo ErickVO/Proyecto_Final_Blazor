@@ -228,7 +228,7 @@ namespace StudioEF.Migrations
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "UsuarioId", "Contrasena", "Email", "NombreUsuario", "Nombres" },
-                values: new object[] { 1, "Admin", "ericksvicente@hotmail.com", "Admin", "Erick Vicente" });
+                values: new object[] { 1, "admin", "ericksvicente@hotmail.com", "admin", "Administrador" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ComprasDetalle_ArticulosId",

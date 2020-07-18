@@ -289,10 +289,10 @@ namespace StudioEF.Migrations
                         new
                         {
                             UsuarioId = 1,
-                            Contrasena = "Admin",
+                            Contrasena = "admin",
                             Email = "ericksvicente@hotmail.com",
-                            NombreUsuario = "Admin",
-                            Nombres = "Erick Vicente"
+                            NombreUsuario = "admin",
+                            Nombres = "Administrador"
                         });
                 });
 

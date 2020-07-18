@@ -9,7 +9,7 @@ using StudioEF.DAL;
 namespace StudioEF.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200718194856_inicial")]
+    [Migration("20200718200721_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -291,10 +291,10 @@ namespace StudioEF.Migrations
                         new
                         {
                             UsuarioId = 1,
-                            Contrasena = "Admin",
+                            Contrasena = "admin",
                             Email = "ericksvicente@hotmail.com",
-                            NombreUsuario = "Admin",
-                            Nombres = "Erick Vicente"
+                            NombreUsuario = "admin",
+                            Nombres = "Administrador"
                         });
                 });
 

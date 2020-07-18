@@ -24,7 +24,6 @@ namespace StudioEF.Models
         public String NombreUsuario { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [DataType(DataType.Password)]
         public String Contrasena { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
