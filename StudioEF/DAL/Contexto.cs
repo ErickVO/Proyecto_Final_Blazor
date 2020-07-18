@@ -25,7 +25,7 @@ namespace StudioEF.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuarios>().HasData(new Usuarios { UsuarioId = 1, Nombres = "Anthony Brian", NombreUsuario = "Admin", Contrasena = "Admin", Email = "anthony-bryant2010@hotmail.com" });
+            modelBuilder.Entity<Usuarios>().HasData(new Usuarios { UsuarioId = 1, Nombres = "Erick Vicente", NombreUsuario = "Admin", Contrasena = "Admin", Email = "ericksvicente@hotmail.com" });
         }
     }
 }

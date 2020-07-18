@@ -5,113 +5,221 @@ using StudioEF.DAL;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace StudioEF.BLL
 {
-    public class UsuariosBLL
+    public class UsuariosBLL { 
+
+    public static bool Guardar(Usuarios usuario)
     {
-        public static bool Guardar(Usuarios usuario)
-        {
-            bool paso = false;
-            Contexto db = new Contexto();
+        if (!Existe(usuario.UsuarioId))
+            return Insertar(usuario);
+        else
+            return Modificar(usuario);
+    }
 
-            try
+    private static bool Insertar(Usuarios usuario)
+    {
+        if (usuario.UsuarioId != 0)
+            return false;
+
+        bool paso = false;
+        Contexto db = new Contexto();
+        try
+        {
+            usuario.Contrasena = Encriptar(usuario.Contrasena);
+
+            if (db.Usuarios.Add(usuario) != null)
+                paso = db.SaveChanges() > 0;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            db.Dispose();
+        }
+        return paso;
+    }
+
+    private static bool Modificar(Usuarios usuario)
+    {
+        bool paso = false;
+        Contexto db = new Contexto();
+        try
+        {
+            usuario.Contrasena = Encriptar(usuario.Contrasena);
+
+            db.Entry(usuario).State = EntityState.Modified;
+            paso = (db.SaveChanges() > 0);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            db.Dispose();
+        }
+        return paso;
+    }
+
+    public static string Encriptar(string cadenaEncriptada)
+    {
+        if (!string.IsNullOrEmpty(cadenaEncriptada))
+        {
+            string resultado = string.Empty;
+            byte[] encryted = Encoding.Unicode.GetBytes(cadenaEncriptada);
+            resultado = Convert.ToBase64String(encryted);
+
+            return resultado;
+        }
+        return string.Empty;
+    }
+
+    public static bool Eliminar(int id)
+    {
+        bool paso = false;
+        Contexto db = new Contexto();
+        try
+        {
+            var usuario = db.Usuarios.Find(id);
+            if (usuario != null)
             {
-                if (db.Usuarios.Add(usuario) != null)
-                    paso = (db.SaveChanges() > 0);
+                db.Usuarios.Remove(usuario);
+                paso = db.SaveChanges() > 0;
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return paso;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            db.Dispose();
+        }
+        return paso;
+    }
+    public static Usuarios Buscar(int id)
+    {
+        Usuarios usuario = new Usuarios();
+        Contexto db = new Contexto();
+        try
+        {
+            usuario = db.Usuarios.Find(id);
+            if (usuario != null)
+                usuario.Contrasena = DesEncriptar(usuario.Contrasena);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            db.Dispose();
+        }
+        return usuario;
+    }
+
+    public static string DesEncriptar(string cadenaDesencriptada)
+    {
+        if (!string.IsNullOrEmpty(cadenaDesencriptada))
+        {
+            string resultado = string.Empty;
+            byte[] decryted = Convert.FromBase64String(cadenaDesencriptada);
+            resultado = System.Text.Encoding.Unicode.GetString(decryted);
+
+            return resultado;
+        }
+        return string.Empty;
+    }
+
+    public static bool Existe(int id)
+    {
+        bool encontrado = false;
+        Contexto db = new Contexto();
+
+        try
+        {
+            encontrado = db.Usuarios.Any(u => u.UsuarioId == id);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            db.Dispose();
         }
 
-        public static bool Modificar(Usuarios usuario)
-        {
-            bool paso = false;
-            Contexto db = new Contexto();
+        return encontrado;
+    }
 
-            try
-            {
-                db.Entry(usuario).State = EntityState.Modified;
-                paso = (db.SaveChanges() > 0);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return paso;
+    public static List<Usuarios> GetList(Expression<Func<Usuarios, bool>> usuario)
+    {
+        List<Usuarios> Lista = new List<Usuarios>();
+        Contexto db = new Contexto();
+        try
+        {
+            Lista = db.Usuarios.Where(usuario).ToList();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            db.Dispose();
+        }
+        return Lista;
+    }
+
+    public static bool ExisteUsuario(string usuario, string clave)
+    {
+        bool paso = false;
+        Contexto db = new Contexto();
+
+        try
+        {
+            clave = Encriptar(clave);
+
+            if (db.Usuarios.Where(u => u.NombreUsuario == usuario && u.Contrasena == clave).SingleOrDefault() != null)
+                paso = true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            db.Dispose();
         }
 
-        public static bool Eliminar(int id)
-        {
-            bool paso = false;
-            Contexto db = new Contexto();
+        return paso;
+    }
 
-            try
-            {
-                var eliminar = db.Usuarios.Find(id);
-                db.Entry(eliminar).State = EntityState.Deleted;
-                paso = (db.SaveChanges() > 0);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return paso;
+    public static string ObtenerUsuarioId(string usuario, string clave)
+    {
+        Contexto db = new Contexto();
+        string id;
+        try
+        {
+            clave = Encriptar(clave);
+
+            id = db.Usuarios.Where(u => u.NombreUsuario == usuario && u.Contrasena == clave).FirstOrDefault().UsuarioId.ToString();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        finally
+        {
+            db.Dispose();
         }
 
-        public static Usuarios Buscar(int id)
-        {
-            Usuarios usuario = new Usuarios();
-            Contexto db = new Contexto();
-
-            try
-            {
-                usuario = db.Usuarios.Find(id);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return usuario;
-        }
-
-        public static List<Usuarios> GetList(Expression<Func<Usuarios, bool>> usuario)
-        {
-            List<Usuarios> Lista = new List<Usuarios>();
-            Contexto db = new Contexto();
-
-            try
-            {
-                Lista = db.Usuarios.Where(usuario).ToList();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                db.Dispose();
-            }
-            return Lista;
+        return id;
         }
     }
 }
