@@ -1,8 +1,158 @@
 ﻿@page "/RArticulos"
 @page "/RArticulos/{ArticuloId:int}"
 
-<h3>R_Articulos</h3>
+@using Models
+@using BLL
+
+@inject IToastService toast
+
+
+<EditForm Model="Articulo" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Registro Articulo</h3>
+        </div>
+        <div class="card-body">
+            <form>
+
+
+                <div class="form-row align-items-center">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Articulo Id:</label>
+                            <div class="input-group">
+                                <InputNumber @bind-Value="Articulo.ArticuloId" class="form-control col-4" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Usuario Id:</label>
+                    <InputNumber @bind-Value="Articulo.UsuarioId" class="form-control" />
+                    <ValidationMessage For="@(() => Articulo.UsuarioId)" />
+                </div>
+
+
+                <div class="form-group">
+                    <label>Descripcion:</label>
+                    <InputText @bind-Value="Articulo.Descripcion" class="form-control" />
+                    <ValidationMessage For="@(() => Articulo.Descripcion)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Categoria:</label>
+                    <select id="Categoria_select" @bind="Articulo.CategoriaId" class="form-control">
+                        <option value="" disabled selected>Elija una Categoria</option>
+                        @foreach (var item in Lista)
+                        {
+                            <option value="@item.CategoriaId">@item.Nombre</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Stock:</label>
+                    <InputNumber @bind-Value="Articulo.Stock" class="form-control"  ReadOnly ="true"/>
+                    <ValidationMessage For="@(() => Articulo.Stock)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Precio:</label>
+                    <InputNumber @bind-Value="Articulo.Precio" class="form-control" />
+                    <ValidationMessage For="@(() => Articulo.Precio)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Costo:</label>
+                    <InputNumber @bind-Value="Articulo.Costo" class="form-control" ReadOnly="True" />
+                    <ValidationMessage For="@(() => Articulo.Costo)" />
+                </div>
+
+            </form>
+        </div>
+        <div class="card-footer">
+            <div class="form-group text-center" display: inline-block>
+                <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <p />
+
+
+
+</EditForm>
 
 @code {
+        Articulos Articulo = new Articulos();
 
-}
+        [Parameter]
+        public int ArticuloId { get; set; }
+
+        private List<Categorias> Lista = new List<Categorias>();
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+    }
+
+    private void Nuevo()
+    {
+        Articulo = new Articulos();
+    }
+
+    private void Guardar()
+    {
+        bool guardo;
+
+        ArticuloId = 1;
+        guardo = ArticulosBLL.Guardar(Articulo);
+
+        if (guardo)
+        {
+            Nuevo();
+            toast.ShowSuccess("Guardado correctamente");
+        }
+        else
+            toast.ShowError("No fue posible guardar");
+    }
+
+    private void Eliminar()
+    {
+        bool elimino;
+
+        elimino = ArticulosBLL.Eliminar(Articulo.ArticuloId);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+
+    private void Buscar()
+    {
+        if (Articulo.ArticuloId > 0)
+        {
+            var encontrado = ArticulosBLL.Buscar(Articulo.ArticuloId);
+
+            if (encontrado != null)
+                this.Articulo = encontrado;
+            else
+                toast.ShowWarning("No encontrado");
+        }
+    }
+
+    }
+
+    
