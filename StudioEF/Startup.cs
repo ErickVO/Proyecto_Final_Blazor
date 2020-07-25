@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using StudioEF.Data;
 using Blazored.Toast;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -44,7 +43,7 @@ namespace StudioEF
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddBlazoredToast();
-            services.AddSingleton<WeatherForecastService>();
+            
 
             services.AddHttpContextAccessor();
             services.AddScoped<HttpContextAccessor>();

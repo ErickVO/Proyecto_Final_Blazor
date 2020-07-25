@@ -6,7 +6,6 @@
 
 @inject IToastService toast
 
-
 <EditForm Model="Articulo" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
 
@@ -113,7 +112,7 @@
     {
         bool guardo;
 
-        ArticuloId = 1;
+
         guardo = ArticulosBLL.Guardar(Articulo);
 
         if (guardo)

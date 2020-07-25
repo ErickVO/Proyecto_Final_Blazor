@@ -2,36 +2,35 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StudioEF.Models
 {
     public class Compras
     {
         [Key]
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         public int CompraId { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [Range(minimum: 1, maximum: 200000000, ErrorMessage = "Este campo debe poseer un rango mayor a 0.")]
+        [Required(ErrorMessage ="Este campo no puede  estar vacio.")]
+        [Range(minimum: 1, maximum: 10000000, ErrorMessage ="Este campo debe ser mayor a 0.")]
         public int UsuarioId { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [DisplayFormat(DataFormatString = "{0:C}")]
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         public decimal Monto { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [DataType(DataType.DateTime)]
         public DateTime Fecha { get; set; }
 
-        [ForeignKey("ComprasId")]
-        public List<ComprasDetalle> ComprasDetalle { get; set; }
+        [ForeignKey("CompraId")]
+        public virtual List<ComprasDetalle> ComprasDetalle { get; set; }
 
         public Compras()
         {
             CompraId = 0;
             UsuarioId = 0;
-            Monto = 0;
+            Monto = 0.0m;
             Fecha = DateTime.Now;
 
             ComprasDetalle = new List<ComprasDetalle>();

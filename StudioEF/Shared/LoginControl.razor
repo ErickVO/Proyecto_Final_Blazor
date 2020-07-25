@@ -12,15 +12,15 @@
     <NotAuthorized>
         <input type="text"
                placeholder="Nombre Usuario"
-               @bind="@nombreUsuario" />
+               @bind="@NombreUsuario" />
         &nbsp;&nbsp;
 
         <input type="password"
-               placeholder="Clave"
-               @bind="@clave" />
+               placeholder="Contraseña"
+               @bind="@Contrasena" />
 
         <a class="ml-md-auto btn btn-primary"
-           href="/login?paramUsername=@encode(nombreUsuario)&paramPassword=@encode(clave)"
+           href="/login?paramUsername=@encode(NombreUsuario)&paramPassword=@encode(Contrasena)"
            target="_top">Login</a>
 
 
@@ -29,8 +29,8 @@
 
 @code {
 
-    string nombreUsuario = "";
-    string clave = "";
+    string NombreUsuario = "";
+    string Contrasena = "";
 
     private string encode(string param)
     {

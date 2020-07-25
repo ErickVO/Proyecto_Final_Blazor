@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StudioEF.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -164,10 +164,10 @@ namespace StudioEF.Migrations
                     CompraId = table.Column<int>(nullable: false),
                     ArticuloId = table.Column<int>(nullable: false),
                     Descripcion = table.Column<string>(maxLength: 40, nullable: false),
-                    CantidadArticulos = table.Column<decimal>(nullable: false),
+                    CantidadArticulos = table.Column<int>(nullable: false),
                     Costo = table.Column<decimal>(nullable: false),
-                    ArticulosId = table.Column<int>(nullable: true),
-                    ComprasId = table.Column<int>(nullable: true)
+                    Importe = table.Column<decimal>(nullable: false),
+                    ArticulosId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -179,11 +179,11 @@ namespace StudioEF.Migrations
                         principalColumn: "ArticuloId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ComprasDetalle_Compras_ComprasId",
-                        column: x => x.ComprasId,
+                        name: "FK_ComprasDetalle_Compras_CompraId",
+                        column: x => x.CompraId,
                         principalTable: "Compras",
                         principalColumn: "CompraId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,7 +228,7 @@ namespace StudioEF.Migrations
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "UsuarioId", "Contrasena", "Email", "NombreUsuario", "Nombres" },
-                values: new object[] { 1, "admin", "ericksvicente@hotmail.com", "admin", "Administrador" });
+                values: new object[] { 1, "QQBkAG0AaQBuAA==", "ericksvicente@hotmail.com", "Admin", "Administrador" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ComprasDetalle_ArticulosId",
@@ -236,9 +236,9 @@ namespace StudioEF.Migrations
                 column: "ArticulosId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComprasDetalle_ComprasId",
+                name: "IX_ComprasDetalle_CompraId",
                 table: "ComprasDetalle",
-                column: "ComprasId");
+                column: "CompraId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ventas_ClienteId",

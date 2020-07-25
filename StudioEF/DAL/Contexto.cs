@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using StudioEF.Models;
 using Microsoft.EntityFrameworkCore;
+using StudioEF.BLL;
 
 namespace StudioEF.DAL
 {
@@ -25,7 +26,7 @@ namespace StudioEF.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuarios>().HasData(new Usuarios { UsuarioId = 1, Nombres = "Administrador", NombreUsuario = "admin", Contrasena = "admin", Email = "ericksvicente@hotmail.com" });
+            modelBuilder.Entity<Usuarios>().HasData(new Usuarios { UsuarioId = 1, Nombres = "Administrador", NombreUsuario = "Admin", Contrasena = UsuariosBLL.Encriptar("Admin"), Email = "ericksvicente@hotmail.com" });
         }
     }
 }

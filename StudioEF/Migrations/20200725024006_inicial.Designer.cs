@@ -9,8 +9,8 @@ using StudioEF.DAL;
 namespace StudioEF.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200720014512_Inicial")]
-    partial class Inicial
+    [Migration("20200725024006_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -148,13 +148,10 @@ namespace StudioEF.Migrations
                     b.Property<int?>("ArticulosId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("CantidadArticulos")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("CompraId")
+                    b.Property<int>("CantidadArticulos")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ComprasId")
+                    b.Property<int>("CompraId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Costo")
@@ -165,11 +162,14 @@ namespace StudioEF.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(40);
 
+                    b.Property<decimal>("Importe")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("ComprasDetalleId");
 
                     b.HasIndex("ArticulosId");
 
-                    b.HasIndex("ComprasId");
+                    b.HasIndex("CompraId");
 
                     b.ToTable("ComprasDetalle");
                 });
@@ -291,9 +291,9 @@ namespace StudioEF.Migrations
                         new
                         {
                             UsuarioId = 1,
-                            Contrasena = "admin",
+                            Contrasena = "QQBkAG0AaQBuAA==",
                             Email = "ericksvicente@hotmail.com",
-                            NombreUsuario = "admin",
+                            NombreUsuario = "Admin",
                             Nombres = "Administrador"
                         });
                 });
@@ -384,7 +384,9 @@ namespace StudioEF.Migrations
 
                     b.HasOne("StudioEF.Models.Compras", null)
                         .WithMany("ComprasDetalle")
-                        .HasForeignKey("ComprasId");
+                        .HasForeignKey("CompraId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("StudioEF.Models.Ventas", b =>
