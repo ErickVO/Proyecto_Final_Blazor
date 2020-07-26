@@ -32,9 +32,8 @@ namespace StudioEF.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Costo { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [DisplayFormat(DataFormatString = "{0:C}")]
-        public decimal Importe { get; set; }
+     
+
 
         public ComprasDetalle()
         {
@@ -43,7 +42,6 @@ namespace StudioEF.Models
             ArticuloId = 0;
             CantidadArticulos = 0;
             Costo = 0.0m;
-            Importe = 0.0m;
         }
 
         public ComprasDetalle(int comprasId,int articulosId, int cantidadArticulos, decimal costo, decimal importe)
@@ -53,7 +51,7 @@ namespace StudioEF.Models
             ArticuloId = articulosId;
             CantidadArticulos = cantidadArticulos;
             Costo = costo;
-            Importe = importe;
+            
         }
     }
 }

@@ -39,10 +39,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Fotografo Id:</label>
-                    <InputNumber @bind-Value="Evento.FotografoId" class="form-control" />
-                    <ValidationMessage For="@(() => Evento.FotografoId)" />
+                    <label>Fotografo:</label>
+                    <select @bind="Evento.FotografoId" class="form-control">
+                        <option value="" disabled selected>Elija una Categoria</option>
+                        @foreach (var item in Lista)
+                        {
+                            <option value="item.FotografoId">@item.Nombre</option>
+                        }
+                    </select>
                 </div>
+
 
                 <div class="form-group">
                     <label>Descripcion:</label>
@@ -57,16 +63,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Categoria:</label>
-                    <select id="Categoria_select" @bind="Evento.FotografoId" class="form-control">
-                        <option value="" disabled selected>Elija una Categoria</option>
-                        @foreach (var item in Lista)
-                        {
-                            <option value="@item.CategoriaId">@item.Nombre</option>
-                        }
-                    </select>
+                    <label>Fecja Inicio:</label>
+                    <InputDate @bind-Value="Evento.FechaInicio" class="form-control" />
+                    <ValidationMessage For="@(() => Evento.FechaInicio)" />
                 </div>
-              
+
+                <div class="form-group">
+                    <label>Fecha Fin:</label>
+                    <InputDate @bind-Value="Evento.FechaFin" class="form-control" />
+                    <ValidationMessage For="@(() => Evento.FechaFin)" />
+                </div>
 
                 <div class="form-group">
                     <label>Precio:</label>
@@ -75,10 +81,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Costo:</label>
-                    <InputNumber @bind-Value="Evento.Precio" class="form-control" ReadOnly="True" />
-                    <ValidationMessage For="@(() => Evento.Precio)" />
+                    <label>Disponible:</label>
+                    <select @bind="Evento.Disponible" class="form-control">
+                        <option value="" disabled selected>Elija una Opcion</option>
+                        <option value="true">Disponible</option>
+                        <option value="false">No disponible</option>
+                    </select>
+                    
                 </div>
+
 
             </form>
     </div>
@@ -103,9 +114,9 @@
     Eventos Evento = new Eventos();
 
     [Parameter]
-    public int ArticuloId { get; set; }
+    public int EventoId { get; set; }
 
-    private List<Categorias> Lista = new List<Categorias>();
+    private List<Fotografos> Lista = new List<Fotografos>();
 
     protected override void OnInitialized()
     {
@@ -115,13 +126,13 @@
     private void Nuevo()
     {
         Evento = new Eventos();
+        Lista = FotografosBLL.GetList(f => true);
     }
 
     private void Guardar()
     {
         bool guardo;
 
-        ArticuloId = 1;
         guardo = EventosBLL.Guardar(Evento);
 
         if (guardo)

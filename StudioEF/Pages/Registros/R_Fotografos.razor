@@ -82,8 +82,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Stock:</label>
-                    <InputNumber @bind-Value="Fotografo.Sueldo" class="form-control" ReadOnly="true" />
+                    <label>Sueldo:</label>
+                    <InputNumber @bind-Value="Fotografo.Sueldo" class="form-control"  />
                     <ValidationMessage For="@(() => Fotografo.Sueldo)" />
                 </div>            
 
@@ -108,9 +108,9 @@
     Fotografos Fotografo = new Fotografos();
 
     [Parameter]
-    public int ArticuloId { get; set; }
+    public int FotografoId { get; set; }
 
-    private List<Categorias> Lista = new List<Categorias>();
+
 
     protected override void OnInitialized()
     {
@@ -126,7 +126,7 @@
     {
         bool guardo;
 
-        ArticuloId = 1;
+
         guardo = FotografosBLL.Guardar(Fotografo);
 
         if (guardo)
