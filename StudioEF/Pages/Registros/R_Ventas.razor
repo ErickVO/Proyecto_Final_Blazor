@@ -38,19 +38,6 @@
                     <ValidationMessage For="@(() => Venta.ClienteId)" />
                 </div>
 
-
-                <div class="form-group">
-                    <label>Nombres:</label>
-                    <InputText @bind-Value="Venta.Nombres" class="form-control" />
-                    <ValidationMessage For="@(() => Venta.Nombres)" />
-                </div>
-
-                <div class="form-group">
-                    <label>Apellidos:</label>
-                    <InputText @bind-Value="Venta.Apellidos" class="form-control" />
-                    <ValidationMessage For="@(() => Venta.Apellidos)" />
-                </div>
-
                 <div class="form-group">
                     <label>Fecha:</label>
                     <select id="Categoria_select" @bind="Venta.Fecha" class="form-control">
