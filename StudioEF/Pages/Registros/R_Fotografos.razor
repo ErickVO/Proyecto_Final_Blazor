@@ -75,7 +75,11 @@
                     <ValidationMessage For="@(() => Fotografo.Sexo)" />
                 </div>
 
-               
+                <div class="form-group">
+                    <label>Fecha de nacimiento:</label>
+                    <InputDate @bind-Value="Fotografo.FechaNacimiento" class="form-control" />
+                    <ValidationMessage For="@(() => Fotografo.FechaNacimiento)" />
+                </div>
 
                 <div class="form-group">
                     <label>Stock:</label>
