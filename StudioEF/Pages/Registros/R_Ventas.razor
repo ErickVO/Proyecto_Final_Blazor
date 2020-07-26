@@ -1,5 +1,151 @@
-﻿<h3>R_ventas</h3>
+﻿@page "/RVentas"
+@page "/RVentas/{VentaId:int}"
+
+@using Models
+@using BLL
+
+@inject IToastService toast
+
+
+<EditForm Model="Venta" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Registro Ventas</h3>
+        </div>
+        <div class="card-body">
+            <form>
+
+
+                <div class="form-row align-items-center">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Venta Id:</label>
+                            <div class="input-group">
+                                <InputNumber @bind-Value="Venta.VentaId" class="form-control col-4" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Cliente Id:</label>
+                    <InputNumber @bind-Value="Venta.ClienteId" class="form-control" />
+                    <ValidationMessage For="@(() => Venta.ClienteId)" />
+                </div>
+
+
+                <div class="form-group">
+                    <label>Nombres:</label>
+                    <InputText @bind-Value="Venta.Nombres" class="form-control" />
+                    <ValidationMessage For="@(() => Venta.Nombres)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Apellidos:</label>
+                    <InputText @bind-Value="Venta.Apellidos" class="form-control" />
+                    <ValidationMessage For="@(() => Venta.Apellidos)" />
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha:</label>
+                    <select id="Categoria_select" @bind="Venta.Fecha" class="form-control">
+                        <option value="" disabled selected>Elija una Fecha</option>
+                        @foreach (var item in Lista)
+                        {
+                            <option value="@item.CategoriaId">@item.Nombre</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Total:</label>
+                    <InputNumber @bind-Value="Venta.Total" class="form-control" ReadOnly="true" />
+                    <ValidationMessage For="@(() => Venta.Total)" />
+                </div>
+
+                
+            </form>
+        </div>
+        <div class="card-footer">
+            <div class="form-group text-center" display: inline-block>
+                <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <p />
+
+
+
+</EditForm>
 
 @code {
+    Ventas Venta = new Ventas();
+
+    [Parameter]
+    public int ArticuloId { get; set; }
+
+    private List<Categorias> Lista = new List<Categorias>();
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+    }
+
+    private void Nuevo()
+    {
+        Venta = new Ventas();
+    }
+
+    private void Guardar()
+    {
+        bool guardo;
+
+        ArticuloId = 1;
+        guardo = VentasBLL.Guardar(Venta);
+
+        if (guardo)
+        {
+            Nuevo();
+            toast.ShowSuccess("Guardado correctamente");
+        }
+        else
+            toast.ShowError("No fue posible guardar");
+    }
+
+    private void Eliminar()
+    {
+        bool elimino;
+
+        elimino = VentasBLL.Eliminar(Venta.VentaId);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+
+    private void Buscar()
+    {
+        if (Venta.VentaId > 0)
+        {
+            var encontrado = VentasBLL.Buscar(Venta.VentaId);
+
+            if (encontrado != null)
+                this.Venta = encontrado;
+            else
+                toast.ShowWarning("No encontrado");
+        }
+    }
 
 }
