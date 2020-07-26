@@ -1,0 +1,58 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using StudioEF.BLL;
+using StudioEF.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StudioEF.BLL.Tests
+{
+    [TestClass()]
+    public class ArticulosBLLTests
+    {
+        [TestMethod()]
+        public void GuardarTest()
+        {
+            bool paso;
+            Articulos articulos = new Articulos();
+            articulos.ArticuloId = 0;
+            articulos.UsuarioId = 1;
+            articulos.CategoriaId = 1;
+            articulos.Descripcion = "Taza Personalizada";
+            articulos.Stock = 0;
+            articulos.Precio = 150;
+            articulos.Costo = 0;
+            paso = ArticulosBLL.Guardar(articulos);
+
+            Assert.AreEqual(paso, true);
+        }
+
+        [TestMethod()]
+        public void EliminarTest()
+        {
+            bool paso;
+            paso = ArticulosBLL.Eliminar(1);
+            Assert.AreEqual(paso, true);
+        }
+
+        [TestMethod()]
+        public void BuscarTest()
+        {
+            Articulos articulos;
+            articulos = ArticulosBLL.Buscar(1);
+
+            Assert.AreEqual(articulos, articulos);
+        }
+
+        [TestMethod()]
+        public void GetListTest()
+        {
+            var lista = new List<Articulos>();
+            lista = ArticulosBLL.GetList(p => true);
+
+            Assert.AreEqual(lista, lista);
+        }
+
+      
+    }
+}
