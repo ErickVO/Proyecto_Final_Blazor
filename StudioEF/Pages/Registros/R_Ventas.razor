@@ -40,13 +40,8 @@
 
                 <div class="form-group">
                     <label>Fecha:</label>
-                    <select id="Categoria_select" @bind="Venta.Fecha" class="form-control">
-                        <option value="" disabled selected>Elija una Fecha</option>
-                        @foreach (var item in Lista)
-                        {
-                            <option value="@item.CategoriaId">@item.Nombre</option>
-                        }
-                    </select>
+                    <InputDate @bind-Value="Venta.Fecha" class="form-control" />
+                    <ValidationMessage For="@(() => Venta.Fecha)" />
                 </div>
 
                 <div class="form-group">
@@ -77,9 +72,10 @@
     Ventas Venta = new Ventas();
 
     [Parameter]
-    public int ArticuloId { get; set; }
+    public int VentaId { get; set; }
 
-    private List<Categorias> Lista = new List<Categorias>();
+    private List<Articulos> Lista = new List<Articulos>();
+    private List<Clientes> ListaC = new List<Clientes>();
 
     protected override void OnInitialized()
     {
@@ -95,7 +91,7 @@
     {
         bool guardo;
 
-        ArticuloId = 1;
+       
         guardo = VentasBLL.Guardar(Venta);
 
         if (guardo)
