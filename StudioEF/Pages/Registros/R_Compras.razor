@@ -57,7 +57,7 @@
                             @*Articulo*@
                             <div class="col">
                                 <label>Articulo:</label>
-                                <select class="form-control" @bind="ArticuloSeleccionado" @onclick="EncontrarPrecio">
+                                <select class="form-control" @bind="ArticuloSeleccionado">
                                     <option value="" disabled selected>Seleccione un Articulo</option>
                                     @foreach (var item in Lista)
                                     {
@@ -69,7 +69,7 @@
 
                             <div class="col">
                                 <label>Costo</label>
-                                <InputNumber class="form-control" @bind-Value="CostoArticulo" readonly="true" />
+                                <InputNumber class="form-control" @bind-Value="costo"  />
                             </div>
 
 
@@ -96,7 +96,7 @@
                                     <th>Descripción</th>
                                     <th>Cantidad</th>
                                     <th>Costo</th>
-                                    <th>Importe</th>
+                                    
                                 </tr>
                             </thead>
                             @*Asignacion de los datos del Detalle*@
@@ -108,7 +108,7 @@
                                         <td>@ObtenerDescripcion(item.ArticuloId)</td>
                                         <td>@item.CantidadArticulos</td>
                                         <td>@item.Costo</td>
-                                        <td>@(item.Costo * item.CantidadArticulos)</td>
+                                     
                                         <td><button type="button" class="btn btn-outline-danger" @onclick="(() => EliminarDetalle(item))"> Remover</button></td>
                                     </tr>
                                 }
@@ -143,10 +143,10 @@
 
         [Parameter]
         public int CompraId { get; set; }
-
+        public decimal costo { get; set; }
         public int Cantidad { get; set; }
         public int ArticuloSeleccionado { get; set; }
-        public decimal CostoArticulo { get; set; }
+
 
         private List<Articulos> Lista = new List<Articulos>();
 
@@ -170,7 +170,7 @@
         {
             Compra = new Compras();
             Cantidad = 0;
-            CostoArticulo = 0;
+            costo = 0;
 
             Lista = ArticulosBLL.GetList(c => true);
         }
@@ -213,11 +213,11 @@
                     CompraId = Compra.CompraId,
                     ArticuloId = ArticuloSeleccionado,
                     CantidadArticulos = Cantidad,
-                    Costo = CostoArticulo
+                    Costo = costo
                 });
 
                 ArticuloSeleccionado = 0;
-                CostoArticulo = 0;
+                costo = 0;
                 Cantidad = 0;
 
             }
@@ -240,15 +240,7 @@
                 toast.ShowError("No fue posible eliminar");
         }
 
-        private void EncontrarPrecio()
-        {
-            var auxArticulo = ArticulosBLL.Buscar(ArticuloSeleccionado);
-            if (auxArticulo != null)
-            {
-                CostoArticulo = auxArticulo.Precio;
-            }
 
-        }
 
         private void CalcularMonto()
         {
