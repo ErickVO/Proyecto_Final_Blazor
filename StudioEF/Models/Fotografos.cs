@@ -21,6 +21,11 @@ namespace StudioEF.Models
         public String Nombre { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
+        public String Apellido { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [MinLength(11, ErrorMessage = "Este campo no puede tener menos de 11 caracteres.")]         
         public String Cedula { get; set; }
 
