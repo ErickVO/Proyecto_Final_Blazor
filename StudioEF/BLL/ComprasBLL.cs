@@ -33,7 +33,8 @@ namespace StudioEF.BLL
             try
             {
                 ObtenerCantidad(compras);
-               
+                ObtenerCosto(compras);
+
                 if (db.Compras.Add(compras) != null)
                 {
                     paso = (db.SaveChanges() > 0);
@@ -186,6 +187,29 @@ namespace StudioEF.BLL
 
         }
 
+        private static void ObtenerCosto(Compras compras)
+        {
+            List<Articulos> articulos = ArticulosBLL.GetList(ar => true);
+
+            if (articulos != null)
+            {
+                foreach (var articulo in articulos)
+                {
+                    decimal Costo = articulo.Costo;
+
+                    foreach (var compra in compras.ComprasDetalle)
+                    {
+                        Costo += compra.Costo;
+                    }
+
+                    articulo.Costo = Costo;
+
+                    ArticulosBLL.Guardar(articulo);
+                }
+
+            }
+
+        }
 
     }
 
