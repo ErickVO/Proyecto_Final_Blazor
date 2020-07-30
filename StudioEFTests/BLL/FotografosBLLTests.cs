@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudioEF.BLL;
+using StudioEF.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,25 +13,44 @@ namespace StudioEF.BLL.Tests
         [TestMethod()]
         public void GuardarTest()
         {
-            Assert.Fail();
+            bool paso = false;
+            Fotografos fotografos = new Fotografos();
+            fotografos.FotografoId = 0;
+            fotografos.UsuarioId = 1;
+            fotografos.Nombre = "";
+            fotografos.Apellido = "";
+            fotografos.Cedula = "";
+            fotografos.Direccion = "";
+            fotografos.Telefono = "";
+            fotografos.Celular = "";
+            fotografos.Sexo = "";
+            fotografos.Sueldo = 100;
+
+            Assert.IsTrue(FotografosBLL.Guardar(fotografos));
         }      
 
         [TestMethod()]
         public void EliminarTest()
         {
-            Assert.Fail();
+            bool paso;
+            paso = FotografosBLL.Eliminar(1);
+            Assert.AreEqual(paso, true);
         }
 
         [TestMethod()]
         public void BuscarTest()
         {
-            Assert.Fail();
+            Fotografos fotografos;
+            fotografos = FotografosBLL.Buscar(1);
+            Assert.IsNotNull(fotografos);
         }
 
         [TestMethod()]
         public void GetListTest()
         {
-            Assert.Fail();
+            var lista = new List<Fotografos>();
+            lista = FotografosBLL.GetList(p => true);
+            Assert.IsNotNull(lista);
         }
     }
 }

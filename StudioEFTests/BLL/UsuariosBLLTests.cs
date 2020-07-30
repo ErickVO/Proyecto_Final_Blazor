@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StudioEF.BLL;
+using StudioEF.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,15 @@ namespace StudioEF.BLL.Tests
         [TestMethod()]
         public void GuardarTest()
         {
-            Assert.Fail();
+            bool paso = false;
+            Usuarios usuarios = new Usuarios();
+            usuarios.UsuarioId = 0;
+            usuarios.Nombres = "";
+            usuarios.NombreUsuario = "";
+            usuarios.Contrasena = "";
+            usuarios.Email = "";
+
+            Assert.IsTrue(UsuariosBLL.Guardar(usuarios));
         }
 
         [TestMethod()]
@@ -24,13 +33,17 @@ namespace StudioEF.BLL.Tests
         [TestMethod()]
         public void EliminarTest()
         {
-            Assert.Fail();
+            bool paso;
+            paso = UsuariosBLL.Eliminar(1);
+            Assert.AreEqual(paso, true);
         }
 
         [TestMethod()]
         public void BuscarTest()
         {
-            Assert.Fail();
+            Usuarios usuarios;
+            usuarios = UsuariosBLL.Buscar(1);
+            Assert.IsNotNull(usuarios);
         }
 
         [TestMethod()]

@@ -1,0 +1,129 @@
+﻿@page "/C_Usuarios"
+
+@using Models
+@using BLL
+
+<div class="card">
+    <div class="card-header">
+        <h3>Consultar Usuarios</h3>
+    </div>
+
+    <div class="card-body">
+        <form>
+
+            <div class="form-row align-items-center">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Filtro:</label>
+                        <div class="input-group">
+                            <select class="form-control col-4" @bind="Filtro">
+                                <option value="0">Todos</option>
+                                <option value="1">Usuario Id</option>
+                                <option value="2">Nombre</option>
+                                <option value="3">Nombre Usuario</option>
+                                <option value="4">Email</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label>Criterio:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control col-4" @bind="criterio" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <table class=" table">
+                    <thead>
+                        <tr>
+                            <th>Usuario Id</th>
+                            <th>Nombre</th>
+                            <th>Nombre Usuario</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var usuarios in Lista)
+                        {
+                        <tr>
+                            <td>@usuarios.UsuarioId</td>
+                            <td>@usuarios.Nombres</td>
+                            <td>@usuarios.NombreUsuario</td>
+                            <td>@usuarios.Email</td>
+
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+
+
+        </form>
+
+    </div>
+    <div class="card-footer">
+
+
+
+    </div>
+</div>
+
+@code {
+
+    public List<Usuarios> Lista = new List<Usuarios>();
+
+
+    public int Filtro { get; set; }
+
+    public string criterio { get; set; }
+
+    private void Consultar()
+    {
+        try
+        {
+            switch (Filtro)
+            {
+                case 0: //Todos
+                    Lista = UsuariosBLL.GetList(a => true);
+
+                    break;
+                case 1: //Id
+                    int Id = Convert.ToInt32(criterio);
+                    Lista = UsuariosBLL.GetList(a => a.UsuarioId == Id);
+
+                    break;
+                case 2: //Usuario
+                    Lista = UsuariosBLL.GetList(a => a.Nombres == criterio);
+                    break;
+                case 3: //Nombre
+                    Lista = UsuariosBLL.GetList(a => a.NombreUsuario == criterio);
+                    break;
+                case 4: //Email
+                    Lista = UsuariosBLL.GetList(a => a.Email == criterio);
+                    break;
+
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+}
