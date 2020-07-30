@@ -1,0 +1,141 @@
+﻿@page "/CCategorias"
+
+@using Models
+@using BLL
+
+
+<div class="card">
+    <div class="card-header">
+        <h3>Consultar Categorias</h3>
+    </div>
+
+    <div class="card-body">
+        <form>
+
+            <div class="form-row align-items-center">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Filtro:</label>
+                        <div class="input-group">
+                            <select class="form-control col-4" @bind="Filtro">
+                                <option value="0">Todos</option>
+                                <option value="1">Categoria Id</option>
+                                <option value="2">Usuario Id</option>
+                                <option value="3">Nombre Categoria</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label>Criterio:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control col-4" @bind="criterio" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <table class=" table">
+                    <thead>
+                        <tr>
+                            <th>Categoria Id</th>
+                            <th>Usuario Id</th>
+                            <th>Nombre Categoria</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var Categoria in Lista)
+                        {
+                            <tr>
+                                <td>@Categoria.CategoriaId</td>
+                                <td>@Categoria.UsuarioId</td>
+                                <td>@Categoria.Nombre</td>
+                               
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+
+
+        </form>
+
+    </div>
+    <div class="card-footer">
+
+
+
+    </div>
+</div>
+
+
+@code {
+
+    public List<Categorias> Lista = new List<Categorias>();
+
+
+    public int Filtro { get; set; }
+
+    public string criterio { get; set; }
+
+
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+    }
+
+    private void Nuevo()
+    {
+        Lista = new List<Categorias>();
+    }
+
+
+
+    private void Consultar()
+    {
+        try
+        {
+            switch (Filtro)
+            {
+                case 0: //Todos
+                    Lista = CategoriasBLL.GetList(a => true);
+
+                    break;
+                case 1: //Id
+                    int Id = Convert.ToInt32(criterio);
+                    Lista = CategoriasBLL.GetList(a => a.CategoriaId == Id);
+
+                    break;
+                case 2: //Usuario
+                    int UsuarioId = Convert.ToInt32(criterio);
+                    Lista = CategoriasBLL.GetList(a => a.UsuarioId == UsuarioId);
+                    break;
+                case 3: //Nombre
+                    Lista = CategoriasBLL.GetList(a => a.Nombre == criterio);
+                    break;
+
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+}
+

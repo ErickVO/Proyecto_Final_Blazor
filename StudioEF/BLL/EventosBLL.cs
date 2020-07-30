@@ -150,20 +150,6 @@ namespace StudioEF.BLL
             return listado;
         }
 
-        public static string ObtenerDisponibilidad(int id)
-        {
-            Eventos eventos = Buscar(id);
-            if (eventos == null)
-                return "false";
-            else
-            {
-                if (eventos.Disponible == "false")
-                    return "false";
-                else
-                    return "true";
-            }
-        }
-
         public static decimal ObtenerPrecio(int id)
         {
             Eventos eventos = Buscar(id);
@@ -173,13 +159,5 @@ namespace StudioEF.BLL
                 return eventos.Precio;
         }
 
-        public static void CambiarDisponibilidad(int id,string disponible)
-        {
-            Eventos evento = Buscar(id);
-            if (disponible == "true")
-                evento.Disponible = "false";
-            else
-                evento.Disponible = "true";
-        }
     }
 }

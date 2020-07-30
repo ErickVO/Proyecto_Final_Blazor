@@ -18,12 +18,12 @@ namespace StudioEF.Models
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
         [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
-        public String Nombre { get; set; }
+        public String Nombres { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
         [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
-        public String Apellido { get; set; }
+        public String Apellidos { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [MinLength(11, ErrorMessage = "Este campo no puede tener menos de 11 caracteres.")]         
@@ -41,7 +41,6 @@ namespace StudioEF.Models
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [MinLength(10, ErrorMessage = "Este campo no puede tener menos de 10 caracteres.")]
         [MaxLength(11, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
-        [Phone(ErrorMessage = "Ingrese su numero de celular")]
         public String Celular { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
@@ -58,7 +57,8 @@ namespace StudioEF.Models
         {
             FotografoId = 0;
             UsuarioId = 0;
-            Nombre = string.Empty;
+            Nombres = string.Empty;
+            Apellidos = string.Empty;
             Cedula = string.Empty;
             Direccion = string.Empty;
             Telefono = string.Empty;

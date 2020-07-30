@@ -44,7 +44,7 @@
                         <option value="" disabled selected>Elija una Categoria</option>
                         @foreach (var item in Lista)
                         {
-                            <option value="item.FotografoId">@item.Nombre</option>
+                            <option value="item.FotografoId">@item.Nombres</option>
                         }
                     </select>
                 </div>
@@ -78,16 +78,6 @@
                     <label>Precio:</label>
                     <InputNumber @bind-Value="Evento.Precio" class="form-control" />
                     <ValidationMessage For="@(() => Evento.Precio)" />
-                </div>
-
-                <div class="form-group">
-                    <label>Disponible:</label>
-                    <select @bind="Evento.Disponible" class="form-control">
-                        <option value="" disabled selected>Elija una Opcion</option>
-                        <option value="true">Disponible</option>
-                        <option value="false">No disponible</option>
-                    </select>
-                    
                 </div>
 
 

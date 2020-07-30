@@ -118,11 +118,12 @@
     </EditForm>
 }
 
-    @code {
-        Clientes Cliente = new Clientes();
+@code {
 
-        [Parameter]
-        public int ClienteId { get; set; }
+    Clientes Cliente = new Clientes();
+
+    [Parameter]
+    public int ClienteId { get; set; }
 
 
 protected override void OnInitialized()
@@ -139,7 +140,6 @@ protected override void OnInitialized()
     {
         bool guardo;
 
-        ClienteId = 1;
         guardo = ClientesBLL.Guardar(Cliente);
 
         if (guardo)

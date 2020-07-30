@@ -14,17 +14,19 @@ namespace StudioEF.BLL.Tests
         public void GuardarTest()
         {
             bool paso;
-            Clientes clientes = new Clientes();
-            clientes.ClienteId = 0;
-            clientes.UsuarioId = 1;
-            clientes.Nombres = "Frandy Francisco";
-            clientes.Apellidos = "Mota";
-            clientes.Cedula = "40214324567";
-            clientes.Direccion = "Su Casa";
-            clientes.Telefono = "123123123";
-            clientes.Celular = "909808080";
-            clientes.Sexo = "Hombre";
-            clientes.FechaNacimiento = DateTime.Now;
+            Clientes clientes = new Clientes
+            {
+                ClienteId = 0,
+                UsuarioId = 1,
+                Nombres = "Frandy Francisco",
+                Apellidos = "Mota",
+                Cedula = "40214324567",
+                Direccion = "Su Casa",
+                Telefono = "123123123",
+                Celular = "909808080",
+                Sexo = "Hombre",
+                FechaNacimiento = DateTime.Now
+            };
             paso = ClientesBLL.Guardar(clientes);
 
             Assert.AreEqual(paso, true);

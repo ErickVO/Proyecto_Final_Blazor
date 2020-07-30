@@ -14,14 +14,16 @@ namespace StudioEF.BLL.Tests
         public void GuardarTest()
         {
             bool paso;
-            Articulos articulos = new Articulos();
-            articulos.ArticuloId = 0;
-            articulos.UsuarioId = 1;
-            articulos.CategoriaId = 1;
-            articulos.Descripcion = "Taza Personalizada";
-            articulos.Stock = 0;
-            articulos.Precio = 150;
-            articulos.Costo = 0;
+            Articulos articulos = new Articulos
+            {
+                ArticuloId = 0,
+                UsuarioId = 1,
+                CategoriaId = 1,
+                Descripcion = "Taza Personalizada",
+                Stock = 0,
+                Precio = 150,
+                Costo = 0
+            };
             paso = ArticulosBLL.Guardar(articulos);
 
             Assert.AreEqual(paso, true);

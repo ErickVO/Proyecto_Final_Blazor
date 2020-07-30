@@ -134,6 +134,7 @@ namespace StudioEF.BLL
             return articulos;
         }
 
+
         public static List<Articulos> GetList(Expression<Func<Articulos, bool>> articulos)
         {
             Contexto db = new Contexto();
@@ -154,57 +155,8 @@ namespace StudioEF.BLL
             return listado;
         }
 
-        public static void StockSuma(int id, decimal cantidad, decimal costo)
-        {
-            Articulos articulos = Buscar(id);
-
-            articulos.Stock += cantidad;
-            articulos.Costo = costo;
-
-            Modificar(articulos);
-        }
-
-        public static bool StockResta(int id, decimal cantidad)
-        {
-            Articulos articulos = Buscar(id);
-
-            articulos.Stock -= cantidad;
-
-            if (articulos.Stock >= 0)
-            {
-                Modificar(articulos);
-                return true;
-            }
-            else
-                return false;
-        }
-
-        public static String ObtenerDescripcion(int id)
-        {
-            Articulos articulo = Buscar(id);
-            if (articulo == null)
-                return "No existe el producto";
-            else
-                return articulo.Descripcion;
-        }
-
-        public static decimal ObtenerPrecio(int id)
-        {
-            Articulos articulo = Buscar(id);
-            if (articulo == null)
-                return 0.0m;
-            else
-                return articulo.Precio;
-        }
-
-        public static decimal ObtenerCantidad(int id)
-        {
-            Articulos articulo = Buscar(id);
-            if (articulo == null)
-                return 0.0m;
-            else
-                return articulo.Stock;
-        }
+      
+       
 
     }
 }

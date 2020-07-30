@@ -37,9 +37,6 @@ namespace StudioEF.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Precio { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        public string Disponible { get; set; }
-
         [ForeignKey("EventoId")]
         public List<VentasDetalle> VentasDetalle { get; set; }
 
@@ -52,8 +49,7 @@ namespace StudioEF.Models
             FechaInicio = DateTime.Now;
             FechaFin = DateTime.Now;
             Precio = 0;
-            Disponible = string.Empty;
-
+           
             VentasDetalle = new List<VentasDetalle>();
         }
     }

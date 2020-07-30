@@ -44,7 +44,7 @@ namespace StudioEF.Models
             Costo = 0.0m;
         }
 
-        public ComprasDetalle(int comprasId,int articulosId, int cantidadArticulos, decimal costo, decimal importe)
+        public ComprasDetalle(int comprasId,int articulosId, int cantidadArticulos, decimal costo)
         {
             ComprasDetalleId = 0;
             CompraId = comprasId;

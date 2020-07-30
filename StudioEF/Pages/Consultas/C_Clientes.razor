@@ -1,0 +1,167 @@
+﻿@page "/CArticulos"
+
+@using Models
+@using BLL
+
+
+<div class="card">
+    <div class="card-header align-content-lg-center" >
+        <h3 >Consultar Articulos</h3>
+    </div>
+
+    <div class="card-body">
+        <form>
+
+            <div class="form-row align-items-center">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Filtro:</label>
+                        <div class="input-group">
+                            <select class="form-control col-4" @bind="Filtro">
+                                <option value="0">Todos</option>
+                                <option value="1">Cliente Id</option>
+                                <option value="2">Usuario Id</option>
+                                <option value="3">Nombres</option>
+                                <option value="4">Apellidos</option>
+                                <option value="5">Cedula</option>
+                                <option value="6">Dirección</option>
+                                <option value="7">Telefono</option>
+                                <option value="8">Celular</option>
+                                <option value="9">Sexo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label>Criterio:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control col-4" @bind="criterio" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <table class=" table">
+                    <thead>
+                        <tr>
+                            <th>Cliente Id</th>
+                            <th>Usuario Id</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Cedula</th>
+                            <th>Direccion</th>
+                            <th>Telefono</th>
+                            <th>Celular</th>
+                            <th>Sexo</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var Cliente in Lista)
+                        {
+                            <tr>
+                                <td>@Cliente.ClienteId</td>
+                                <td>@Cliente.UsuarioId</td>
+                                <td>@Cliente.Nombres</td>
+                                <td>@Cliente.Apellidos</td>
+                                <td>@Cliente.Cedula</td>
+                                <td>@Cliente.Direccion</td>
+                                <td>@Cliente.Telefono</td>
+                                <td>@Cliente.Celular</td>
+                                <td>@Cliente.Sexo</td>
+                       
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </form>
+
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>
+
+
+@code {
+
+    public List<Clientes> Lista = new List<Clientes>();
+
+    public int Filtro { get; set; }
+
+    public string criterio { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+    }
+
+    private void Nuevo()
+    {
+        Lista = new List<Clientes>();
+    }
+
+    private void Consultar()
+    {
+        try
+        {
+            switch (Filtro)
+            {
+                case 0: //Todos
+                    Lista = ClientesBLL.GetList(a => true);
+
+                    break;
+                case 1: //Id
+                    int Id = Convert.ToInt32(criterio);
+                    Lista = ClientesBLL.GetList(a => a.ClienteId == Id);
+
+                    break;
+                case 2: //Usuario Id
+                    int UsuarioId = Convert.ToInt32(criterio);
+                    Lista = ClientesBLL.GetList(a => a.UsuarioId == UsuarioId);
+                    break;
+                case 3: //Nombres
+                    Lista = ClientesBLL.GetList(a => a.Nombres == criterio);
+                    break;
+                case 4: //Apellidos
+                    Lista = ClientesBLL.GetList(a => a.Apellidos == criterio);
+                    break;
+                case 5: //Cedula
+                    Lista = ClientesBLL.GetList(a => a.Cedula == criterio);
+                    break;
+                case 6://Direccion
+                    Lista = ClientesBLL.GetList(a => a.Direccion == criterio);
+                    break;
+                case 7://Telefono
+                    Lista = ClientesBLL.GetList(a => a.Telefono == criterio);
+                    break;
+                case 8://Celular
+                    Lista = ClientesBLL.GetList(a => a.Celular == criterio);
+                    break;
+                case 9://Sexo
+                    Lista = ClientesBLL.GetList(a => a.Sexo == criterio);
+                    break;
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+}

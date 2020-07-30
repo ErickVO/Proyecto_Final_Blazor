@@ -210,8 +210,8 @@
             {
                 this.Compra.ComprasDetalle.Add(new ComprasDetalle
                 {
-                    CompraId = Compra.CompraId,
                     ArticuloId = ArticuloSeleccionado,
+                    Descripcion = ObtenerDescripcion(ArticuloSeleccionado),
                     CantidadArticulos = Cantidad,
                     Costo = costo
                 });
@@ -239,6 +239,7 @@
             else
                 toast.ShowError("No fue posible eliminar");
         }
+
 
 
 
@@ -277,6 +278,5 @@
             else
                 toast.ShowWarning("No encontrado");
         }
-
 
     }

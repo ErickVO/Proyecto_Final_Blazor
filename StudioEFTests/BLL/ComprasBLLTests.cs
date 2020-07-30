@@ -13,12 +13,14 @@ namespace StudioEF.BLL.Tests
         [TestMethod()]
         public void GuardarTest()
         {
-            bool paso = false;
 
-            Compras compras = new Compras();
-            compras.CompraId = 0;
-            compras.UsuarioId = 1;
-            compras.Monto = 0;
+
+            Compras compras = new Compras
+            {
+                CompraId = 0,
+                UsuarioId = 1,
+                Monto = 0
+            };
             compras.ComprasDetalle.Add(new ComprasDetalle
             {
                 ComprasDetalleId = 0,

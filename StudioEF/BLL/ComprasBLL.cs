@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
 using StudioEF.DAL;
 using StudioEF.Models;
 using System;
@@ -31,6 +32,8 @@ namespace StudioEF.BLL
 
             try
             {
+                ObtenerCantidad(compras);
+               
                 if (db.Compras.Add(compras) != null)
                 {
                     paso = (db.SaveChanges() > 0);
@@ -158,5 +161,35 @@ namespace StudioEF.BLL
             }
             return listado;
         }
+
+        private static void ObtenerCantidad(Compras compras)
+        {
+            List<Articulos> articulos = ArticulosBLL.GetList(ar => true);
+
+            if (articulos != null)
+            {
+                    foreach (var articulo in articulos)
+                    {
+                        decimal Cantidad = articulo.Stock;
+
+                        foreach (var compra in compras.ComprasDetalle)
+                        {
+                            Cantidad += compra.CantidadArticulos;
+                        }
+
+                        articulo.Stock = Cantidad;
+
+                        ArticulosBLL.Guardar(articulo);
+                    }
+
+            }
+
+        }
+
+
     }
+
+    
+    
+
 }

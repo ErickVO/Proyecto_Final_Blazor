@@ -1,0 +1,163 @@
+﻿@page "/CArticulos"
+
+@using Models
+@using BLL
+
+
+<div class="card">
+    <div class="card-header">
+        <h3>Consultar Articulos</h3>
+    </div>
+
+    <div class="card-body">
+        <form>
+
+            <div class="form-row align-items-center">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Filtro:</label>
+                        <div class="input-group">
+                            <select class="form-control col-4" @bind="Filtro">
+                                <option value="0">Todos</option>
+                                <option value="1">Articulo Id</option>
+                                <option value="2">Descripcion</option>
+                                <option value="3">Existencia</option>
+                                <option value="4">Costo</option>
+                                <option value="5">Valor Inventario</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label>Criterio:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control col-4" @bind="criterio" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <table class=" table">
+                    <thead>
+                        <tr>
+                            <th>Articulo Id</th>
+                            <th>Descripcion</th>
+                            <th>CategoriaId</th>
+                            <th>Stock</th>
+                            <th>Precio</th>
+                            <th>Costo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var Articulo in Lista)
+                        {
+                            <tr>
+                                <td>@Articulo.ArticuloId</td>
+                                <td>@Articulo.Descripcion</td>
+                                <td>@Articulo.CategoriaId</td>
+                                <td>@Articulo.Stock</td>
+                                <td>@Articulo.Precio</td>
+                                <td>@Articulo.Costo</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
+
+
+        </form>
+
+    </div>
+    <div class="card-footer">
+
+      
+
+    </div>
+</div>
+
+
+
+
+
+
+@code {
+
+    public List<Articulos> Lista = new List<Articulos>();
+
+
+    public int Filtro { get; set; }
+
+    public string criterio { get; set; }
+
+
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+    }
+
+    private void Nuevo()
+    {
+        Lista = new List<Articulos>();
+    }
+
+
+
+    private void Consultar()
+    {
+        try
+        {
+            switch (Filtro)
+            {
+                case 0: //Todos
+                    Lista = ArticulosBLL.GetList(a => true);
+
+                    break;
+                case 1: //Id
+                    int Id = Convert.ToInt32(criterio);
+                    Lista = ArticulosBLL.GetList(a => a.ArticuloId == Id);
+
+                    break;
+                case 2: //descripcion
+                    Lista = ArticulosBLL.GetList(a => a.Descripcion == criterio);
+                    break;
+                case 3: //categoriaId
+                    int Categoria = Convert.ToInt32(criterio);
+                    Lista = ArticulosBLL.GetList(a => a.CategoriaId == Categoria);
+                    break;
+                case 4: //existencia
+                    int Existencia = Convert.ToInt32(criterio);
+                    Lista = ArticulosBLL.GetList(a => a.Stock == Existencia);
+                    break;
+                case 5: //Precio
+                    decimal Precio = Convert.ToDecimal(criterio);
+                    Lista = ArticulosBLL.GetList(a => a.Precio == Precio);
+                    break;
+                case 6://Costo
+                    decimal Costo = Convert.ToDecimal(criterio);
+                    Lista = ArticulosBLL.GetList(a => a.Costo == Costo);
+                    break;
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+}
+

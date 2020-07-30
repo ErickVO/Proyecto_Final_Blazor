@@ -24,7 +24,7 @@ namespace StudioEF.BLL
 
         }
 
-        public static bool Insertar(Fotografos fotografo)
+        private static bool Insertar(Fotografos fotografo)
         {
             bool paso = false;
             Contexto db = new Contexto();
@@ -45,7 +45,7 @@ namespace StudioEF.BLL
             return paso;
         }
 
-        public static bool Modificar(Fotografos fotografo)
+        private static bool Modificar(Fotografos fotografo)
         {
             bool paso = false;
             Contexto db = new Contexto();
