@@ -44,7 +44,7 @@ namespace StudioEF.Models
         public String Celular { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        public String Sexo { get; set; }
+        public string Sexo { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public DateTime FechaNacimiento { get; set; }
