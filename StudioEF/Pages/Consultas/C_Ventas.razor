@@ -1,0 +1,129 @@
+﻿@page "/C_Ventas"
+
+@using Models
+@using BLL
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Consultar Ventas</h3>
+        </div>
+
+        <div class="card-body">
+            <form>
+
+                <div class="form-row align-items-center">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Filtro:</label>
+                            <div class="input-group">
+                                <select class="form-control col-4" @bind="Filtro">
+                                    <option value="0">Todos</option>
+                                    <option value="1">Venta Id</option>
+                                    <option value="2">Cliente Id</option>
+                                    <option value="3">Nombre</option>
+                                    <option value="4">Apellido</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Criterio:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control col-4" @bind="criterio" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <table class=" table">
+                        <thead>
+                            <tr>
+                                <th>Venta Id</th>
+                                <th>Cliente Id</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ventas in Lista)
+                            {
+                                <tr>
+                                    <td>@ventas.VentaId</td>
+                                    <td>@ventas.ClienteId</td>
+                                    <td>@ventas.Nombres</td>
+                                    <td>@ventas.Apellidos</td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+
+
+            </form>
+
+        </div>
+        <div class="card-footer">
+
+
+
+        </div>
+    </div>
+
+@code {
+
+    public List<Ventas> Lista = new List<Ventas>();
+
+
+    public int Filtro { get; set; }
+
+    public string criterio { get; set; }
+
+    private void Consultar()
+    {
+        try
+        {
+            switch (Filtro)
+            {
+                case 0: //Todos
+                    Lista = VentasBLL.GetList(a => true);
+
+                    break;
+                case 1: //Id
+                    int Id = Convert.ToInt32(criterio);
+                    Lista = VentasBLL.GetList(a => a.VentaId == Id);
+
+                    break;
+                case 2: //Cliente
+                    int ClienteId = Convert.ToInt32(criterio);
+                    Lista = VentasBLL.GetList(a => a.ClienteId == ClienteId);
+                    break;
+                case 3: //Nombre
+                    Lista = VentasBLL.GetList(a => a.Nombres == criterio);
+                    break;
+                case 4: //Apellido
+                    Lista = VentasBLL.GetList(a => a.Apellidos == criterio);
+                    break;
+
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+}
