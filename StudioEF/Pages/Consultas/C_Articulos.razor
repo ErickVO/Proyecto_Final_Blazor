@@ -17,8 +17,8 @@
 @if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
 {
 
-    <div class="card">
-        <div class="card-header">
+    <div class="card-img">
+        <div class="card-header bg-dark">
             <h1>Consulta de Articulos</h1>
         </div>
 
@@ -113,7 +113,7 @@
             </nav>
         </div>
 
-        <div class="card-footer">
+        <div class="card-footer bg-dark">
             <div class="form-group text-center">
                 <button class="btn btn-lg btn-primary oi oi-file" @onclick="GenerarReporte"> Generar Reporte</button>
             </div>

@@ -20,8 +20,8 @@ namespace StudioEF.BLL.Tests
             eventos.UsuarioId = 1;
             eventos.Descripcion = "";
             eventos.Lugar = "";
-            //eventos.FechaInicio = DateTime;
-            //eventos.FechaFin = DateTime;
+            eventos.FechaInicio = DateTime.Now;
+            eventos.FechaFin = DateTime.Now;
             eventos.Precio = 100;
             
 
