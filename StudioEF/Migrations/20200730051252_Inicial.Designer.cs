@@ -9,7 +9,7 @@ using StudioEF.DAL;
 namespace StudioEF.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200729063103_Inicial")]
+    [Migration("20200730051252_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -13,12 +13,12 @@ namespace StudioEF.BLL.Tests
         [TestMethod()]
         public void GuardarTest()
         {
-            bool paso = false;
+        
             Fotografos fotografos = new Fotografos();
             fotografos.FotografoId = 0;
             fotografos.UsuarioId = 1;
-            fotografos.Nombre = "";
-            fotografos.Apellido = "";
+            fotografos.Nombres = "";
+            fotografos.Apellidos = "";
             fotografos.Cedula = "";
             fotografos.Direccion = "";
             fotografos.Telefono = "";

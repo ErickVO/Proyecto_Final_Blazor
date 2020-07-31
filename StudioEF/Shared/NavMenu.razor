@@ -13,94 +13,116 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" @onclick="ToggleNavMenu">
-                <span class="navbar-toggler-icon" aria-hidden="true"></span>Registros<span class=""icon-arrow_drop_down"></span>
+            <NavLink class="nav-link" href="" @onclick="()=>subMenuRegistro = !subMenuRegistro">
+                <span class="oi oi-list-rich" aria-hidden="true"></span>Registros<span class="carousel-item-right oi oi-chevron-bottom"></span>
             </NavLink>
-        
+            @if (subMenuRegistro)
+            {
+                <ul class="nav flex-column">
+                    <li class="nav-item px-3">
+                        <NavLink class="expand-menu" href="RCategorias">
+                            <span class="oi oi-list" aria-hidden="true"></span> Registro Categorias
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item px-3">
+                        <NavLink class="expand-menu" href="RArticulos">
+                            <span class="oi oi-list" aria-hidden="true"></span> Registro Articulos
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item px-3">
+                        <NavLink class="expand-menu" href="RCompras">
+                            <span class="oi oi-list" aria-hidden="true"></span> Registro Compras
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="expand-menu" href="RClientes">
+                            <span class="oi oi-list" aria-hidden="true"></span> Registro Clientes
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="expand-menu" href="REventos">
+                            <span class="oi oi-list" aria-hidden="true"></span> Registro Eventos
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="expand-menu" href="RFotografos">
+                            <span class="oi oi-list" aria-hidden="true"></span> Registro Fotografos
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="expand-menu" href="RVentas">
+                            <span class="oi oi-list" aria-hidden="true"></span> Registro Ventas
+                        </NavLink>
+                    </li>
+
+                </ul>
+
+            }
         </li>
 
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="RCategorias">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Registro Categorias
+            <NavLink class="nav-link" href="" @onclick="()=>subMenuConsultas = !subMenuConsultas">
+                <span class="oi oi-list-rich" aria-hidden="true"></span>Consultas<span class="carousel-item-right oi oi-chevron-bottom"></span>
             </NavLink>
-        </li>
 
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="RArticulos">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Registro Articulos
-            </NavLink>
-        </li>
+            @if (subMenuConsultas)
+            {
 
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="RCompras">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Registro Compras
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="RClientes">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Registro Clientes
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="REventos">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Registro Eventos
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="RFotografos">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Registro Fotografos
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="RVentas">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Registro Ventas
-            </NavLink>
-        </li>     
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="expand-menu" href="C_Categorias">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Categorias
+                </NavLink>
+
+            </li>
+
+            <li class="nav-item px-3">
+                <NavLink class="expand-menu" href="C_Articulos">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Articulos
+                </NavLink>
+            </li>
+
+            <li class="nav-item px-3">
+                <NavLink class="expand-menu" href="C_Compras">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Compras
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="expand-menu" href="C_Clientes">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Clientes
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="expand-menu" href="C_Eventos">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Eventos
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="expand-menu" href="C_Fotografos">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Fotografos
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="expand-menu" href="C_Ventas">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Ventas
+                </NavLink>
+            </li>
+        </ul>
+        }
+
+            </li>
 
 
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="CCategorias">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Categorias
-            </NavLink>
-        </li>
 
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="CArticulos">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Articulos
-            </NavLink>
-        </li>
-
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="CCompras">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Compras
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="CClientes">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Clientes
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="CEventos">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Eventos
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="CFotografos">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Fotografos
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="CVentas">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Consulta Ventas
-            </NavLink>
-        </li>
-
-    </ul>
+        </ul>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private bool subMenuRegistro;
+    private bool subMenuConsultas;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
@@ -109,5 +131,5 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
-   
+
 }

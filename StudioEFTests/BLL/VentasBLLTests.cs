@@ -13,7 +13,7 @@ namespace StudioEF.BLL.Tests
         [TestMethod()]
         public void GuardarTest()
         {
-            bool paso = false;
+          
             Ventas ventas = new Ventas();
             ventas.VentaId = 0;
             ventas.ClienteId = 1;

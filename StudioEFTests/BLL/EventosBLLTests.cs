@@ -13,7 +13,7 @@ namespace StudioEF.BLL.Tests
         [TestMethod()]
         public void GuardarTest()
         {
-            bool paso = false;
+            
             Eventos eventos = new Eventos();
             eventos.EventoId = 0;
             eventos.UsuarioId = 1;
@@ -23,7 +23,7 @@ namespace StudioEF.BLL.Tests
             //eventos.FechaInicio = DateTime;
             //eventos.FechaFin = DateTime;
             eventos.Precio = 100;
-            eventos.Disponible = "";
+            
 
             Assert.IsTrue(EventosBLL.Guardar(eventos));
         }

@@ -26,7 +26,7 @@ namespace StudioEF.BLL.Tests
                 ComprasDetalleId = 0,
                 CompraId = compras.CompraId,
                 ArticuloId = 1,
-                Descripcion = ArticulosBLL.ObtenerDescripcion(1),
+                Descripcion = "Carro",
                 CantidadArticulos = 2
             }) ;
 
