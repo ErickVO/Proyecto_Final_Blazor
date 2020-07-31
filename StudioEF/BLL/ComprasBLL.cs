@@ -32,8 +32,7 @@ namespace StudioEF.BLL
 
             try
             {
-                ObtenerCantidad(compras);
-                ObtenerCosto(compras);
+               
 
                 if (db.Compras.Add(compras) != null)
                 {
@@ -106,6 +105,7 @@ namespace StudioEF.BLL
 
             try
             {
+                
                 var eliminar = db.Compras.Find(id);
                 db.Entry(eliminar).State = EntityState.Deleted;
                 paso = (db.SaveChanges() > 0);
@@ -163,7 +163,7 @@ namespace StudioEF.BLL
             return listado;
         }
 
-        private static void ObtenerCantidad(Compras compras)
+        public static void ObtenerCantidad(Compras compras)
         {
             List<Articulos> articulos = ArticulosBLL.GetList(ar => true);
 
@@ -187,7 +187,7 @@ namespace StudioEF.BLL
 
         }
 
-        private static void ObtenerCosto(Compras compras)
+        public static void ObtenerCosto(Compras compras)
         {
             List<Articulos> articulos = ArticulosBLL.GetList(ar => true);
 
@@ -211,9 +211,80 @@ namespace StudioEF.BLL
 
         }
 
+
+        public static void BorrarCantidad(Compras compras)
+        {
+            List<Articulos> articulos = ArticulosBLL.GetList(ar => true);
+
+            if (articulos != null)
+            {
+                foreach (var articulo in articulos)
+                {
+                    decimal Cantidad = articulo.Stock;
+
+                    foreach (var compra in compras.ComprasDetalle)
+                    {
+                        Cantidad -= compra.CantidadArticulos;
+                    }
+
+                    if(Cantidad < 0)
+                    {
+                        Cantidad = 0;
+                        articulo.Stock = Cantidad;
+                    }
+                    else
+                    {
+                    articulo.Stock = Cantidad;
+                    }
+
+                    ArticulosBLL.Guardar(articulo);
+                }
+
+            }
+
+
+        }
+
+        public static void BorrarCosto(Compras compras)
+        {
+            List<Articulos> articulos = ArticulosBLL.GetList(ar => true);
+
+            if (articulos != null)
+            {
+                foreach (var articulo in articulos)
+                {
+                    decimal Costo = articulo.Costo;
+
+                    foreach (var compra in compras.ComprasDetalle)
+                    {
+                        Costo -= compra.Costo;
+                    }
+
+                    if(Costo < 0)
+                    {
+                        Costo = 0;
+                        articulo.Costo = Costo;
+                    }
+                    else
+                    {
+                        articulo.Costo = Costo;
+                    }
+
+                    ArticulosBLL.Guardar(articulo);
+                }
+
+            }
+
+        }
+
+
+
+
+
     }
 
     
-    
+
+
 
 }

@@ -216,6 +216,9 @@
                     Costo = costo
                 });
 
+                ComprasBLL.ObtenerCantidad(Compra);
+                ComprasBLL.ObtenerCosto(Compra);
+
                 ArticuloSeleccionado = 0;
                 costo = 0;
                 Cantidad = 0;
@@ -229,6 +232,8 @@
         {
             bool elimino;
 
+            ComprasBLL.BorrarCantidad(Compra);
+            ComprasBLL.BorrarCosto(Compra);
             elimino = ComprasBLL.Eliminar(Compra.CompraId);
 
             if (elimino)
@@ -257,6 +262,8 @@
         {
             try
             {
+                ComprasBLL.BorrarCantidad(Compra);
+                ComprasBLL.BorrarCosto(Compra);
                 Compra.ComprasDetalle.Remove(detalle);
                 CalcularMonto();
             }
