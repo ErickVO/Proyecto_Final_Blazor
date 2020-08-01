@@ -19,8 +19,8 @@
     <EditForm Model="Compra" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
 
-        <div class="card">
-            <div class="card-header">
+        <div class="card-img">
+            <div class="card-header bg-dark">
                 <h3>Registro Compras</h3>
             </div>
             <div class="card-body">
@@ -101,7 +101,7 @@
                                 </tr>
                             </thead>
                             @*Asignacion de los datos del Detalle*@
-                            <tbody class="bg-white">
+                            <tbody class="bg-light">
                                 @foreach (var item in Compra.ComprasDetalle)
                                 {
                                     <tr>
@@ -125,7 +125,7 @@
 
                 </form>
             </div>
-            <div class="card-footer">
+            <div class="card-footer bg-dark">
                 <div class="form-group text-center" display: inline-block>
                     <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
                     <button type="submit" class="btn btn-lg btn-success">Guardar</button>

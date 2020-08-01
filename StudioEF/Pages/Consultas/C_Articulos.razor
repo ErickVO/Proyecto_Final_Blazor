@@ -1,108 +1,147 @@
 ﻿@page "/C_Articulos"
 
-@using Models
-@using BLL
+@using BLL;
+@using Models;
+@using Reportes;
+@using Paginacion;
 
+@inject IToastService toast
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<div class="card">
-    <div class="card-header">
-        <h3>Consultar Articulos</h3>
-    </div>
+<AuthorizeView>
+    <NotAuthorized>
+        <p class="h4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+    </NotAuthorized>
+</AuthorizeView>
 
-    <div class="card-body">
-        <form>
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
+{
 
-            <div class="form-row align-items-center">
-                <div class="col">
+    <div class="card-img">
+        <div class="card-header bg-dark">
+            <h1>Consulta de Articulos</h1>
+        </div>
+
+        <div class="card-body">
+            <form>
+                <div class="form-row">
+                    
                     <div class="form-group">
-                        <label>Filtro:</label>
-                        <div class="input-group">
-                            <select class="form-control col-4" @bind="Filtro">
-                                <option value="0">Todos</option>
-                                <option value="1">Articulo Id</option>
-                                <option value="2">Descripcion</option>
-                                <option value="3">Existencia</option>
-                                <option value="4">Costo</option>
-                                <option value="5">Valor Inventario</option>
-                            </select>
-                        </div>
+                        <label>Filtro</label>
+                        <select class="form-control" @bind="Filtro">
+                            <option value="0">Todo</option>
+                            <option value="1">Articulo Id</option>
+                            <option value="2">Usuario Id</option>
+                            <option value="3">Descripción</option>
+                            <option value="4">Categoria Id</option>
+                            <option value="5">Stock</option>
+                            <option value="6">Precio</option>
+                            <option value="7">Costo</option>
+                        </select>
                     </div>
-                </div>
-
-                <div class="col">
+                    &nbsp;
                     <div class="form-group">
-                        <label>Criterio:</label>
+                        <label>Criterio</label>
                         <div class="input-group">
-                            <input type="text" class="form-control col-4" @bind="criterio" />
+                            <input type="text" @bind="Criterio" class="form-control">
                             <div class="input-group-append">
-                                <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
+                                <button type="button" class="btn btn-primary input-group-text" @onclick="@(u => Consultar(0))"><i class="oi oi-list-rich" /> Consultar</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
 
-
-
-            <div class="form-group">
-                <table class=" table">
-                    <thead>
-                        <tr>
-                            <th>Articulo Id</th>
-                            <th>Descripcion</th>
-                            <th>CategoriaId</th>
-                            <th>Stock</th>
-                            <th>Precio</th>
-                            <th>Costo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var Articulo in Lista)
-                        {
+                <div class="table-responsive text-nowrap" style="position: relative; height:200px; overflow: auto; display: block;">
+                    <table class="table table-striped">
+                        <thead class="thead-light">
                             <tr>
-                                <td>@Articulo.ArticuloId</td>
-                                <td>@Articulo.Descripcion</td>
-                                <td>@Articulo.CategoriaId</td>
-                                <td>@Articulo.Stock</td>
-                                <td>@Articulo.Precio</td>
-                                <td>@Articulo.Costo</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                                <th>Articulo Id</th>
+                                <th>Usuario Id</th>
+                                <th>Descripción</th>
+                                <th>Categoria Id</th>
+                                <th>Stock</th>
+                                <th>Precio</th>
+                                <th>Costo</th>
+ 
 
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            @foreach (var item in AuxListaArticulos)
+                            {
+                                <tr>
+                                    <td>@item.ArticuloId</td>
+                                    <td>@item.UsuarioId</td>
+                                    <td>@item.Descripcion</td>
+                                    <td>@item.CategoriaId</td>
+                                    <td>@item.Stock</td>
+                                    <td>@item.Precio</td>
+                                    <td>@item.Costo</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-group text-center" display: inline-block>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <button class="page-link btn btn-primary"
+                                @onclick="@(e => NavegateTo("Anterior"))" tabindex="-1">
+                            Anterior
+                        </button>
+                    </li>
+
+                    @for (int i = 0; i < TotalPaginas; i++)
+                    {
+                        var NumeroPagina = i;
+                        <li class="page-item">
+                            <button class="@(pagina.paginas == NumeroPagina ? "page-link btn btn-dark" : "page-link btn btn-danger")"
+                                    @onclick="@(u => Consultar(NumeroPagina))">
+                                @(i + 1)
+                            </button>
+                        </li>
+                    }
+
+                    <li class="page-item">
+                        <button type="button" class="page-link btn btn-primary" @onclick="@(e => NavegateTo("Siguiente"))" tabindex="-1">Siguiente</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="card-footer bg-dark">
+            <div class="form-group text-center">
+                <button class="btn btn-lg btn-primary oi oi-file" @onclick="GenerarReporte"> Generar Reporte</button>
             </div>
 
-
-
-
-
-        </form>
-
+            <form>
+                @if (Data is { })
+                {
+                    <object data="@pdfContent" width="1000" height="500"></object>
+                }
+            </form>
+        </div>
     </div>
-    <div class="card-footer">
-
-      
-
-    </div>
-</div>
-
-
-
-
-
+}
 
 @code {
+    public List<Articulos> ListaArticulos { get; set; }
+    public List<Articulos> AuxListaArticulos { get; set; }
 
-    public List<Articulos> Lista = new List<Articulos>();
+    Paginas pagina = new Paginas();
 
+    public string Criterio { get; set; }
 
-    public int Filtro { get; set; }
+    private int TotalRegistros { get; set; }
+    private int TotalPaginas { get; set; }
+    public string Filtro { get; set; }
 
-    public string criterio { get; set; }
-
-
+    byte[] Data;
+    string pdfContent = "";
 
     protected override void OnInitialized()
     {
@@ -111,53 +150,140 @@
 
     private void Nuevo()
     {
-        Lista = new List<Articulos>();
+        ListaArticulos = new List<Articulos>();
+        AuxListaArticulos = new List<Articulos>();
+        Filtro = "0";
+        Criterio = string.Empty;
     }
 
-
-
-    private void Consultar()
+    public void Consultar(int pag)
     {
-        try
+        switch (Filtro)
         {
-            switch (Filtro)
-            {
-                case 0: //Todos
-                    Lista = ArticulosBLL.GetList(a => true);
+            case "0": //Todo
+                ListaArticulos = ArticulosBLL.GetList(c => true);
+                break;
+            case "1": //ClienteId
+                if (Criterio.Trim().Length > 0)
+                {
+                    try
+                    {
+                        int id = Convert.ToInt32(Criterio);
+                        ListaArticulos = ArticulosBLL.GetList(a => a.ArticuloId == id);
+                    }
+                    catch (FormatException)
+                    {
+                        toast.ShowWarning("Ingrese un numero");
+                    }
+                }
+                else
+                {
+                    ListaArticulos = ArticulosBLL.GetList(a => true).OrderBy(a => a.ArticuloId).ToList();
+                }
+                break;
+            case "2": //UsuarioId
+                if (Criterio.Trim().Length > 0)
+                {
+                    try
+                    {
+                        int usuarioId = Convert.ToInt32(Criterio);
+                        ListaArticulos = ArticulosBLL.GetList(a => a.UsuarioId == usuarioId);
+                    }
+                    catch (FormatException)
+                    {
+                        toast.ShowWarning("Ingrese un numero");
+                    }
+                }
+                else
+                {
+                    ListaArticulos = ArticulosBLL.GetList(a => true).OrderBy(a => a.UsuarioId).ToList();
+                }
+                break;
 
-                    break;
-                case 1: //Id
-                    int Id = Convert.ToInt32(criterio);
-                    Lista = ArticulosBLL.GetList(a => a.ArticuloId == Id);
+            case "3": //Descripcion
+                if (Criterio.Trim().Length > 0)
+                    ListaArticulos = ArticulosBLL.GetList(a => a.Descripcion.Contains(Criterio));
+                else
+                    ListaArticulos = ArticulosBLL.GetList(a => true).OrderBy(a => a.Descripcion).ToList();
+                break;
+            case "4": //Apellidos
+                try
+                {
+                    int categoriaId = Convert.ToInt32(Criterio);
+                    ListaArticulos = ArticulosBLL.GetList(a => a.CategoriaId == categoriaId);
+                }
+                catch (FormatException)
+                {
+                    toast.ShowWarning("Ingrese un numero");
+                }
+                break;
+            case "5": //Cedula
+                try
+                {
+                    int stock = Convert.ToInt32(Criterio);
+                    ListaArticulos = ArticulosBLL.GetList(a => a.Stock == stock);
+                }
+                catch (FormatException)
+                {
+                    toast.ShowWarning("Ingrese un numero");
+                }
+                break;
+            case "6": //Telefono
+                try
+                {
+                    decimal precio = Convert.ToDecimal(Criterio);
+                    ListaArticulos = ArticulosBLL.GetList(a => a.Precio == precio);
+                }
+                catch (FormatException)
+                {
+                    toast.ShowWarning("Ingrese un numero");
+                }
+                break;
+            case "7": //Celular
+                try
+                {
+                    decimal costo = Convert.ToDecimal(Criterio);
+                    ListaArticulos = ArticulosBLL.GetList(a => a.Costo == costo);
+                }
+                catch (FormatException)
+                {
+                    toast.ShowWarning("Ingrese un numero");
+                }
+                break;
 
-                    break;
-                case 2: //descripcion
-                    Lista = ArticulosBLL.GetList(a => a.Descripcion == criterio);
-                    break;
-                case 3: //categoriaId
-                    int Categoria = Convert.ToInt32(criterio);
-                    Lista = ArticulosBLL.GetList(a => a.CategoriaId == Categoria);
-                    break;
-                case 4: //existencia
-                    int Existencia = Convert.ToInt32(criterio);
-                    Lista = ArticulosBLL.GetList(a => a.Stock == Existencia);
-                    break;
-                case 5: //Precio
-                    decimal Precio = Convert.ToDecimal(criterio);
-                    Lista = ArticulosBLL.GetList(a => a.Precio == Precio);
-                    break;
-                case 6://Costo
-                    decimal Costo = Convert.ToDecimal(criterio);
-                    Lista = ArticulosBLL.GetList(a => a.Costo == Costo);
-                    break;
-            }
         }
-        catch (Exception)
-        {
 
-            throw;
-        }
+        TotalPaginas = (int)Math.Ceiling(ListaArticulos.Count() / (decimal)pagina.cantidaditems);
+        ActualizarLista(pag);
+
+        Filtro = "0";
+
+    }
+
+    private void ActualizarLista(int NumeroPagina)
+    {
+        AuxListaArticulos = ListaArticulos.Skip(NumeroPagina * pagina.cantidaditems).Take(pagina.cantidaditems).ToList();
+        pagina.paginas = NumeroPagina;
+    }
+
+    private void NavegateTo(string direccion)
+    {
+        if (direccion == "Anterior" && pagina.paginas != 0)
+            pagina.paginas -= 1;
+        if (direccion == "Siguiente" && pagina.paginas != TotalPaginas)
+            pagina.paginas += 1;
+
+        ActualizarLista(pagina.paginas);
+    }
+
+    private void GenerarReporte()
+    {
+        ReporteArticulo articulo = new ReporteArticulo();
+
+        Data = articulo.Reporte(AuxListaArticulos);
+
+        pdfContent = "data:application/pdf;base64,";
+        pdfContent += System.Convert.ToBase64String(Data);
     }
 
 }
-

@@ -1,97 +1,134 @@
 ﻿@page "/C_Categorias"
 
-@using Models
-@using BLL
+@using BLL;
+@using Models;
+@using Reportes;
+@using Paginacion;
 
+@inject IToastService toast
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-<div class="card">
-    <div class="card-header">
-        <h3>Consultar Categorias</h3>
-    </div>
+<AuthorizeView>
+    <NotAuthorized>
+        <p class="h4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+    </NotAuthorized>
+</AuthorizeView>
 
-    <div class="card-body">
-        <form>
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
+{
 
-            <div class="form-row align-items-center">
-                <div class="col ">
+    <div class="card-img">
+        <div class="card-header bg-dark text-center">
+            <h1>Consulta de Categorias</h1>
+        </div>
+
+        <div class="card-body">
+            <form>
+                <div class="form-row">
+
                     <div class="form-group">
-                        <label>Filtro:</label>
-                        <div class="input-group">
-                            <select class="form-control col-4" @bind="Filtro">
-                                <option value="0">Todos</option>
-                                <option value="1">Categoria Id</option>
-                                <option value="2">Usuario Id</option>
-                                <option value="3">Nombre Categoria</option>
-                            </select>
-                        </div>
+                        <label>Filtro</label>
+                        <select class="form-control" @bind="Filtro">
+                            <option value="0">Todo</option>
+                            <option value="1">Categoria Id</option>
+                            <option value="2">Usuario Id</option>
+                            <option value="3">Nombre</option>
+                            
+                        </select>
                     </div>
-                </div>
-
-                <div class="col">
+                    &nbsp;
                     <div class="form-group">
-                        <label>Criterio:</label>
+                        <label>Criterio</label>
                         <div class="input-group">
-                            <input type="text" class="form-control col-4" @bind="criterio" />
+                            <input type="text" @bind="Criterio" class="form-control">
                             <div class="input-group-append">
-                                <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
+                                <button type="button" class="btn btn-primary input-group-text" @onclick="@(u => Consultar(0))"><i class="oi oi-list-rich" /> Consultar</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
 
-
-
-            <div class="form-group">
-                <table class=" table">
-                    <thead>
-                        <tr>
-                            <th>Categoria Id</th>
-                            <th>Usuario Id</th>
-                            <th>Nombre Categoria</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var Categoria in Lista)
-                        {
+                <div class="table-responsive text-nowrap" style="position: relative; height:200px; overflow: auto; display: block;">
+                    <table class="table table-striped">
+                        <thead class="thead-light">
                             <tr>
-                                <td>@Categoria.CategoriaId</td>
-                                <td>@Categoria.UsuarioId</td>
-                                <td>@Categoria.Nombre</td>
-                               
+                                <th>Categoria Id</th>
+                                <th>Usuario Id</th>
+                                <th>Nombre</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="bg-white">
+                            @foreach (var item in AuxListaCategorias)
+                            {
+                                <tr>
+                                    <td>@item.CategoriaId</td>
+                                    <td>@item.UsuarioId</td>
+                                    <td>@item.Nombre</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
 
+        <div class="form-group text-center" display: inline-block>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <button class="page-link btn btn-primary"
+                                @onclick="@(e => NavegateTo("Anterior"))" tabindex="-1">
+                            Anterior
+                        </button>
+                    </li>
+
+                    @for (int i = 0; i < TotalPaginas; i++)
+                    {
+                        var NumeroPagina = i;
+                        <li class="page-item">
+                            <button class="@(pagina.paginas == NumeroPagina ? "page-link btn btn-dark" : "page-link btn btn-danger")"
+                                    @onclick="@(u => Consultar(NumeroPagina))">
+                                @(i + 1)
+                            </button>
+                        </li>
+                    }
+
+                    <li class="page-item">
+                        <button type="button" class="page-link btn btn-primary" @onclick="@(e => NavegateTo("Siguiente"))" tabindex="-1">Siguiente</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="card-footer bg-dark">
+            <div class="form-group text-center">
+                <button class="btn btn-lg btn-primary oi oi-file" @onclick="GenerarReporte"> Generar Reporte</button>
             </div>
 
-
-
-
-
-        </form>
-
+            <form>
+                @if (Data is { })
+                {
+                    <object data="@pdfContent" width="1000" height="500"></object>
+                }
+            </form>
+        </div>
     </div>
-    <div class="card-footer">
-
-
-
-    </div>
-</div>
-
+}
 
 @code {
+    public List<Categorias> ListaCategorias { get; set; }
+    public List<Categorias> AuxListaCategorias { get; set; }
 
-    public List<Categorias> Lista = new List<Categorias>();
+    Paginas pagina = new Paginas();
 
+    public string Criterio { get; set; }
 
-    public int Filtro { get; set; }
+    private int TotalRegistros { get; set; }
+    private int TotalPaginas { get; set; }
+    public string Filtro { get; set; }
 
-    public string criterio { get; set; }
-
-
+    byte[] Data;
+    string pdfContent = "";
 
     protected override void OnInitialized()
     {
@@ -100,41 +137,97 @@
 
     private void Nuevo()
     {
-        Lista = new List<Categorias>();
+        ListaCategorias = new List<Categorias>();
+        AuxListaCategorias = new List<Categorias>();
+        Filtro = "0";
+        Criterio = string.Empty;
     }
 
-
-
-    private void Consultar()
+    public void Consultar(int pag)
     {
-        try
+        switch (Filtro)
         {
-            switch (Filtro)
-            {
-                case 0: //Todos
-                    Lista = CategoriasBLL.GetList(a => true);
+            case "0": //Todo
+                ListaCategorias = CategoriasBLL.GetList(c => true);
+                break;
+            case "1": //ClienteId
+                if (Criterio.Trim().Length > 0)
+                {
+                    try
+                    {
+                        int id = Convert.ToInt32(Criterio);
+                        ListaCategorias = CategoriasBLL.GetList(a => a.CategoriaId == id);
+                    }
+                    catch (FormatException)
+                    {
+                        toast.ShowWarning("Ingrese un numero");
+                    }
+                }
+                else
+                {
+                    ListaCategorias = CategoriasBLL.GetList(c => true).OrderBy(c => c.CategoriaId).ToList();
+                }
+                break;
+            case "2": //UsuarioId
+                if (Criterio.Trim().Length > 0)
+                {
+                    try
+                    {
+                        int usuarioId = Convert.ToInt32(Criterio);
+                        ListaCategorias = CategoriasBLL.GetList(c => c.UsuarioId == usuarioId);
+                    }
+                    catch (FormatException)
+                    {
+                        toast.ShowWarning("Ingrese un numero");
+                    }
+                }
+                else
+                {
+                    ListaCategorias = CategoriasBLL.GetList(c => true).OrderBy(c => c.UsuarioId).ToList();
+                }
+                break;
 
-                    break;
-                case 1: //Id
-                    int Id = Convert.ToInt32(criterio);
-                    Lista = CategoriasBLL.GetList(a => a.CategoriaId == Id);
+            case "3": //Descripcion
+                if (Criterio.Trim().Length > 0)
+                    ListaCategorias = CategoriasBLL.GetList(c => c.Nombre.Contains(Criterio));
+                else
+                    ListaCategorias = CategoriasBLL.GetList(c => true).OrderBy(c => c.Nombre).ToList();
+                break;
 
-                    break;
-                case 2: //Usuario
-                    int UsuarioId = Convert.ToInt32(criterio);
-                    Lista = CategoriasBLL.GetList(a => a.UsuarioId == UsuarioId);
-                    break;
-                case 3: //Nombre
-                    Lista = CategoriasBLL.GetList(a => a.Nombre == criterio);
-                    break;
 
-            }
         }
-        catch (Exception)
-        {
 
-            throw;
-        }
+        TotalPaginas = (int)Math.Ceiling(ListaCategorias.Count() / (decimal)pagina.cantidaditems);
+        ActualizarLista(pag);
+
+        Filtro = "0";
+
+    }
+
+    private void ActualizarLista(int NumeroPagina)
+    {
+        AuxListaCategorias = ListaCategorias.Skip(NumeroPagina * pagina.cantidaditems).Take(pagina.cantidaditems).ToList();
+        pagina.paginas = NumeroPagina;
+    }
+
+    private void NavegateTo(string direccion)
+    {
+        if (direccion == "Anterior" && pagina.paginas != 0)
+            pagina.paginas -= 1;
+        if (direccion == "Siguiente" && pagina.paginas != TotalPaginas)
+            pagina.paginas += 1;
+
+        ActualizarLista(pagina.paginas);
+    }
+
+    private void GenerarReporte()
+    {
+        ReporteCategoria categoria = new ReporteCategoria();
+
+        Data = categoria.Reporte(AuxListaCategorias);
+
+        pdfContent = "data:application/pdf;base64,";
+        pdfContent += System.Convert.ToBase64String(Data);
     }
 
 }
