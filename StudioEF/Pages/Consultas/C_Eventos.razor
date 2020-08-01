@@ -2,9 +2,14 @@
 
 @using Models
 @using BLL
+@using Reportes;
+@using Paginacion;
 
-<div class="card">
-    <div class="card-header">
+@inject IToastService toast
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<div class="card-img">
+    <div class="card-header bg-dark text-center">
         <h3>Consultar Eventos</h3>
     </div>
 
@@ -60,14 +65,14 @@
                     <tbody>
                         @foreach (var eventos in Lista)
                         {
-                        <tr>
-                            <td>@eventos.EventoId</td>
-                            <td>@eventos.UsuarioId</td>
-                            <td>@eventos.FotografoId</td>
-                            <td>@eventos.Descripcion</td>
-                            <td>@eventos.Lugar</td>
-                            <td>@eventos.Precio</td>
-                        </tr>
+                            <tr>
+                                <td>@eventos.EventoId</td>
+                                <td>@eventos.UsuarioId</td>
+                                <td>@eventos.FotografoId</td>
+                                <td>@eventos.Descripcion</td>
+                                <td>@eventos.Lugar</td>
+                                <td>@eventos.Precio</td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -131,13 +136,13 @@
                     int FotografoId = Convert.ToInt32(criterio);
                     Lista = EventosBLL.GetList(a => a.FotografoId == FotografoId);
                     break;
-                case 4: //Descripcion                    
+                case 4: //Descripcion
                     Lista = EventosBLL.GetList(a => a.Descripcion == criterio);
                     break;
-                case 5: //Lugar                    
+                case 5: //Lugar
                     Lista = EventosBLL.GetList(a => a.Lugar == criterio);
                     break;
-                case 6: //Precio    
+                case 6: //Precio
                     int Precio = Convert.ToInt32(criterio);
                     Lista = EventosBLL.GetList(a => a.Precio == Precio);
                     break;

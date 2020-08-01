@@ -2,9 +2,14 @@
 
 @using Models
 @using BLL
+@using Reportes;
+@using Paginacion;
 
-<div class="card">
-    <div class="card-header">
+@inject IToastService toast
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<div class="card-img">
+    <div class="card-header bg-dark text-center">
         <h3>Consultar Usuarios</h3>
     </div>
 
@@ -56,13 +61,13 @@
                     <tbody>
                         @foreach (var usuarios in Lista)
                         {
-                        <tr>
-                            <td>@usuarios.UsuarioId</td>
-                            <td>@usuarios.Nombres</td>
-                            <td>@usuarios.NombreUsuario</td>
-                            <td>@usuarios.Email</td>
+                            <tr>
+                                <td>@usuarios.UsuarioId</td>
+                                <td>@usuarios.Nombres</td>
+                                <td>@usuarios.NombreUsuario</td>
+                                <td>@usuarios.Email</td>
 
-                        </tr>
+                            </tr>
                         }
                     </tbody>
                 </table>

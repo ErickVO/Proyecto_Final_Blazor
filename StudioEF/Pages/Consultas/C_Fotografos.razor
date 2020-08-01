@@ -2,68 +2,73 @@
 
 @using Models
 @using BLL
+@using Reportes;
+@using Paginacion;
 
-    <div class="card">
-        <div class="card-header">
-            <h3>Consultar Fotografos</h3>
-        </div>
+@inject IToastService toast
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-        <div class="card-body">
-            <form>
+<div class="card-img">
+    <div class="card-header bg-dark text-center">
+        <h3>Consultar Fotografos</h3>
+    </div>
 
-                <div class="form-row align-items-center">
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Filtro:</label>
-                            <div class="input-group">
-                                <select class="form-control col-4" @bind="Filtro">
-                                    <option value="0">Todos</option>
-                                    <option value="1">Fotografo Id</option>
-                                    <option value="2">Usuario Id</option>
-                                    <option value="3">Nombre</option>
-                                    <option value="4">Apellido</option>
-                                    <option value="5">Cedula</option>
-                                    <option value="6">Direccion</option>
-                                    <option value="7">Sexo</option>
-                                    <option value="8">Sueldo</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+    <div class="card-body">
+        <form>
 
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Criterio:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control col-4" @bind="criterio" />
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
-                                </div>
-                            </div>
-
+            <div class="form-row align-items-center">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Filtro:</label>
+                        <div class="input-group">
+                            <select class="form-control col-4" @bind="Filtro">
+                                <option value="0">Todos</option>
+                                <option value="1">Fotografo Id</option>
+                                <option value="2">Usuario Id</option>
+                                <option value="3">Nombre</option>
+                                <option value="4">Apellido</option>
+                                <option value="5">Cedula</option>
+                                <option value="6">Direccion</option>
+                                <option value="7">Sexo</option>
+                                <option value="8">Sueldo</option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
+                <div class="col">
+                    <div class="form-group">
+                        <label>Criterio:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control col-4" @bind="criterio" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
 
-                <div class="form-group">
-                    <table class=" table">
-                        <thead>
-                            <tr>
-                                <th>Fotografo Id</th>
-                                <th>Usuario Id</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Cedula</th>
-                                <th>Direccion</th>
-                                <th>Sexo</th>
-                                <th>Sueldo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var fotografos in Lista)
-                            {
+
+            <div class="form-group">
+                <table class=" table">
+                    <thead>
+                        <tr>
+                            <th>Fotografo Id</th>
+                            <th>Usuario Id</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Cedula</th>
+                            <th>Direccion</th>
+                            <th>Sexo</th>
+                            <th>Sueldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var fotografos in Lista)
+                        {
                             <tr>
                                 <td>@fotografos.FotografoId</td>
                                 <td>@fotografos.UsuarioId</td>
@@ -74,25 +79,25 @@
                                 <td>@fotografos.Sexo</td>
                                 <td>@fotografos.Sueldo</td>
                             </tr>
-                            }
-                        </tbody>
-                    </table>
+                        }
+                    </tbody>
+                </table>
 
-                </div>
-
-
+            </div>
 
 
 
-            </form>
-
-        </div>
-        <div class="card-footer">
 
 
+        </form>
 
-        </div>
     </div>
+    <div class="card-footer">
+
+
+
+    </div>
+</div>
 
 @code {
 
@@ -135,19 +140,19 @@
                 case 3: //Nombre
                     Lista = FotografosBLL.GetList(a => a.Nombres == criterio);
                     break;
-                case 4: //Apellido                    
+                case 4: //Apellido
                     Lista = FotografosBLL.GetList(a => a.Apellidos == criterio);
                     break;
-                case 5: //Cedula                    
+                case 5: //Cedula
                     Lista = FotografosBLL.GetList(a => a.Cedula == criterio);
                     break;
-                case 6: //Direccion    
+                case 6: //Direccion
                     Lista = FotografosBLL.GetList(a => a.Direccion == criterio);
                     break;
-                case 7: //Sexo    
+                case 7: //Sexo
                     Lista = FotografosBLL.GetList(a => a.Sexo == criterio);
                     break;
-                case 8: //Sueldo    
+                case 8: //Sueldo
                     int Sueldo = Convert.ToInt32(criterio);
                     Lista = FotografosBLL.GetList(a => a.Sueldo == Sueldo);
                     break;
