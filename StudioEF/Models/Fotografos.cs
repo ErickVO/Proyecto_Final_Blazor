@@ -13,6 +13,7 @@ namespace StudioEF.Models
         public int FotografoId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [Range(1, 20000000, ErrorMessage = "Este campo debe tener un rango mayor a 0.")]
         public int UsuarioId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
@@ -26,21 +27,21 @@ namespace StudioEF.Models
         public string Apellidos { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [MinLength(11, ErrorMessage = "Este campo no puede tener menos de 11 caracteres.")]         
+        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(12, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
         public string Cedula { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public string Direccion { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [MinLength(10, ErrorMessage = "Este campo no puede tener menos de 10 caracteres.")]
+        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
         [MaxLength(11, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
-        [Phone(ErrorMessage = "Ingrese su numero de telefono")]
         public string Telefono { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [MinLength(10, ErrorMessage = "Este campo no puede tener menos de 10 caracteres.")]
-        [MaxLength(11, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
+        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
+        [MaxLength(10, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
         public string Celular { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]

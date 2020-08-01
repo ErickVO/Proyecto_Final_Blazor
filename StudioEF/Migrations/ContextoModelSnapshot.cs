@@ -217,12 +217,13 @@ namespace StudioEF.Migrations
 
                     b.Property<string>("Cedula")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(12);
 
                     b.Property<string>("Celular")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasMaxLength(11);
+                        .HasMaxLength(10);
 
                     b.Property<string>("Direccion")
                         .IsRequired()
@@ -254,6 +255,22 @@ namespace StudioEF.Migrations
                     b.HasKey("FotografoId");
 
                     b.ToTable("Fotografos");
+
+                    b.HasData(
+                        new
+                        {
+                            FotografoId = 1,
+                            Apellidos = "Minalla",
+                            Cedula = "1231231234",
+                            Celular = "8297123444",
+                            Direccion = "su casa",
+                            FechaNacimiento = new DateTime(2020, 8, 1, 1, 37, 6, 99, DateTimeKind.Local).AddTicks(569),
+                            Nombres = "Juan Roque",
+                            Sexo = "Hombre",
+                            Sueldo = 2000m,
+                            Telefono = "8092124433",
+                            UsuarioId = 1
+                        });
                 });
 
             modelBuilder.Entity("StudioEF.Models.Usuarios", b =>

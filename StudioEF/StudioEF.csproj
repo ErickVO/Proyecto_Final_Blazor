@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\Resources\FondoRegistros.jpg" />
     <None Include="wwwroot\Resources\FondoUsuario.jpg" />
   </ItemGroup>

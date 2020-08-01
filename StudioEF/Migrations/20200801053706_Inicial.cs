@@ -103,10 +103,10 @@ namespace StudioEF.Migrations
                     UsuarioId = table.Column<int>(nullable: false),
                     Nombres = table.Column<string>(maxLength: 30, nullable: false),
                     Apellidos = table.Column<string>(maxLength: 30, nullable: false),
-                    Cedula = table.Column<string>(nullable: false),
+                    Cedula = table.Column<string>(maxLength: 12, nullable: false),
                     Direccion = table.Column<string>(nullable: false),
                     Telefono = table.Column<string>(maxLength: 11, nullable: false),
-                    Celular = table.Column<string>(maxLength: 11, nullable: false),
+                    Celular = table.Column<string>(maxLength: 10, nullable: false),
                     Sexo = table.Column<string>(nullable: false),
                     FechaNacimiento = table.Column<DateTime>(nullable: false),
                     Sueldo = table.Column<decimal>(nullable: false)
@@ -223,6 +223,11 @@ namespace StudioEF.Migrations
                         principalColumn: "VentaId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Fotografos",
+                columns: new[] { "FotografoId", "Apellidos", "Cedula", "Celular", "Direccion", "FechaNacimiento", "Nombres", "Sexo", "Sueldo", "Telefono", "UsuarioId" },
+                values: new object[] { 1, "Minalla", "1231231234", "8297123444", "su casa", new DateTime(2020, 8, 1, 1, 37, 6, 99, DateTimeKind.Local).AddTicks(569), "Juan Roque", "Hombre", 2000m, "8092124433", 1 });
 
             migrationBuilder.InsertData(
                 table: "Usuarios",

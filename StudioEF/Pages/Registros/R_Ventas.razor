@@ -127,10 +127,10 @@
                                 {
                                     <tr>
                                         <td>@item.ArticuloId</td>
-                                        <td>@item.EventoId</td>
                                         <td>@ObtenerDescripcion(item.ArticuloId)</td>
                                         <td>@item.Cantidad</td>
                                         <td>@item.PrecioArticulo</td>
+                                        <td>@item.EventoId</td>
                                         <td>@item.PrecioEvento</td>
                                         <td>@item.Monto</td>
 
@@ -294,6 +294,8 @@
                 Monto = monto
             });
 
+            VentasBLL.RestarCantidad(Venta);
+
             ClienteSeleccionado = 0;
 
 
@@ -318,12 +320,12 @@
     {
         try
         {
+            VentasBLL.SumarCantidad(Venta);
             Venta.VentasDetalle.Remove(detalle);
             CalcularTotal();
         }
         catch (Exception)
         {
-
             throw;
         }
     }

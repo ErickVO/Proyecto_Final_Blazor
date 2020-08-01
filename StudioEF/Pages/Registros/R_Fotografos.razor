@@ -5,12 +5,12 @@
 @using BLL
 
 @inject IToastService toast
-
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <AuthorizeView>
     <NotAuthorized>
         <p class="h4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+
     </NotAuthorized>
 </AuthorizeView>
 
@@ -19,14 +19,12 @@
     <EditForm Model="Fotografo" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
 
-        <div class="card">
-            <div class="card-header">
-                <h3>Registro Fotografos</h3>
+        <div class="card-img">
+            <div class="card-header bg-dark">
+                <h3>Registro Fotografo</h3>
             </div>
             <div class="card-body">
                 <form>
-
-
                     <div class="form-row align-items-center">
                         <div class="col">
                             <div class="form-group">
@@ -49,13 +47,13 @@
 
 
                     <div class="form-group">
-                        <label>Nombre:</label>
+                        <label>Nombres:</label>
                         <InputText @bind-Value="Fotografo.Nombres" class="form-control" />
                         <ValidationMessage For="@(() => Fotografo.Nombres)" />
                     </div>
 
                     <div class="form-group">
-                        <label>Apellido:</label>
+                        <label>Apellidos:</label>
                         <InputText @bind-Value="Fotografo.Apellidos" class="form-control" />
                         <ValidationMessage For="@(() => Fotografo.Apellidos)" />
                     </div>
@@ -67,7 +65,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Direccion:</label>
+                        <label>Dirección:</label>
                         <InputText @bind-Value="Fotografo.Direccion" class="form-control" />
                         <ValidationMessage For="@(() => Fotografo.Direccion)" />
                     </div>
@@ -79,8 +77,14 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Celular:</label>
+                        <InputText @bind-Value="Fotografo.Celular" class="form-control" />
+                        <ValidationMessage For="@(() => Fotografo.Celular)" />
+                    </div>
+
+                    <div class="form-group">
                         <label>Sexo:</label>
-                        <select @bind="Fotografo.Sexo" class="form-control">
+                        <select id="Sexo_select" @bind="Fotografo.Sexo" class="form-control">
                             <option value="" disabled selected>Elija una opción</option>
                             <option value="Hombre">Hombre</option>
                             <option value="Mujer">Mujer</option>
@@ -89,7 +93,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Fecha de nacimiento:</label>
+                        <label>Fecha de Nacimiento:</label>
                         <InputDate @bind-Value="Fotografo.FechaNacimiento" class="form-control" />
                         <ValidationMessage For="@(() => Fotografo.FechaNacimiento)" />
                     </div>
@@ -102,7 +106,7 @@
 
                 </form>
             </div>
-            <div class="card-footer">
+            <div class="card-footer bg-dark">
                 <div class="form-group text-center" display: inline-block>
                     <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
                     <button type="submit" class="btn btn-lg btn-success">Guardar</button>
@@ -118,9 +122,10 @@
     </EditForm>
 }
 
-
 @code {
+
     Fotografos Fotografo = new Fotografos();
+
 
     [Parameter]
     public int FotografoId { get; set; }
@@ -155,7 +160,7 @@
     {
         bool elimino;
 
-        elimino = ClientesBLL.Eliminar(Fotografo.FotografoId);
+        elimino = FotografosBLL.Eliminar(Fotografo.FotografoId);
 
         if (elimino)
         {

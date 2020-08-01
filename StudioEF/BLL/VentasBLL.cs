@@ -152,5 +152,58 @@ namespace StudioEF.BLL
             }
             return Lista;
         }
+
+        public static void RestarCantidad(Ventas ventas)
+        {
+            List<Articulos> articulos = ArticulosBLL.GetList(ar => true);
+
+            if (articulos != null)
+            {
+                foreach (var articulo in articulos)
+                {
+                    decimal Cantidad = articulo.Stock;
+
+                    foreach (var venta in ventas.VentasDetalle)
+                    {
+                        Cantidad -= venta.Cantidad;
+                    }
+
+                    if (Cantidad < 0)
+                    {
+                        Cantidad = 0;
+                    }
+
+                    articulo.Stock = Cantidad;
+
+                    ArticulosBLL.Guardar(articulo);
+                }
+
+            }
+
+        }
+
+        public static void SumarCantidad(Ventas ventas)
+        {
+            List<Articulos> articulos = ArticulosBLL.GetList(ar => true);
+
+            if (articulos != null)
+            {
+                foreach (var articulo in articulos)
+                {
+                    decimal Cantidad = articulo.Stock;
+
+                    foreach (var venta in ventas.VentasDetalle)
+                    {
+                        Cantidad += venta.Cantidad;
+                    }
+
+                    articulo.Stock = Cantidad;
+
+                    ArticulosBLL.Guardar(articulo);
+                }
+
+            }
+
+        }
     }
 }
