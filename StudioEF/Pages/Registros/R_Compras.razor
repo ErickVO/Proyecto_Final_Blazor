@@ -1,4 +1,5 @@
 ﻿@page "/RCompras"
+@page "/RCompras/{CompraId:int}"
 
 @using Models
 @using BLL
@@ -69,7 +70,7 @@
 
                             <div class="col">
                                 <label>Costo</label>
-                                <InputNumber class="form-control" @bind-Value="costo"  />
+                                <InputNumber class="form-control" @bind-Value="costo" />
                             </div>
 
 
@@ -96,7 +97,7 @@
                                     <th>Descripción</th>
                                     <th>Cantidad</th>
                                     <th>Costo</th>
-                                    
+
                                 </tr>
                             </thead>
                             @*Asignacion de los datos del Detalle*@
@@ -108,7 +109,7 @@
                                         <td>@ObtenerDescripcion(item.ArticuloId)</td>
                                         <td>@item.CantidadArticulos</td>
                                         <td>@item.Costo</td>
-                                     
+
                                         <td><button type="button" class="btn btn-outline-danger" @onclick="(() => EliminarDetalle(item))"> Remover</button></td>
                                     </tr>
                                 }
@@ -136,154 +137,154 @@
     </EditForm>
 }
 
-    @code {
+@code {
 
-        Compras Compra = new Compras();
-        ComprasDetalle CompraD = new ComprasDetalle();
+    Compras Compra = new Compras();
+    ComprasDetalle CompraD = new ComprasDetalle();
 
-        [Parameter]
-        public int CompraId { get; set; }
-        public decimal costo { get; set; }
-        public int Cantidad { get; set; }
-        public int ArticuloSeleccionado { get; set; }
-
-
-        private List<Articulos> Lista = new List<Articulos>();
-
-        protected override void OnInitialized()
-        {
-            Nuevo();
+    [Parameter]
+    public int CompraId { get; set; }
+    public decimal costo { get; set; }
+    public int Cantidad { get; set; }
+    public int ArticuloSeleccionado { get; set; }
 
 
-        }
+    private List<Articulos> Lista = new List<Articulos>();
 
-        private string ObtenerDescripcion(int id)
-        {
-            string Descripcion = null;
-            Articulos a = ArticulosBLL.Buscar(id);
+    protected override void OnInitialized()
+    {
+        Nuevo();
 
-            Descripcion = a.Descripcion;
-            return Descripcion;
-        }
-
-        private void Nuevo()
-        {
-            Compra = new Compras();
-            Cantidad = 0;
-            costo = 0;
-
-            Lista = ArticulosBLL.GetList(c => true);
-        }
-
-
-
-        private void Guardar()
-        {
-            bool paso;
-            paso = ComprasBLL.Guardar(Compra);
-
-            if (paso)
-            {
-                Nuevo();
-                toast.ShowSuccess("Guardado correctamente");
-            }
-            else
-            {
-                toast.ShowError("No fue posible guardar");
-            }
-        }
-
-        private void Agregar()
-        {
-            if (ArticuloSeleccionado == 0)
-            {
-                toast.ShowWarning("Tiene que seleccionar un producto.");
-                return;
-            }
-
-            if (Cantidad <= 0)
-            {
-                toast.ShowWarning("La cantidad debe ser mayor a 0.");
-                return;
-            }
-            else
-            {
-                this.Compra.ComprasDetalle.Add(new ComprasDetalle
-                {
-                    ArticuloId = ArticuloSeleccionado,
-                    Descripcion = ObtenerDescripcion(ArticuloSeleccionado),
-                    CantidadArticulos = Cantidad,
-                    Costo = costo
-                });
-
-                ComprasBLL.ObtenerCantidad(Compra);
-                ComprasBLL.ObtenerCosto(Compra);
-
-                ArticuloSeleccionado = 0;
-                costo = 0;
-                Cantidad = 0;
-
-            }
-            CalcularMonto();
-
-        }
-
-        private void Eliminar()
-        {
-            bool elimino;
-
-            ComprasBLL.BorrarCantidad(Compra);
-            ComprasBLL.BorrarCosto(Compra);
-            elimino = ComprasBLL.Eliminar(Compra.CompraId);
-
-            if (elimino)
-            {
-                Nuevo();
-                toast.ShowSuccess("Eliminado correctamente");
-            }
-            else
-                toast.ShowError("No fue posible eliminar");
-        }
-
-
-
-
-        private void CalcularMonto()
-        {
-            decimal total = 0;
-            foreach (var item in Compra.ComprasDetalle)
-            {
-                total += (item.Costo * item.CantidadArticulos);
-            }
-            Compra.Monto = total;
-        }
-
-        private void EliminarDetalle(ComprasDetalle detalle)
-        {
-            try
-            {
-                ComprasBLL.BorrarCantidad(Compra);
-                ComprasBLL.BorrarCosto(Compra);
-                Compra.ComprasDetalle.Remove(detalle);
-                CalcularMonto();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-
-        private void Buscar()
-        {
-            var encontrado = ComprasBLL.Buscar(Compra.CompraId);
-            if (encontrado != null)
-            {
-                this.Compra = encontrado;
-            }
-            else
-                toast.ShowWarning("No encontrado");
-        }
 
     }
+
+    private string ObtenerDescripcion(int id)
+    {
+        string Descripcion = null;
+        Articulos a = ArticulosBLL.Buscar(id);
+
+        Descripcion = a.Descripcion;
+        return Descripcion;
+    }
+
+    private void Nuevo()
+    {
+        Compra = new Compras();
+        Cantidad = 0;
+        costo = 0;
+
+        Lista = ArticulosBLL.GetList(c => true);
+    }
+
+
+
+    private void Guardar()
+    {
+        bool paso;
+        paso = ComprasBLL.Guardar(Compra);
+
+        if (paso)
+        {
+            Nuevo();
+            toast.ShowSuccess("Guardado correctamente");
+        }
+        else
+        {
+            toast.ShowError("No fue posible guardar");
+        }
+    }
+
+    private void Agregar()
+    {
+        if (ArticuloSeleccionado == 0)
+        {
+            toast.ShowWarning("Tiene que seleccionar un producto.");
+            return;
+        }
+
+        if (Cantidad <= 0)
+        {
+            toast.ShowWarning("La cantidad debe ser mayor a 0.");
+            return;
+        }
+        else
+        {
+            this.Compra.ComprasDetalle.Add(new ComprasDetalle
+            {
+                ArticuloId = ArticuloSeleccionado,
+                Descripcion = ObtenerDescripcion(ArticuloSeleccionado),
+                CantidadArticulos = Cantidad,
+                Costo = costo
+            });
+
+            ComprasBLL.ObtenerCantidad(Compra);
+            ComprasBLL.ObtenerCosto(Compra);
+
+            ArticuloSeleccionado = 0;
+            costo = 0;
+            Cantidad = 0;
+
+        }
+        CalcularMonto();
+
+    }
+
+    private void Eliminar()
+    {
+        bool elimino;
+
+        ComprasBLL.BorrarCantidad(Compra);
+        ComprasBLL.BorrarCosto(Compra);
+        elimino = ComprasBLL.Eliminar(Compra.CompraId);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+
+
+
+
+    private void CalcularMonto()
+    {
+        decimal total = 0;
+        foreach (var item in Compra.ComprasDetalle)
+        {
+            total += (item.Costo * item.CantidadArticulos);
+        }
+        Compra.Monto = total;
+    }
+
+    private void EliminarDetalle(ComprasDetalle detalle)
+    {
+        try
+        {
+            ComprasBLL.BorrarCantidad(Compra);
+            ComprasBLL.BorrarCosto(Compra);
+            Compra.ComprasDetalle.Remove(detalle);
+            CalcularMonto();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+
+    private void Buscar()
+    {
+        var encontrado = ComprasBLL.Buscar(Compra.CompraId);
+        if (encontrado != null)
+        {
+            this.Compra = encontrado;
+        }
+        else
+            toast.ShowWarning("No encontrado");
+    }
+
+}

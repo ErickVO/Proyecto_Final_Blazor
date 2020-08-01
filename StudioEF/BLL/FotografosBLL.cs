@@ -22,19 +22,22 @@ namespace StudioEF.BLL
                 return Modificar(fotografos);
             }
 
+
         }
 
-        private static bool Insertar(Fotografos fotografo)
+        private static bool Insertar(Fotografos fotografos)
         {
-            bool paso = false;
             Contexto db = new Contexto();
+            bool paso = false;
 
             try
             {
-                if (db.Fotografos.Add(fotografo) != null)
+                if (db.Fotografos.Add(fotografos) != null)
+                {
                     paso = (db.SaveChanges() > 0);
+                }
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -45,17 +48,17 @@ namespace StudioEF.BLL
             return paso;
         }
 
-        private static bool Modificar(Fotografos fotografo)
+        private static bool Modificar(Fotografos fotografos)
         {
-            bool paso = false;
             Contexto db = new Contexto();
+            bool paso = false;
 
             try
             {
-                db.Entry(fotografo).State = EntityState.Modified;
+                db.Entry(fotografos).State = EntityState.Modified;
                 paso = (db.SaveChanges() > 0);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -86,10 +89,11 @@ namespace StudioEF.BLL
             return encontrado;
         }
 
+
         public static bool Eliminar(int id)
         {
-            bool paso = false;
             Contexto db = new Contexto();
+            bool paso = false;
 
             try
             {
@@ -97,7 +101,7 @@ namespace StudioEF.BLL
                 db.Entry(eliminar).State = EntityState.Deleted;
                 paso = (db.SaveChanges() > 0);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -110,14 +114,14 @@ namespace StudioEF.BLL
 
         public static Fotografos Buscar(int id)
         {
-            Fotografos fotografo = new Fotografos();
             Contexto db = new Contexto();
+            Fotografos fotografos = new Fotografos();
 
             try
             {
-                fotografo = db.Fotografos.Find(id);
+                fotografos = db.Fotografos.Find(id);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -125,19 +129,20 @@ namespace StudioEF.BLL
             {
                 db.Dispose();
             }
-            return fotografo;
+            return fotografos;
         }
 
-        public static List<Fotografos> GetList(Expression<Func<Fotografos, bool>> fotografo)
+
+        public static List<Fotografos> GetList(Expression<Func<Fotografos, bool>> fotografos)
         {
-            List<Fotografos> Lista = new List<Fotografos>();
             Contexto db = new Contexto();
+            List<Fotografos> listado = new List<Fotografos>();
 
             try
             {
-                Lista = db.Fotografos.Where(fotografo).ToList();
+                listado = db.Fotografos.Where(fotografos).ToList();
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -145,7 +150,7 @@ namespace StudioEF.BLL
             {
                 db.Dispose();
             }
-            return Lista;
+            return listado;
         }
     }
 }
