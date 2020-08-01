@@ -95,6 +95,7 @@
                                     <td>@item.Nombres</td>
                                     <td>@item.Apellidos</td>
                                     <td>@item.Total</td>
+                                    <td>@item.Fecha</td>
 
 
 
@@ -248,6 +249,7 @@
                 {
                     toast.ShowWarning("Ingrese un numero");
                 }
+                break;
         }
 
         switch (FiltroFecha)
@@ -285,7 +287,7 @@
 
     private void GenerarReporte()
     {
-        ReporteCliente Ventas = new ReporteCliente();
+        ReporteVenta Ventas = new ReporteVenta();
 
         Data = Ventas.Reporte(AuxListaVentas);
 

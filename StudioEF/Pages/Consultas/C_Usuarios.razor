@@ -8,127 +8,231 @@
 @inject IToastService toast
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<div class="card-img">
-    <div class="card-header bg-dark text-center">
-        <h3>Consultar Usuarios</h3>
-    </div>
+<AuthorizeView>
+    <NotAuthorized>
+        <p class="h4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+    </NotAuthorized>
+</AuthorizeView>
 
-    <div class="card-body">
-        <form>
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
+{
 
-            <div class="form-row align-items-center">
-                <div class="col">
+    <div class="card-img">
+        <div class="card-header bg-dark text-center">
+            <h1>Consulta de Usuarios</h1>
+        </div>
+
+        <div class="card-body">
+            <form>
+                <div class="form-row">
+
                     <div class="form-group">
-                        <label>Filtro:</label>
-                        <div class="input-group">
-                            <select class="form-control col-4" @bind="Filtro">
-                                <option value="0">Todos</option>
-                                <option value="1">Usuario Id</option>
-                                <option value="2">Nombre</option>
-                                <option value="3">Nombre Usuario</option>
-                                <option value="4">Email</option>
-                            </select>
-                        </div>
+                        <label>Filtro</label>
+                        <select class="form-control" @bind="Filtro">
+                            <option value="0">Todo</option>
+                            <option value="2">Usuario Id</option>
+                            <option value="3">Nombre</option>
+                            <option value="4">Nombre Usuario</option>
+                            <option value="5">Contrasena</option>
+                            <option value="6">Email</option>
+
+                        </select>
                     </div>
-                </div>
-
-                <div class="col">
+                    &nbsp;
                     <div class="form-group">
-                        <label>Criterio:</label>
+                        <label>Criterio</label>
                         <div class="input-group">
-                            <input type="text" class="form-control col-4" @bind="criterio" />
+                            <input type="text" @bind="Criterio" class="form-control">
                             <div class="input-group-append">
-                                <button type="button" class="btn btn-primary input-group-text" @onclick="Consultar">Consultar</button>
+                                <button type="button" class="btn btn-primary input-group-text" @onclick="@(u => Consultar(0))"><i class="oi oi-list-rich" /> Consultar</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
 
-
-
-            <div class="form-group">
-                <table class=" table">
-                    <thead>
-                        <tr>
-                            <th>Usuario Id</th>
-                            <th>Nombre</th>
-                            <th>Nombre Usuario</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var usuarios in Lista)
-                        {
+                <div class="table-responsive text-nowrap" style="position: relative; height:200px; overflow: auto; display: block;">
+                    <table class="table table-striped">
+                        <thead class="thead-light">
                             <tr>
-                                <td>@usuarios.UsuarioId</td>
-                                <td>@usuarios.Nombres</td>
-                                <td>@usuarios.NombreUsuario</td>
-                                <td>@usuarios.Email</td>
-
+                                <th>Usuario Id</th>
+                                <th>Nombre</th>
+                                <th>Nombre Usuario</th>
+                                <th>Contrasena</th>
+                                <th>Email</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="bg-white">
+                            @foreach (var item in AuxListaUsuarios)
+                            {
+                            <tr>
+                                <td>@item.UsuarioId</td>
+                                <td>@item.Nombres</td>
+                                <td>@item.NombreUsuario</td>
+                                <td>@item.Contrasena</td>
+                                <td>@item.Email</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
 
+        <div class="form-group text-center" display: inline-block>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <button class="page-link btn btn-primary"
+                                @onclick="@(e => NavegateTo("Anterior"))" tabindex="-1">
+                            Anterior
+                        </button>
+                    </li>
+
+                    @for (int i = 0; i < TotalPaginas; i++)
+                    {
+                        var NumeroPagina = i;
+                        <li class="page-item">
+                            <button class="@(pagina.paginas == NumeroPagina ? "page-link btn btn-dark" : "page-link btn btn-danger")"
+                                    @onclick="@(u => Consultar(NumeroPagina))">
+                                @(i + 1)
+                            </button>
+                        </li>
+                    }
+
+                    <li class="page-item">
+                        <button type="button" class="page-link btn btn-primary" @onclick="@(e => NavegateTo("Siguiente"))" tabindex="-1">Siguiente</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="card-footer bg-dark">
+            <div class="form-group text-center">
+                <button class="btn btn-lg btn-primary oi oi-file" @onclick="GenerarReporte"> Generar Reporte</button>
             </div>
 
-
-
-
-
-        </form>
-
+            <form>
+                @if (Data is { })
+                {
+                    <object data="@pdfContent" width="1000" height="500"></object>
+                }
+            </form>
+        </div>
     </div>
-    <div class="card-footer">
-
-
-
-    </div>
-</div>
+}
 
 @code {
+    public List<Usuarios> ListaUsuarios { get; set; }
+    public List<Usuarios> AuxListaUsuarios { get; set; }
 
-    public List<Usuarios> Lista = new List<Usuarios>();
+    Paginas pagina = new Paginas();
 
+    public string Criterio { get; set; }
 
-    public int Filtro { get; set; }
+    private int TotalRegistros { get; set; }
+    private int TotalPaginas { get; set; }
+    public string Filtro { get; set; }
 
-    public string criterio { get; set; }
+    byte[] Data;
+    string pdfContent = "";
 
-    private void Consultar()
+    protected override void OnInitialized()
     {
-        try
+        Nuevo();
+    }
+
+    private void Nuevo()
+    {
+        ListaUsuarios = new List<Usuarios>();
+        AuxListaUsuarios = new List<Usuarios>();
+        Filtro = "0";
+        Criterio = string.Empty;
+    }
+
+    public void Consultar(int pag)
+    {
+        switch (Filtro)
         {
-            switch (Filtro)
-            {
-                case 0: //Todos
-                    Lista = UsuariosBLL.GetList(a => true);
+            case "0": //Todo
+                ListaUsuarios = UsuariosBLL.GetList(c => true);
+                break;
+            case "1": //UsuarioId
+                if (Criterio.Trim().Length > 0)
+                {
+                    try
+                    {
+                        int usuarioId = Convert.ToInt32(Criterio);
+                        ListaUsuarios = UsuariosBLL.GetList(c => c.UsuarioId == usuarioId);
+                    }
+                    catch (FormatException)
+                    {
+                        toast.ShowWarning("Ingrese un numero");
+                    }
+                }
+                else
+                {
+                    ListaUsuarios = UsuariosBLL.GetList(c => true).OrderBy(c => c.UsuarioId).ToList();
+                }
+                break;
 
-                    break;
-                case 1: //Id
-                    int Id = Convert.ToInt32(criterio);
-                    Lista = UsuariosBLL.GetList(a => a.UsuarioId == Id);
+            case "2": //Nombres
+                if (Criterio.Trim().Length > 0)
+                    ListaUsuarios = UsuariosBLL.GetList(c => c.Nombres.Contains(Criterio));
+                else
+                    ListaUsuarios = UsuariosBLL.GetList(c => true).OrderBy(c => c.Nombres).ToList();
+                break;
+            case "3": //Nombre usuario
+                if (Criterio.Trim().Length > 0)
+                    ListaUsuarios = UsuariosBLL.GetList(c => c.NombreUsuario.Contains(Criterio));
+                else
+                    ListaUsuarios = UsuariosBLL.GetList(c => true).OrderBy(c => c.NombreUsuario).ToList();
+                break;
+            case "4": //Contrasena
+                if (Criterio.Trim().Length > 0)
+                    ListaUsuarios = UsuariosBLL.GetList(c => c.Contrasena.Contains(Criterio));
+                else
+                    ListaUsuarios = UsuariosBLL.GetList(c => true).OrderBy(c => c.Contrasena).ToList();
+                break;
+            case "6": //Descripcion
+                if (Criterio.Trim().Length > 0)
+                    ListaUsuarios = UsuariosBLL.GetList(c => c.Email.Contains(Criterio));
+                else
+                    ListaUsuarios = UsuariosBLL.GetList(c => true).OrderBy(c => c.Email).ToList();
+                break;
 
-                    break;
-                case 2: //Usuario
-                    Lista = UsuariosBLL.GetList(a => a.Nombres == criterio);
-                    break;
-                case 3: //Nombre
-                    Lista = UsuariosBLL.GetList(a => a.NombreUsuario == criterio);
-                    break;
-                case 4: //Email
-                    Lista = UsuariosBLL.GetList(a => a.Email == criterio);
-                    break;
-
-            }
         }
-        catch (Exception)
-        {
 
-            throw;
-        }
+        TotalPaginas = (int)Math.Ceiling(ListaUsuarios.Count() / (decimal)pagina.cantidaditems);
+        ActualizarLista(pag);
+
+        Filtro = "0";
+
+    }
+
+    private void ActualizarLista(int NumeroPagina)
+    {
+        AuxListaUsuarios = ListaUsuarios.Skip(NumeroPagina * pagina.cantidaditems).Take(pagina.cantidaditems).ToList();
+        pagina.paginas = NumeroPagina;
+    }
+
+    private void NavegateTo(string direccion)
+    {
+        if (direccion == "Anterior" && pagina.paginas != 0)
+            pagina.paginas -= 1;
+        if (direccion == "Siguiente" && pagina.paginas != TotalPaginas)
+            pagina.paginas += 1;
+
+        ActualizarLista(pagina.paginas);
+    }
+
+    private void GenerarReporte()
+    {
+        ReporteUsuario Usuario = new ReporteUsuario();
+
+        Data = Usuario.Reporte(AuxListaUsuarios);
+
+        pdfContent = "data:application/pdf;base64,";
+        pdfContent += System.Convert.ToBase64String(Data);
     }
 
 }
