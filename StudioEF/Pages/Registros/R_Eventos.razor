@@ -5,7 +5,7 @@
 @using BLL
 
 @inject IToastService toast
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <EditForm Model="Evento" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
@@ -82,7 +82,7 @@
 
 
             </form>
-    </div>
+        </div>
         <div class="card-footer">
             <div class="form-group text-center" display: inline-block>
                 <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
