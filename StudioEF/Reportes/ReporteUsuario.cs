@@ -11,7 +11,7 @@ namespace StudioEF.Reportes
 {
     public class ReporteUsuario
     {
-        int columnas = 4;
+        int columnas = 5;
 
         Document document = new Document();
         PdfPTable pdfTable;
@@ -163,7 +163,7 @@ namespace StudioEF.Reportes
             pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
             pdfTable.AddCell(pdfCell);
 
-            pdfCell = new PdfPCell(new Phrase("Contrasena", fontStyle));
+            pdfCell = new PdfPCell(new Phrase("Contraseña", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;

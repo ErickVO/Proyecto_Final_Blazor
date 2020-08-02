@@ -11,7 +11,7 @@ namespace StudioEF.Reportes
 {
     public class ReporteEvento
     {
-        int columnas = 4;
+        int columnas = 8;
 
         Document document = new Document();
         PdfPTable pdfTable;
@@ -39,14 +39,14 @@ namespace StudioEF.Reportes
 
             float[] anchoColumnas = new float[columnas];
 
-            anchoColumnas[0] = 130; //Esta sera la fila 0 EventoId
-            anchoColumnas[1] = 130; //Esta sera la fila 1 usuarioId
-            anchoColumnas[2] = 130; //Esta sera la fila 2 FotografoId
-            anchoColumnas[3] = 130; //Esta sera la fila 3 Descripcion
-            anchoColumnas[4] = 130; //Esta sera la fila 4 Lugar
-            anchoColumnas[5] = 130; //Esta sera la fila 5 Precio
-            anchoColumnas[6] = 130; //Esta sera la fila 6 Fecha Inicio
-            anchoColumnas[7] = 130; //Esta sera la fila 7 Fecha Fin
+            anchoColumnas[0] = 100; //Esta sera la fila 0 EventoId
+            anchoColumnas[1] = 100; //Esta sera la fila 1 usuarioId
+            anchoColumnas[2] = 100; //Esta sera la fila 2 FotografoId
+            anchoColumnas[3] = 100; //Esta sera la fila 3 Descripcion
+            anchoColumnas[4] = 100; //Esta sera la fila 4 Lugar
+            anchoColumnas[5] = 100; //Esta sera la fila 5 Precio
+            anchoColumnas[6] = 100; //Esta sera la fila 6 Fecha Inicio
+            anchoColumnas[7] = 100; //Esta sera la fila 7 Fecha Fin
 
 
             pdfTable.SetWidths(anchoColumnas);

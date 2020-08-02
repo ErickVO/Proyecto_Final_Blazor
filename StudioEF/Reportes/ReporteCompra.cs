@@ -43,7 +43,7 @@ namespace StudioEF.Reportes
             anchoColumnas[0] = 130; //Esta sera la fila 0 categoriaId
             anchoColumnas[1] = 130; //Esta sera la fila 1 usuarioId
             anchoColumnas[2] = 130; //Esta sera la fila 2 Nombre
-            anchoColumnas[3] = 130; //Esta sera la fila 2 Nombre
+            anchoColumnas[3] = 130; //Esta sera la fila 3 Nombre
 
             pdfTable.SetWidths(anchoColumnas);
 

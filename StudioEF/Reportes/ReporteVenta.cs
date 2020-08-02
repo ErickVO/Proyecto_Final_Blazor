@@ -11,7 +11,7 @@ namespace StudioEF.Reportes
 {
     public class ReporteVenta
     {
-        int columnas = 4;
+        int columnas = 6;
 
         Document document = new Document();
         PdfPTable pdfTable;
