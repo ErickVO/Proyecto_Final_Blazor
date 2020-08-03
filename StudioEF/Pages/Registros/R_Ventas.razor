@@ -80,7 +80,7 @@
 
                     <div class="form-group">
                         <label>Evento Id:</label>
-                        <select @bind="eventoId" class="form-control">
+                        <select @bind="eventoId" class="form-control" @onclick="ObtenerPrecioEvento">
                             <option value="" disabled selected>Seleccione un Evento</option>
                             @foreach (var item in ListaEventos)
                             {
@@ -179,6 +179,7 @@
     public decimal monto { get; set; }
     public decimal precioArticulo { get; set; }
     public decimal precioEvento { get; set; }
+
     public int eventoId { get; set; }
 
 
@@ -223,7 +224,7 @@
 
     private void ObtenerPrecioEvento()
     {
-        Eventos auxEvento = EventosBLL.Buscar(ArticuloSeleccionado);
+        Eventos auxEvento = EventosBLL.Buscar(eventoId);
 
         if (auxEvento != null)
         {
@@ -298,6 +299,7 @@
                 Descripcion = ObtenerDescripcion(ArticuloSeleccionado),
                 Cantidad = cantidad,
                 PrecioArticulo = precioArticulo,
+                EventoId = eventoId,
                 PrecioEvento = precioEvento,
                 Monto = monto
             });
