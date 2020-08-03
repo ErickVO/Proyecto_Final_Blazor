@@ -20,7 +20,6 @@ namespace StudioEF.Models
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [MinLength(4, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
         [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una descripcion.")]
         public String Descripcion { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]

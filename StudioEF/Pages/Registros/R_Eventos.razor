@@ -50,10 +50,10 @@
                     <div class="form-group">
                         <label>Fotografo:</label>
                         <select @bind="Evento.FotografoId" class="form-control">
-                            <option value="" disabled selected>Elija una Categoria</option>
+                            <option value="0" disabled selected>Elija un Fotografo</option>
                             @foreach (var item in Lista)
                             {
-                                <option value="item.FotografoId">@item.Nombres</option>
+                                <option value="@item.FotografoId">@item.Nombres</option>
                             }
                         </select>
                     </div>
@@ -94,9 +94,9 @@
             </div>
             <div class="card-footer">
                 <div class="form-group text-center" display: inline-block>
-                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
-                    <button type="submit" class="btn btn-lg btn-success">Guardar</button>
-                    <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo"><i class="oi oi-plus" />Nuevo</button>
+                    <button type="submit" class="btn btn-lg btn-success"><i class="oi oi-hard-drive" />Guardar</button>
+                    <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar"><i class="oi oi-trash" />Eliminar</button>
                 </div>
             </div>
         </div>
@@ -115,60 +115,69 @@
         [Parameter]
         public int EventoId { get; set; }
 
-private List<Fotografos> Lista = new List<Fotografos>();
+        private List<Fotografos> Lista = new List<Fotografos>();
 
-    protected override void OnInitialized()
-    {
-        Nuevo();
-    }
-
-    private void Nuevo()
-    {
-        Evento = new Eventos();
-        Lista = FotografosBLL.GetList(f => true);
-    }
-
-    private void Guardar()
-    {
-        bool guardo;
-
-        guardo = EventosBLL.Guardar(Evento);
-
-        if (guardo)
+        protected override void OnInitialized()
         {
             Nuevo();
-            toast.ShowSuccess("Guardado correctamente");
         }
-        else
-            toast.ShowError("No fue posible guardar");
-    }
 
-    private void Eliminar()
-    {
-        bool elimino;
-
-        elimino = EventosBLL.Eliminar(Evento.EventoId);
-
-        if (elimino)
+        private void Nuevo()
         {
-            Nuevo();
-            toast.ShowSuccess("Eliminado correctamente");
+            Evento = new Eventos();
+            Lista = FotografosBLL.GetList(f => true);
         }
-        else
-            toast.ShowError("No fue posible eliminar");
-    }
 
-    private void Buscar()
-    {
-        if (Evento.EventoId > 0)
+
+        private void ObtenerFotografo()
         {
-            var encontrado = EventosBLL.Buscar(Evento.EventoId);
+            Lista.Clear();
 
-            if (encontrado != null)
-                this.Evento = encontrado;
+            Fotografos fotografo = FotografosBLL.Buscar(Evento.FotografoId);
+            Lista.Add(fotografo);
+        }
+
+        private void Guardar()
+        {
+            bool guardo;
+
+            guardo = EventosBLL.Guardar(Evento);
+
+            if (guardo)
+            {
+                Nuevo();
+                toast.ShowSuccess("Guardado correctamente");
+            }
             else
-                toast.ShowWarning("No encontrado");
+                toast.ShowError("No fue posible guardar");
         }
-    }
+
+        private void Eliminar()
+        {
+            bool elimino;
+
+            elimino = EventosBLL.Eliminar(Evento.EventoId);
+
+            if (elimino)
+            {
+                Nuevo();
+                toast.ShowSuccess("Eliminado correctamente");
+            }
+            else
+                toast.ShowError("No fue posible eliminar");
+        }
+
+        private void Buscar()
+        {
+            if (Evento.EventoId > 0)
+            {
+                var encontrado = EventosBLL.Buscar(Evento.EventoId);
+
+                if (encontrado != null)
+                    this.Evento = encontrado;
+                else
+                    toast.ShowWarning("No encontrado");
+            }
+        }
 
     }
