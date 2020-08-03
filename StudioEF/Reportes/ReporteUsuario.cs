@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace StudioEF.Reportes
 {
-    public class ReporteEvento
+    public class ReporteUsuario
     {
-        int columnas = 8;
+        int columnas = 5;
 
         Document document = new Document();
         PdfPTable pdfTable;
@@ -20,11 +20,11 @@ namespace StudioEF.Reportes
 
         MemoryStream memoryStream = new MemoryStream();
 
-        List<Eventos> listaEventos = new List<Eventos>();
+        List<Usuarios> listaUsuarios = new List<Usuarios>();
 
-        public byte[] Reporte(List<Eventos> lista)
+        public byte[] Reporte(List<Usuarios> lista)
         {
-            listaEventos = lista;
+            listaUsuarios = lista;
 
             document = new Document(PageSize.LETTER, 25f, 25f, 20f, 20f);
             pdfTable = new PdfPTable(columnas);
@@ -39,14 +39,11 @@ namespace StudioEF.Reportes
 
             float[] anchoColumnas = new float[columnas];
 
-            anchoColumnas[0] = 100; //Esta sera la fila 0 EventoId
-            anchoColumnas[1] = 100; //Esta sera la fila 1 usuarioId
-            anchoColumnas[2] = 100; //Esta sera la fila 2 FotografoId
-            anchoColumnas[3] = 100; //Esta sera la fila 3 Descripcion
-            anchoColumnas[4] = 100; //Esta sera la fila 4 Lugar
-            anchoColumnas[5] = 100; //Esta sera la fila 5 Precio
-            anchoColumnas[6] = 100; //Esta sera la fila 6 Fecha Inicio
-            anchoColumnas[7] = 100; //Esta sera la fila 7 Fecha Fin
+            anchoColumnas[0] = 130; //Esta sera la fila 0 usuarioId
+            anchoColumnas[1] = 130; //Esta sera la fila 1 Nombre
+            anchoColumnas[2] = 130; //Esta sera la fila 2 Nombre Usuario
+            anchoColumnas[3] = 130; //Esta sera la fila 3 Contrasena
+            anchoColumnas[4] = 130; //Esta sera la fila 4 Email
 
 
             pdfTable.SetWidths(anchoColumnas);
@@ -111,7 +108,7 @@ namespace StudioEF.Reportes
 
             pdfTable.CompleteRow();
 
-            pdfCell = new PdfPCell(new Phrase("Reporte de Categorias", fontStyle));
+            pdfCell = new PdfPCell(new Phrase("Reporte de Fotografos", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.Colspan = 2;
             pdfCell.Border = 0;
@@ -148,53 +145,36 @@ namespace StudioEF.Reportes
             var _fontStyle = FontFactory.GetFont("Calibri", 9f, 0);
 
             #region Table Header
-            pdfCell = new PdfPCell(new Phrase("EventoId", fontStyle));
-            pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
-            pdfTable.AddCell(pdfCell);
-
             pdfCell = new PdfPCell(new Phrase("UsuarioId", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
             pdfTable.AddCell(pdfCell);
 
-            pdfCell = new PdfPCell(new Phrase("FotografoId", fontStyle));
+            pdfCell = new PdfPCell(new Phrase("Nombres", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
             pdfTable.AddCell(pdfCell);
 
-            pdfCell = new PdfPCell(new Phrase("Descripcion", fontStyle));
+            pdfCell = new PdfPCell(new Phrase("Apellidos", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
             pdfTable.AddCell(pdfCell);
 
-            pdfCell = new PdfPCell(new Phrase("Lugar", fontStyle));
+            pdfCell = new PdfPCell(new Phrase("Contraseña", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
             pdfTable.AddCell(pdfCell);
 
-            pdfCell = new PdfPCell(new Phrase("Precio", fontStyle));
+            pdfCell = new PdfPCell(new Phrase("Email", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
             pdfTable.AddCell(pdfCell);
 
-            pdfCell = new PdfPCell(new Phrase("Fecha Inicio", fontStyle));
-            pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
-            pdfTable.AddCell(pdfCell);
-
-            pdfCell = new PdfPCell(new Phrase("Fecha Fin", fontStyle));
-            pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
-            pdfTable.AddCell(pdfCell);
 
             pdfTable.CompleteRow();
             #endregion
@@ -202,56 +182,33 @@ namespace StudioEF.Reportes
             #region Table Body
             int num = 0;
 
-            foreach (var item in listaEventos)
+            foreach (var item in listaUsuarios)
             {
                 num++;
-                pdfCell = new PdfPCell(new Phrase(item.EventoId.ToString(), _fontStyle));
-                pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                pdfCell.BackgroundColor = BaseColor.WHITE;
-                pdfTable.AddCell(pdfCell);
-
                 pdfCell = new PdfPCell(new Phrase(item.UsuarioId.ToString(), _fontStyle));
                 pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 pdfCell.BackgroundColor = BaseColor.WHITE;
                 pdfTable.AddCell(pdfCell);
 
-                pdfCell = new PdfPCell(new Phrase(item.FotografoId.ToString(), _fontStyle));
+                pdfCell = new PdfPCell(new Phrase(item.Nombres.ToString(), _fontStyle));
                 pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 pdfCell.BackgroundColor = BaseColor.WHITE;
                 pdfTable.AddCell(pdfCell);
 
-                pdfCell = new PdfPCell(new Phrase(item.Descripcion, _fontStyle));
+                pdfCell = new PdfPCell(new Phrase(item.NombreUsuario, _fontStyle));
                 pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 pdfCell.BackgroundColor = BaseColor.WHITE;
                 pdfTable.AddCell(pdfCell);
 
-                pdfCell = new PdfPCell(new Phrase(item.Lugar, _fontStyle));
+                pdfCell = new PdfPCell(new Phrase(item.Email, _fontStyle));
                 pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 pdfCell.BackgroundColor = BaseColor.WHITE;
                 pdfTable.AddCell(pdfCell);
 
-                pdfCell = new PdfPCell(new Phrase(item.Precio.ToString(), _fontStyle));
-                pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                pdfCell.BackgroundColor = BaseColor.WHITE;
-                pdfTable.AddCell(pdfCell);
-
-                pdfCell = new PdfPCell(new Phrase(item.FechaInicio.ToString(), _fontStyle));
-                pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                pdfCell.BackgroundColor = BaseColor.WHITE;
-                pdfTable.AddCell(pdfCell);
-
-                pdfCell = new PdfPCell(new Phrase(item.FechaFin.ToString(), _fontStyle));
-                pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                pdfCell.BackgroundColor = BaseColor.WHITE;
-                pdfTable.AddCell(pdfCell);
 
                 pdfTable.CompleteRow();
             }
