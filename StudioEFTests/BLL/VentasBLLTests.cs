@@ -17,8 +17,8 @@ namespace StudioEF.BLL.Tests
             Ventas ventas = new Ventas();
             ventas.VentaId = 0;
             ventas.ClienteId = 1;
-            ventas.Nombres = "";
-            ventas.Apellidos = "";
+            ventas.Nombres = "Frandy";
+            ventas.Apellidos = "Mota";
             ventas.Total = 100;
 
             Assert.IsTrue(VentasBLL.Guardar(ventas));
