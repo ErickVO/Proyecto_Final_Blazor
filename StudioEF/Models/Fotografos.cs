@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudioEF.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,27 +17,19 @@ namespace StudioEF.Models
         [Range(1, 20000000, ErrorMessage = "Este campo debe tener un rango mayor a 0.")]
         public int UsuarioId { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
-        [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
+        [ValidacionNombres]
         public string Nombres { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
-        [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
+        [ValidacionApellidos]
         public string Apellidos { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
-        [MaxLength(12, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
+        [ValidacionCedula]
         public string Cedula { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public string Direccion { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
-        [MaxLength(11, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
+        [ValidacionTelefono]
         public string Telefono { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
@@ -53,6 +46,7 @@ namespace StudioEF.Models
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Sueldo { get; set; }
+        
 
         public Fotografos()
         {
@@ -67,6 +61,8 @@ namespace StudioEF.Models
             Sexo = string.Empty;
             FechaNacimiento = DateTime.Now;
             Sueldo = 0;
+
+            
         }
     }
 }

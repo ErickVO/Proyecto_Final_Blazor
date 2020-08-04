@@ -44,7 +44,7 @@
                     
                     <div class="form-group">
                         <label>Cliente Id:</label>
-                        <select @bind="ClienteSeleccionado" class="form-control">
+                        <select @bind="ClienteSeleccionado" class="form-control" @onfocusout="ObtenerNombresyApellidos">
                             <option value="0" disabled selected>Seleccione un cliente</option>
                             @foreach (var item in ListaClientes)
                             {
@@ -198,7 +198,7 @@
 
     }
 
- 
+
 
     private void Nuevo()
     {
@@ -224,6 +224,25 @@
         auxDescripcion = a.Descripcion;
 
         return auxDescripcion;
+    }
+
+    private void ObtenerNombresyApellidos()
+    {
+        string auxNombre = string.Empty;
+        string auxApellidos = string.Empty;
+        Clientes c = ClientesBLL.Buscar(ClienteSeleccionado);
+
+        if(c != null){
+            Venta.ClienteId = c.ClienteId;
+            Venta.Nombres = c.Nombres;
+            Venta.Apellidos = c.Apellidos;
+        }
+        else
+        {
+            toast.ShowError("No Existe en la base de datos");
+        }
+
+
     }
 
     private void ObtenerPrecioArticulo()
@@ -291,6 +310,7 @@
                 EventoId = eventoId,
                 PrecioEvento = precioEvento,
                 Monto = monto
+
             });
 
             VentasBLL.RestarCantidad(Venta);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudioEF.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,19 +10,20 @@ namespace StudioEF.Models
    public class Eventos
     {
         [Key]
-        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [ValidacionId]
         public int EventoId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [Range(minimum: 1, maximum: 200000000, ErrorMessage = "El rango de este campo debe ser mayor a 0.")]
         public int UsuarioId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [Range(minimum: 1, maximum: 200000000, ErrorMessage = "El rango de este campo debe ser mayor a 0.")]
         public int FotografoId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [MinLength(4,ErrorMessage ="Este campo no puede tener menos de 3 caracteres.")]
         [MaxLength(30,ErrorMessage ="Ha alcanzado el maximo de caracteres.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una descripcion.")]
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
@@ -33,7 +35,7 @@ namespace StudioEF.Models
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         public DateTime FechaFin { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [ValidacionPrecio]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Precio { get; set; }
 
@@ -49,7 +51,7 @@ namespace StudioEF.Models
             FechaInicio = DateTime.Now;
             FechaFin = DateTime.Now;
             Precio = 0;
-           
+
             VentasDetalle = new List<VentasDetalle>();
         }
     }

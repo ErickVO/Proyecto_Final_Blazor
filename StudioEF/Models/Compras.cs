@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudioEF.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,7 +11,7 @@ namespace StudioEF.Models
     public class Compras
     {
         [Key]
-        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [ValidacionId]
         public int CompraId { get; set; }
 
         [Required(ErrorMessage ="Este campo no puede  estar vacio.")]

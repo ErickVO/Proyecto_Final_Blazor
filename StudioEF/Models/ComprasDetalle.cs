@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudioEF.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -8,7 +9,7 @@ namespace StudioEF.Models
     public class ComprasDetalle
     {
         [Key]
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [ValidacionId]
         public int ComprasDetalleId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
@@ -21,14 +22,13 @@ namespace StudioEF.Models
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
         [MinLength(5, ErrorMessage = "Este campo no puede contener menos de 5 caracteres.")]
         [MaxLength(40, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una descripcion.")]
         public string Descripcion { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [CantidadValidacion]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public int CantidadArticulos { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [ValidacionPrecio]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Costo { get; set; }
 

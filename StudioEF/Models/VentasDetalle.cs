@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudioEF.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -8,13 +9,14 @@ namespace StudioEF.Models
     public class VentasDetalle
     {
         [Key]
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [ValidacionId]
         public int VentasDetalleId { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [ValidacionId]
         public int VentaId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [Range(minimum: 1, maximum: 200000000, ErrorMessage = "El rango de este campo debe ser mayor a 0.")]
         public int ArticuloId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
@@ -22,16 +24,18 @@ namespace StudioEF.Models
         [MaxLength(30, ErrorMessage = "Ha alcanzado el maximo de caracteres.")]
         public String Descripcion { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [CantidadValidacion]
         public int Cantidad { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
+        [ValidacionPrecio]
         public decimal PrecioArticulo { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [Range(minimum: 1, maximum: 200000000, ErrorMessage = "El rango de este campo debe ser mayor a 0.")]
         public int EventoId { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [ValidacionPrecio]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal PrecioEvento { get; set; }
 
@@ -65,17 +69,6 @@ namespace StudioEF.Models
             Monto = monto;
         }
 
-        public VentasDetalle(int ventaId, int articuloId, string descripcion, int cantidad, decimal precioArticulo, decimal monto)
-        {
-            VentasDetalleId = 0;
-            VentaId = ventaId;
-            ArticuloId = articuloId;
-            Descripcion = descripcion;
-            Cantidad = cantidad;
-            PrecioArticulo = precioArticulo;
-            EventoId = 0;
-            PrecioEvento = 0;
-            Monto = monto;
-        }
+       
     }
 }

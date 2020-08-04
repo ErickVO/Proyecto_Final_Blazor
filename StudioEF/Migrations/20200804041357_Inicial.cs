@@ -147,12 +147,6 @@ namespace StudioEF.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ventas", x => x.VentaId);
-                    table.ForeignKey(
-                        name: "FK_Ventas_Clientes_ClienteId",
-                        column: x => x.ClienteId,
-                        principalTable: "Clientes",
-                        principalColumn: "ClienteId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,7 +221,7 @@ namespace StudioEF.Migrations
             migrationBuilder.InsertData(
                 table: "Fotografos",
                 columns: new[] { "FotografoId", "Apellidos", "Cedula", "Celular", "Direccion", "FechaNacimiento", "Nombres", "Sexo", "Sueldo", "Telefono", "UsuarioId" },
-                values: new object[] { 1, "Minalla", "1231231234", "8297123444", "su casa", new DateTime(2020, 8, 1, 1, 37, 6, 99, DateTimeKind.Local).AddTicks(569), "Juan Roque", "Hombre", 2000m, "8092124433", 1 });
+                values: new object[] { 1, "Minalla", "1231231234", "8297123444", "su casa", new DateTime(2020, 8, 4, 0, 13, 56, 394, DateTimeKind.Local).AddTicks(7372), "Juan Roque", "Hombre", 2000m, "8092124433", 1 });
 
             migrationBuilder.InsertData(
                 table: "Usuarios",
@@ -243,11 +237,6 @@ namespace StudioEF.Migrations
                 name: "IX_ComprasDetalle_CompraId",
                 table: "ComprasDetalle",
                 column: "CompraId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ventas_ClienteId",
-                table: "Ventas",
-                column: "ClienteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VentasDetalle_ArticulosId",
@@ -269,6 +258,9 @@ namespace StudioEF.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Categorias");
+
+            migrationBuilder.DropTable(
+                name: "Clientes");
 
             migrationBuilder.DropTable(
                 name: "ComprasDetalle");
@@ -293,9 +285,6 @@ namespace StudioEF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Ventas");
-
-            migrationBuilder.DropTable(
-                name: "Clientes");
         }
     }
 }

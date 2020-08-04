@@ -1,4 +1,5 @@
 ﻿using StudioEF.Pages;
+using StudioEF.Validaciones;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,44 +11,29 @@ namespace StudioEF.Models
     public class Clientes
     {
         [Key]
-        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [ValidacionId]
         public int ClienteId { get; set; }
 
         [Range(1,20000000,ErrorMessage ="Este campo debe tener un rango mayor a 0.")]
         [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         public int UsuarioId { get; set; }
 
-        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
-        [MinLength(3,ErrorMessage ="Este campo no puede tener menos de 3 caracteres.")]
-        [MaxLength(30,ErrorMessage ="Ha alcanzo el maximo de caracteres.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese los nombres.")]
+        [ValidacionNombres]
         public string Nombres { get; set; }
 
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
-        [MinLength(3, ErrorMessage = "Este campo no puede tener menos de 3 caracteres.")]
-        [MaxLength(30, ErrorMessage = "Ha alcanzo el maximo de caracteres.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese los apellidos.")]
+        [ValidacionApellidos]
         public string Apellidos { get; set; }
 
-        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
-        [Phone(ErrorMessage ="Este campo solo debe contener numeros.")]
-        [StringLength(11,ErrorMessage ="Este campo debe contener 11 caracteres.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una cedula.")]
+        [ValidacionCedula]
         public string Cedula { get; set; }
 
         [Required(ErrorMessage ="Este campo no puede estar vacio.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una dirección.")]
         public string Direccion { get; set; }
 
-        [Phone(ErrorMessage = "Este campo solo debe contener numeros.")]
-        [StringLength(10, ErrorMessage = "Este campo debe contener 10 caracteres.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese un telefono.")]
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [ValidacionTelefono]
         public string Telefono { get; set; }
 
-        [Phone(ErrorMessage = "Este campo solo debe contener numeros.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese un telefono.")]
-        [Required(ErrorMessage = "Este campo no puede estar vacio.")]
+        [ValidacionTelefono]
         public string Celular { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacio.")]
@@ -57,9 +43,7 @@ namespace StudioEF.Models
         [DataType(DataType.Date)]
         public DateTime FechaNacimiento { get; set; }
 
-        [ForeignKey("ClienteId")]
-        public List<Ventas> Ventas { get; set; }
-
+       
         public Clientes()
         {
             ClienteId = 0;
@@ -72,7 +56,7 @@ namespace StudioEF.Models
             Celular = string.Empty;
             Sexo = string.Empty;
             FechaNacimiento = DateTime.Now;
-            Ventas = new List<Ventas>();
+            
         }
     }
 }

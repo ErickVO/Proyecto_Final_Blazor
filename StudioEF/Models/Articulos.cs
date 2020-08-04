@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudioEF.Validaciones;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,6 +12,7 @@ namespace StudioEF.Models
     {
         [Key]
         [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [ValidacionId]
         public int ArticuloId { get; set; }
 
         [Range(minimum: 1, maximum: 200000000,ErrorMessage ="Este campo debe poseer un rango mayor a 0.")]
@@ -20,7 +22,6 @@ namespace StudioEF.Models
         [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         [MinLength(5,ErrorMessage ="Este campo no puede contener menos de 5 caracteres.")]
         [MaxLength(40, ErrorMessage ="Ha alcanzado el maximo de caracteres.")]
-        [DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "Ingrese una descripcion.")]
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage ="Este campo no puede estar vacio.")]
@@ -28,14 +29,15 @@ namespace StudioEF.Models
         public int  CategoriaId { get; set; }
 
         [Required(ErrorMessage ="Este campo no puede estar vacio.")]
+        [CantidadValidacion]
         public decimal Stock { get; set; }
         
-        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         [DisplayFormat(DataFormatString = "{0:C}")]
+        [ValidacionPrecio]
         public decimal Precio { get; set; }
 
-        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         [DisplayFormat(DataFormatString = "{0:C}")]
+        [ValidacionCosto]
         public decimal Costo { get; set; }
        
         [ForeignKey("ArticulosId")]

@@ -9,7 +9,7 @@ using StudioEF.DAL;
 namespace StudioEF.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200801053706_Inicial")]
+    [Migration("20200804041357_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,7 +266,7 @@ namespace StudioEF.Migrations
                             Cedula = "1231231234",
                             Celular = "8297123444",
                             Direccion = "su casa",
-                            FechaNacimiento = new DateTime(2020, 8, 1, 1, 37, 6, 99, DateTimeKind.Local).AddTicks(569),
+                            FechaNacimiento = new DateTime(2020, 8, 4, 0, 13, 56, 394, DateTimeKind.Local).AddTicks(7372),
                             Nombres = "Juan Roque",
                             Sexo = "Hombre",
                             Sueldo = 2000m,
@@ -341,8 +341,6 @@ namespace StudioEF.Migrations
 
                     b.HasKey("VentaId");
 
-                    b.HasIndex("ClienteId");
-
                     b.ToTable("Ventas");
                 });
 
@@ -401,15 +399,6 @@ namespace StudioEF.Migrations
                     b.HasOne("StudioEF.Models.Compras", null)
                         .WithMany("ComprasDetalle")
                         .HasForeignKey("CompraId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("StudioEF.Models.Ventas", b =>
-                {
-                    b.HasOne("StudioEF.Models.Clientes", null)
-                        .WithMany("Ventas")
-                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
