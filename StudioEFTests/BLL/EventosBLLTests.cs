@@ -17,9 +17,9 @@ namespace StudioEF.BLL.Tests
             Eventos eventos = new Eventos();
             eventos.EventoId = 0;
             eventos.UsuarioId = 1;
-            eventos.UsuarioId = 1;
-            eventos.Descripcion = "";
-            eventos.Lugar = "";
+            eventos.FotografoId = 1;
+            eventos.Descripcion = "Cumpleanos";
+            eventos.Lugar = "SFM";
             eventos.FechaInicio = DateTime.Now;
             eventos.FechaFin = DateTime.Now;
             eventos.Precio = 100;

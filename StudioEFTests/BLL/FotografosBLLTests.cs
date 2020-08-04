@@ -17,13 +17,13 @@ namespace StudioEF.BLL.Tests
             Fotografos fotografos = new Fotografos();
             fotografos.FotografoId = 0;
             fotografos.UsuarioId = 1;
-            fotografos.Nombres = "";
-            fotografos.Apellidos = "";
-            fotografos.Cedula = "";
-            fotografos.Direccion = "";
-            fotografos.Telefono = "";
-            fotografos.Celular = "";
-            fotografos.Sexo = "";
+            fotografos.Nombres = "Frandy";
+            fotografos.Apellidos = "Mota";
+            fotografos.Cedula = "41223355889";
+            fotografos.Direccion = "Cotui";
+            fotografos.Telefono = "8093527799";
+            fotografos.Celular = "8092458037";
+            fotografos.Sexo = "Hombre";
             fotografos.Sueldo = 100;
 
             Assert.IsTrue(FotografosBLL.Guardar(fotografos));
