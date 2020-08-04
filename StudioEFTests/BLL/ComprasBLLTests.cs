@@ -45,7 +45,7 @@ namespace StudioEF.BLL.Tests
         public void BuscarTest()
         {
             Compras compras;
-            compras = ComprasBLL.Buscar(1);
+            compras = ComprasBLL.Buscar(2);
             Assert.IsNotNull(compras);
         }
 

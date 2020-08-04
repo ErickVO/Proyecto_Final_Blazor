@@ -40,7 +40,7 @@ namespace StudioEF.BLL.Tests
         public void BuscarTest()
         {
             Eventos eventos;
-            eventos = EventosBLL.Buscar(1);
+            eventos = EventosBLL.Buscar(2);
             Assert.IsNotNull(eventos);
         }
 

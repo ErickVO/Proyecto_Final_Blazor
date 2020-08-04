@@ -28,7 +28,7 @@ namespace StudioEF.BLL.Tests
         public void BuscarTest()
         {
             Ventas ventas;
-            ventas = VentasBLL.Buscar(1);
+            ventas = VentasBLL.Buscar(2);
             Assert.IsNotNull(ventas);
         }
 
