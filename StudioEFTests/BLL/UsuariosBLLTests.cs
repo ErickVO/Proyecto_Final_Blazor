@@ -17,8 +17,8 @@ namespace StudioEF.BLL.Tests
             Usuarios usuarios = new Usuarios();
             usuarios.UsuarioId = 0;
             usuarios.Nombres = "";
-            usuarios.NombreUsuario = "";
-            usuarios.Contrasena = "";
+            usuarios.NombreUsuario = "Admin";
+            usuarios.Contrasena = "Addmin";
             usuarios.Email = "";
 
             Assert.IsTrue(UsuariosBLL.Guardar(usuarios));
