@@ -1,6 +1,5 @@
 ﻿@page "/RVentas"
 
-
 @using Models
 @using BLL
 
@@ -42,7 +41,7 @@
                     <div class="form-group">
                         <label>Cliente Id:</label>
                         <select @bind="ClienteSeleccionado" class="form-control">
-                            <option value="" disabled selected>Seleccione un cliente</option>
+                            <option value="0" disabled selected>Seleccione un cliente</option>
                             @foreach (var item in ListaClientes)
                             {
                                 <option value="@item.ClienteId">@item.Nombres @item.Apellidos</option>
@@ -59,7 +58,7 @@
                     <div class="form-group">
                         <label>Articulo Id:</label>
                         <select @bind="ArticuloSeleccionado" class="form-control" @onfocusout="ObtenerPrecioArticulo">
-                            <option value="" disabled selected>Seleccione un Articulo</option>
+                            <option value="0" disabled selected>Seleccione un Articulo</option>
                             @foreach (var item in ListaArticulos)
                             {
                                 <option value="@item.ArticuloId">@item.Descripcion</option>
@@ -80,11 +79,11 @@
 
                     <div class="form-group">
                         <label>Evento Id:</label>
-                        <select @bind="eventoId" class="form-control">
-                            <option value="" disabled selected>Seleccione un Evento</option>
+                        <select @bind="eventoId" class="form-control" @onclick="ObtenerPrecioEvento"  >
+                            <option value="0" disabled selected>Seleccione un Evento</option>
                             @foreach (var item in ListaEventos)
                             {
-                                <option value="@item.EventoId">@item.Descripcion : @item.Precio</option>
+                                <option value="@item.EventoId">@item.Descripcion</option>
                             }
 
                         </select>
@@ -92,15 +91,15 @@
 
                     <div class="form-group">
                         <label>Precio Evento:</label>
-                        <InputNumber @bind-Value="precioEvento" class="form-control" />
+                        <InputNumber @bind-Value="precioEvento" class="form-control" ReadOnly="true"/>
                     </div>
 
                     <div class="form-group">
                         <label>Monto:</label>
                         <div class="input-group">
-                            <InputNumber @bind-Value="monto" class="form-control" @onfocusout="CalcularTotal" />
+                            <InputNumber @bind-Value="monto" class="form-control"  ReadOnly="true"/>
                             <div class="input-group-append">
-                                <button type="button" class="btn btn-info" @onclick="Agregar">Agregar</button>
+                                <button type="button" class="btn btn-info" @onclick="Agregar" >Agregar</button>
                             </div>
                         </div>
                     </div>
@@ -179,6 +178,7 @@
     public decimal monto { get; set; }
     public decimal precioArticulo { get; set; }
     public decimal precioEvento { get; set; }
+
     public int eventoId { get; set; }
 
 
@@ -195,6 +195,14 @@
     private void Nuevo()
     {
         Venta = new Ventas();
+        VentaD = new VentasDetalle();
+        cantidad = 0;
+        monto = 0;
+        precioArticulo = 0;
+        precioEvento = 0;
+        ClienteSeleccionado = 0;
+        ArticuloSeleccionado = 0;
+        eventoId = 0;
         ListaArticulos = ArticulosBLL.GetList(a => true);
         ListaClientes = ClientesBLL.GetList(c => true);
         ListaEventos = EventosBLL.GetList(vd => true);
@@ -223,12 +231,16 @@
 
     private void ObtenerPrecioEvento()
     {
-        Eventos auxEvento = EventosBLL.Buscar(ArticuloSeleccionado);
+
+        Eventos auxEvento = EventosBLL.Buscar(eventoId);
 
         if (auxEvento != null)
         {
-            precioArticulo = auxEvento.Precio;
+            precioEvento = auxEvento.Precio;
         }
+
+        CalcularMonto();
+
     }
 
     private void Guardar()
@@ -298,11 +310,13 @@
                 Descripcion = ObtenerDescripcion(ArticuloSeleccionado),
                 Cantidad = cantidad,
                 PrecioArticulo = precioArticulo,
+                EventoId = eventoId,
                 PrecioEvento = precioEvento,
                 Monto = monto
             });
 
             VentasBLL.RestarCantidad(Venta);
+            CalcularTotal();
 
             ClienteSeleccionado = 0;
 
@@ -310,6 +324,15 @@
 
         }
 
+    }
+
+    private void CalcularMonto()
+    {
+        decimal Monto = 0;
+
+        Monto = (precioArticulo * cantidad) + precioEvento;
+
+        monto = Monto;
     }
 
     private void CalcularTotal()
@@ -320,6 +343,7 @@
         {
             total += (item.PrecioArticulo * item.Cantidad) + item.PrecioEvento;
         }
+
         Venta.Total = total;
     }
 
@@ -330,7 +354,7 @@
         {
             VentasBLL.SumarCantidad(Venta);
             Venta.VentasDetalle.Remove(detalle);
-            CalcularTotal();
+
         }
         catch (Exception)
         {
