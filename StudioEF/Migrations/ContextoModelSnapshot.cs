@@ -246,7 +246,7 @@ namespace StudioEF.Migrations
                             Cedula = "1231231234",
                             Celular = "8297123444",
                             Direccion = "su casa",
-                            FechaNacimiento = new DateTime(2020, 8, 4, 2, 31, 5, 512, DateTimeKind.Local).AddTicks(2846),
+                            FechaNacimiento = new DateTime(2020, 8, 4, 9, 51, 46, 320, DateTimeKind.Local).AddTicks(4512),
                             Nombres = "Juan Roque",
                             Sexo = "Hombre",
                             Sueldo = 2000m,

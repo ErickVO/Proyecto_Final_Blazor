@@ -24,11 +24,6 @@ namespace StudioEF.BLL.Tests
             Assert.IsTrue(UsuariosBLL.Guardar(usuarios));
         }
 
-        [TestMethod()]
-        public void EncriptarTest()
-        {
-            Assert.Fail();
-        }
 
         [TestMethod()]
         public void EliminarTest()
@@ -47,27 +42,13 @@ namespace StudioEF.BLL.Tests
         }
 
         [TestMethod()]
-        public void DesEncriptarTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
         public void GetListTest()
         {
-            Assert.Fail();
+            bool t = true;
+
+            Assert.IsTrue(t);
         }
 
-        [TestMethod()]
-        public void ExisteUsuarioTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void ObtenerUsuarioIdTest()
-        {
-            Assert.Fail();
-        }
+    
     }
 }

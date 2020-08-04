@@ -29,7 +29,6 @@ namespace StudioEF.Models
         public int  CategoriaId { get; set; }
 
         [Required(ErrorMessage ="Este campo no puede estar vacio.")]
-        [CantidadValidacion]
         public decimal Stock { get; set; }
         
         [DisplayFormat(DataFormatString = "{0:C}")]
@@ -37,7 +36,7 @@ namespace StudioEF.Models
         public decimal Precio { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
-        [ValidacionCosto]
+        [Required(ErrorMessage ="Este campo no puede estar vacio.")]
         public decimal Costo { get; set; }
        
         [ForeignKey("ArticulosId")]
