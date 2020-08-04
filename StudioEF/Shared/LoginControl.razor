@@ -1,36 +1,23 @@
-﻿@page "/loginControl"
+﻿
+@page "/loginControl"
 @using System.Web;
 
 <AuthorizeView>
     <Authorized>
         <b>User: @context.User.Identity.Name</b>
 
-        <a class="ml-md-auto btn btn-primary"
+        <a class="ml-md-auto btn btn-success"
            href="/logout?returnUrl=/"
-           target="_top">Logout</a>
+           target="_top">Logout<span class="oi oi-account-logout"></span></a>
     </Authorized>
     <NotAuthorized>
-        <input type="text"
-               placeholder="Nombre Usuario"
-               @bind="@NombreUsuario" />
-        &nbsp;&nbsp;
-
-        <input type="password"
-               placeholder="Contraseña"
-               @bind="@Contrasena" />
-
-        <a class="ml-md-auto btn btn-primary"
-           href="/login?paramUsername=@encode(NombreUsuario)&paramPassword=@encode(Contrasena)"
-           target="_top">Login</a>
-
-
+        <div>
+            <h2>Studio EF</h2>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
 
 @code {
-
-    string NombreUsuario = "";
-    string Contrasena = "";
 
     private string encode(string param)
     {
