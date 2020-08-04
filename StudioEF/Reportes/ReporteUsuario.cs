@@ -108,7 +108,7 @@ namespace StudioEF.Reportes
 
             pdfTable.CompleteRow();
 
-            pdfCell = new PdfPCell(new Phrase("Reporte de Fotografos", fontStyle));
+            pdfCell = new PdfPCell(new Phrase("Reporte de Usuarios", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.Colspan = 2;
             pdfCell.Border = 0;
@@ -157,7 +157,7 @@ namespace StudioEF.Reportes
             pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
             pdfTable.AddCell(pdfCell);
 
-            pdfCell = new PdfPCell(new Phrase("Apellidos", fontStyle));
+            pdfCell = new PdfPCell(new Phrase("Nombre Usuario", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             pdfCell.BackgroundColor = BaseColor.LIGHT_GRAY;
@@ -198,6 +198,12 @@ namespace StudioEF.Reportes
                 pdfTable.AddCell(pdfCell);
 
                 pdfCell = new PdfPCell(new Phrase(item.NombreUsuario, _fontStyle));
+                pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                pdfCell.BackgroundColor = BaseColor.WHITE;
+                pdfTable.AddCell(pdfCell);
+
+                pdfCell = new PdfPCell(new Phrase(item.Contrasena, _fontStyle));
                 pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 pdfCell.BackgroundColor = BaseColor.WHITE;
