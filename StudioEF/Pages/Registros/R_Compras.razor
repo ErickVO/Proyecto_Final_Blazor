@@ -16,7 +16,7 @@
 
 @if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
 {
-    <EditForm Model="Venta" OnValidSubmit="Guardar">
+    <EditForm Model="Compra" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
 
         <div class="card-img">
@@ -32,7 +32,7 @@
                             <div class="form-group">
                                 <label>Id Compra:</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="Venta.CompraId" class="form-control col-4" />
+                                    <InputNumber @bind-Value="Compra.CompraId" class="form-control col-4" />
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
@@ -43,14 +43,14 @@
 
                     <div class="form-group">
                         <label>Usuario Id:</label>
-                        <InputNumber @bind-Value="Venta.UsuarioId" class="form-control" />
-                        <ValidationMessage For="@(() => Venta.UsuarioId)" />
+                        <InputNumber @bind-Value="Compra.UsuarioId" class="form-control" />
+                        <ValidationMessage For="@(() => Compra.UsuarioId)" />
                     </div>
 
                     <div class="form-group">
                         <label>Fecha:</label>
-                        <InputDate @bind-Value="Venta.Fecha" class="form-control" />
-                        <ValidationMessage For="@(() => Venta.Fecha)" />
+                        <InputDate @bind-Value="Compra.Fecha" class="form-control" />
+                        <ValidationMessage For="@(() => Compra.Fecha)" />
                     </div>
 
                     <div class="form-group">
@@ -102,7 +102,7 @@
                             </thead>
                             @*Asignacion de los datos del Detalle*@
                             <tbody class="bg-light">
-                                @foreach (var item in Venta.ComprasDetalle)
+                                @foreach (var item in Compra.ComprasDetalle)
                                 {
                                     <tr>
                                         <td>@item.ArticuloId</td>
@@ -119,8 +119,8 @@
 
                     <div class="form-group">
                         <label>Monto:</label>
-                        <InputNumber @bind-Value="Venta.Monto" class="form-control" readonly="true" />
-                        <ValidationMessage For="@(() => Venta.Monto)" />
+                        <InputNumber @bind-Value="Compra.Monto" class="form-control" readonly="true" />
+                        <ValidationMessage For="@(() => Compra.Monto)" />
                     </div>
 
                 </form>
@@ -139,8 +139,8 @@
 
 @code {
 
-    Ventas Venta = new Ventas();
-    VentasDetalle VentaD = new VentasDetalle();
+    Compras Compra = new Compras();
+    ComprasDetalle CompraD = new ComprasDetalle();
 
     [Parameter]
     public int CompraId { get; set; }
@@ -169,7 +169,7 @@
 
     private void Nuevo()
     {
-        Venta = new Ventas();
+        Compra = new Compras();
         Cantidad = 0;
         costo = 0;
 
@@ -181,7 +181,7 @@
     private void Guardar()
     {
         bool paso;
-        paso = VentasBLL.Guardar(Venta);
+        paso = ComprasBLL.Guardar(Compra);
 
         if (paso)
         {
@@ -209,7 +209,7 @@
         }
         else
         {
-            this.Venta.VentasDetalle.Add(new VentasDetalle
+            this.Compra.ComprasDetalle.Add(new ComprasDetalle
             {
                 ArticuloId = ArticuloSeleccionado,
                 Descripcion = ObtenerDescripcion(ArticuloSeleccionado),
@@ -217,8 +217,8 @@
                 Costo = costo
             });
 
-            ComprasBLL.ObtenerCantidad(Venta);
-            ComprasBLL.ObtenerCosto(Venta);
+            ComprasBLL.ObtenerCantidad(Compra);
+            ComprasBLL.ObtenerCosto(Compra);
 
             ArticuloSeleccionado = 0;
             costo = 0;
@@ -233,9 +233,9 @@
     {
         bool elimino;
 
-        ComprasBLL.BorrarCantidad(Venta);
-        ComprasBLL.BorrarCosto(Venta);
-        elimino = ComprasBLL.Eliminar(Venta.CompraId);
+        ComprasBLL.BorrarCantidad(Compra);
+        ComprasBLL.BorrarCosto(Compra);
+        elimino = ComprasBLL.Eliminar(Compra.CompraId);
 
         if (elimino)
         {
@@ -252,20 +252,20 @@
     private void CalcularMonto()
     {
         decimal total = 0;
-        foreach (var item in Venta.ComprasDetalle)
+        foreach (var item in Compra.ComprasDetalle)
         {
             total += (item.Costo * item.CantidadArticulos);
         }
-        Venta.Monto = total;
+        Compra.Monto = total;
     }
 
     private void EliminarDetalle(ComprasDetalle detalle)
     {
         try
         {
-            ComprasBLL.BorrarCantidad(Venta);
-            ComprasBLL.BorrarCosto(Venta);
-            Venta.ComprasDetalle.Remove(detalle);
+            ComprasBLL.BorrarCantidad(Compra);
+            ComprasBLL.BorrarCosto(Compra);
+            Compra.ComprasDetalle.Remove(detalle);
             CalcularMonto();
         }
         catch (Exception)
@@ -278,10 +278,10 @@
 
     private void Buscar()
     {
-        var encontrado = ComprasBLL.Buscar(Venta.CompraId);
+        var encontrado = ComprasBLL.Buscar(Compra.CompraId);
         if (encontrado != null)
         {
-            this.Venta = encontrado;
+            this.Compra = encontrado;
         }
         else
             toast.ShowWarning("No encontrado");
