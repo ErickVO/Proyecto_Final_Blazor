@@ -9,7 +9,7 @@ using StudioEF.DAL;
 namespace StudioEF.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200804041357_Inicial")]
+    [Migration("20200804063106_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,8 +56,7 @@ namespace StudioEF.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nombre")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(30);
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("INTEGER");
@@ -74,17 +73,12 @@ namespace StudioEF.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Apellidos")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(30);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Cedula")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(11);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Celular")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Direccion")
@@ -95,18 +89,14 @@ namespace StudioEF.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nombres")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(30);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Sexo")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telefono")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(10);
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("INTEGER");
@@ -213,14 +203,10 @@ namespace StudioEF.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Apellidos")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(30);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Cedula")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(12);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Celular")
                         .IsRequired()
@@ -235,9 +221,7 @@ namespace StudioEF.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nombres")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(30);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Sexo")
                         .IsRequired()
@@ -247,9 +231,7 @@ namespace StudioEF.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telefono")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(11);
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("INTEGER");
@@ -266,7 +248,7 @@ namespace StudioEF.Migrations
                             Cedula = "1231231234",
                             Celular = "8297123444",
                             Direccion = "su casa",
-                            FechaNacimiento = new DateTime(2020, 8, 4, 0, 13, 56, 394, DateTimeKind.Local).AddTicks(7372),
+                            FechaNacimiento = new DateTime(2020, 8, 4, 2, 31, 5, 512, DateTimeKind.Local).AddTicks(2846),
                             Nombres = "Juan Roque",
                             Sexo = "Hombre",
                             Sueldo = 2000m,
@@ -295,9 +277,7 @@ namespace StudioEF.Migrations
                         .HasMaxLength(30);
 
                     b.Property<string>("Nombres")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(30);
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UsuarioId");
 
@@ -321,9 +301,7 @@ namespace StudioEF.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Apellidos")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(30);
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ClienteId")
                         .HasColumnType("INTEGER");
@@ -332,9 +310,7 @@ namespace StudioEF.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nombres")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(30);
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("TEXT");

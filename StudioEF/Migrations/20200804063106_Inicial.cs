@@ -32,7 +32,7 @@ namespace StudioEF.Migrations
                     CategoriaId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UsuarioId = table.Column<int>(nullable: false),
-                    Nombre = table.Column<string>(maxLength: 30, nullable: true)
+                    Nombre = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,12 +46,12 @@ namespace StudioEF.Migrations
                     ClienteId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UsuarioId = table.Column<int>(nullable: false),
-                    Nombres = table.Column<string>(maxLength: 30, nullable: false),
-                    Apellidos = table.Column<string>(maxLength: 30, nullable: false),
-                    Cedula = table.Column<string>(maxLength: 11, nullable: false),
+                    Nombres = table.Column<string>(nullable: true),
+                    Apellidos = table.Column<string>(nullable: true),
+                    Cedula = table.Column<string>(nullable: true),
                     Direccion = table.Column<string>(nullable: false),
-                    Telefono = table.Column<string>(maxLength: 10, nullable: false),
-                    Celular = table.Column<string>(nullable: false),
+                    Telefono = table.Column<string>(nullable: true),
+                    Celular = table.Column<string>(nullable: true),
                     Sexo = table.Column<string>(nullable: false),
                     FechaNacimiento = table.Column<DateTime>(nullable: false)
                 },
@@ -101,11 +101,11 @@ namespace StudioEF.Migrations
                     FotografoId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UsuarioId = table.Column<int>(nullable: false),
-                    Nombres = table.Column<string>(maxLength: 30, nullable: false),
-                    Apellidos = table.Column<string>(maxLength: 30, nullable: false),
-                    Cedula = table.Column<string>(maxLength: 12, nullable: false),
+                    Nombres = table.Column<string>(nullable: true),
+                    Apellidos = table.Column<string>(nullable: true),
+                    Cedula = table.Column<string>(nullable: true),
                     Direccion = table.Column<string>(nullable: false),
-                    Telefono = table.Column<string>(maxLength: 11, nullable: false),
+                    Telefono = table.Column<string>(nullable: true),
                     Celular = table.Column<string>(maxLength: 10, nullable: false),
                     Sexo = table.Column<string>(nullable: false),
                     FechaNacimiento = table.Column<DateTime>(nullable: false),
@@ -122,7 +122,7 @@ namespace StudioEF.Migrations
                 {
                     UsuarioId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nombres = table.Column<string>(maxLength: 30, nullable: false),
+                    Nombres = table.Column<string>(nullable: true),
                     NombreUsuario = table.Column<string>(maxLength: 30, nullable: false),
                     Contrasena = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: false)
@@ -139,8 +139,8 @@ namespace StudioEF.Migrations
                     VentaId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ClienteId = table.Column<int>(nullable: false),
-                    Nombres = table.Column<string>(maxLength: 30, nullable: false),
-                    Apellidos = table.Column<string>(maxLength: 30, nullable: false),
+                    Nombres = table.Column<string>(nullable: true),
+                    Apellidos = table.Column<string>(nullable: true),
                     Fecha = table.Column<DateTime>(nullable: false),
                     Total = table.Column<decimal>(nullable: false)
                 },
@@ -221,7 +221,7 @@ namespace StudioEF.Migrations
             migrationBuilder.InsertData(
                 table: "Fotografos",
                 columns: new[] { "FotografoId", "Apellidos", "Cedula", "Celular", "Direccion", "FechaNacimiento", "Nombres", "Sexo", "Sueldo", "Telefono", "UsuarioId" },
-                values: new object[] { 1, "Minalla", "1231231234", "8297123444", "su casa", new DateTime(2020, 8, 4, 0, 13, 56, 394, DateTimeKind.Local).AddTicks(7372), "Juan Roque", "Hombre", 2000m, "8092124433", 1 });
+                values: new object[] { 1, "Minalla", "1231231234", "8297123444", "su casa", new DateTime(2020, 8, 4, 2, 31, 5, 512, DateTimeKind.Local).AddTicks(2846), "Juan Roque", "Hombre", 2000m, "8092124433", 1 });
 
             migrationBuilder.InsertData(
                 table: "Usuarios",
