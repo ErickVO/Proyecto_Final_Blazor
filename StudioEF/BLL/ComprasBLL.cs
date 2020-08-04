@@ -199,7 +199,18 @@ namespace StudioEF.BLL
 
                     foreach (var compra in compras.ComprasDetalle)
                     {
-                        Costo += compra.Costo;
+                        if(articulo.ArticuloId == compra.ArticuloId)
+                        {
+                            if(articulo.Costo != 0)
+                            {
+                                Costo = articulo.Costo;
+                            }
+                            else
+                            {
+                                Costo += compra.Costo;
+                            }
+                        }
+
                     }
 
                     articulo.Costo = Costo;
