@@ -1,10 +1,10 @@
 ﻿@page "/RVentas"
+@page "/RVentas/{VentaId:int}"
 
 @using Models
 @using BLL
 
 @inject IToastService toast
-
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <AuthorizeView>
@@ -18,12 +18,15 @@
 {
     <EditForm Model="Venta" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
+
         <div class="card-img">
             <div class="card-header bg-dark">
-                <h3>Registro Ventas</h3>
+                <h3>Registro Compras</h3>
             </div>
             <div class="card-body">
                 <form>
+
+
                     <div class="form-row align-items-center">
                         <div class="col">
                             <div class="form-group">
@@ -79,7 +82,7 @@
 
                     <div class="form-group">
                         <label>Evento Id:</label>
-                        <select @bind="eventoId" class="form-control" @onclick="ObtenerPrecioEvento"  >
+                        <select @bind="eventoId" class="form-control" @onclick="ObtenerPrecioEvento">
                             <option value="0" disabled selected>Seleccione un Evento</option>
                             @foreach (var item in ListaEventos)
                             {
@@ -91,18 +94,22 @@
 
                     <div class="form-group">
                         <label>Precio Evento:</label>
-                        <InputNumber @bind-Value="precioEvento" class="form-control" ReadOnly="true"/>
+                        <InputNumber @bind-Value="precioEvento" class="form-control" ReadOnly="true" />
                     </div>
 
                     <div class="form-group">
                         <label>Monto:</label>
                         <div class="input-group">
-                            <InputNumber @bind-Value="monto" class="form-control"  ReadOnly="true"/>
+                            <InputNumber @bind-Value="monto" class="form-control" ReadOnly="true" />
                             <div class="input-group-append">
-                                <button type="button" class="btn btn-info" @onclick="Agregar" >Agregar</button>
+                                <button type="button" class="btn btn-info" @onclick="Agregar">Agregar</button>
                             </div>
                         </div>
                     </div>
+
+            </div>
+          </div>
+
 
                     @*Detalle*@
                     @*La Tabla*@
@@ -121,22 +128,20 @@
                                 </tr>
                             </thead>
                             @*Asignacion de los datos del Detalle*@
-                            <tbody class="bg-white">
+                            <tbody class="bg-light">
                                 @foreach (var item in Venta.VentasDetalle)
                                 {
-                                    <tr>
-                                        <td>@item.ArticuloId</td>
-                                        <td>@ObtenerDescripcion(item.ArticuloId)</td>
-                                        <td>@item.Cantidad</td>
-                                        <td>@item.PrecioArticulo</td>
-                                        <td>@item.EventoId</td>
-                                        <td>@item.PrecioEvento</td>
-                                        <td>@item.Monto</td>
+                                <tr>
+                                    <td>@item.ArticuloId</td>
+                                    <td>@ObtenerDescripcion(item.ArticuloId)</td>
+                                    <td>@item.Cantidad</td>
+                                    <td>@item.PrecioArticulo</td>
+                                    <td>@item.EventoId</td>
+                                    <td>@item.PrecioEvento</td>
+                                    <td>@item.Monto</td>
 
-
-
-                                        <td><button type="button" class="btn btn-outline-danger" @onclick="(() => EliminarDetalle(item))"> Remover</button></td>
-                                    </tr>
+                                    <td><button type="button" class="btn btn-outline-danger" @onclick="(() => EliminarDetalle(item))"> Remover</button></td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
@@ -146,27 +151,22 @@
                         <label>Total:</label>
                         <InputNumber @bind-Value="Venta.Total" class="form-control" ReadOnly="true" />
                     </div>
+        </form>
 
-                </form>
-            </div>
-
-            <div class="card-footer">
+             
+            <div class="card-footer bg-dark">
                 <div class="form-group text-center" display: inline-block>
-                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo"><i class="oi oi-plus" />Nuevo</button>
+                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo"> <i class="oi oi-plus" />Nuevo</button>
                     <button type="submit" class="btn btn-lg btn-success"><i class="oi oi-hard-drive" />Guardar</button>
                     <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar"><i class="oi oi-trash" />Eliminar</button>
                 </div>
             </div>
-        </div>
-
+        
 
     </EditForm>
-
 }
 
-
 @code {
-
     Ventas Venta = new Ventas();
     VentasDetalle VentaD = new VentasDetalle();
 
@@ -174,13 +174,13 @@
 
     public int ArticuloSeleccionado { get; set; }
 
+    [Parameter]
     public int cantidad { get; set; }
     public decimal monto { get; set; }
     public decimal precioArticulo { get; set; }
     public decimal precioEvento { get; set; }
 
     public int eventoId { get; set; }
-
 
     List<Clientes> ListaClientes = new List<Clientes>();
     List<Articulos> ListaArticulos = new List<Articulos>();
@@ -190,6 +190,18 @@
     protected override void OnInitialized()
     {
         Nuevo();
+
+
+    }
+
+    private string ObtenerDescripcion(int id)
+    {
+        string auxDescripcion = string.Empty;
+        Articulos a = ArticulosBLL.Buscar(id);
+
+        auxDescripcion = a.Descripcion;
+
+        return auxDescripcion;
     }
 
     private void Nuevo()
@@ -209,84 +221,22 @@
     }
 
 
-    private string ObtenerDescripcion(int id)
-    {
-        string auxDescripcion = string.Empty;
-        Articulos a = ArticulosBLL.Buscar(id);
-
-        auxDescripcion = a.Descripcion;
-
-        return auxDescripcion;
-    }
-
-    private void ObtenerPrecioArticulo()
-    {
-        Articulos auxArticulo = ArticulosBLL.Buscar(ArticuloSeleccionado);
-
-        if (auxArticulo != null)
-        {
-            precioArticulo = auxArticulo.Precio;
-        }
-    }
-
-    private void ObtenerPrecioEvento()
-    {
-
-        Eventos auxEvento = EventosBLL.Buscar(eventoId);
-
-        if (auxEvento != null)
-        {
-            precioEvento = auxEvento.Precio;
-        }
-
-        CalcularMonto();
-
-    }
 
     private void Guardar()
     {
-        bool guardo;
+        bool paso;
+        paso = VentasBLL.Guardar(Venta);
 
-
-        guardo = VentasBLL.Guardar(Venta);
-
-        if (guardo)
+        if (paso)
         {
             Nuevo();
             toast.ShowSuccess("Guardado correctamente");
         }
         else
+        {
             toast.ShowError("No fue posible guardar");
-    }
-
-    private void Buscar()
-    {
-        if (Venta.VentaId > 0)
-        {
-            var encontrado = VentasBLL.Buscar(Venta.VentaId);
-
-            if (encontrado != null)
-                this.Venta = encontrado;
-            else
-                toast.ShowWarning("No encontrado");
         }
     }
-
-    private void Eliminar()
-    {
-        bool elimino;
-
-        elimino = VentasBLL.Eliminar(Venta.VentaId);
-
-        if (elimino)
-        {
-            Nuevo();
-            toast.ShowSuccess("Eliminado correctamente");
-        }
-        else
-            toast.ShowError("No fue posible eliminar");
-    }
-
 
     private void Agregar()
     {
@@ -324,7 +274,50 @@
 
         }
 
+
     }
+
+    private void Eliminar()
+    {
+        bool elimino;
+
+        elimino = VentasBLL.Eliminar(Venta.VentaId);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+
+
+
+    private void ObtenerPrecioArticulo()
+    {
+        Articulos auxArticulo = ArticulosBLL.Buscar(ArticuloSeleccionado);
+
+        if (auxArticulo != null)
+        {
+            precioArticulo = auxArticulo.Precio;
+        }
+    }
+
+    private void ObtenerPrecioEvento()
+    {
+
+        Eventos auxEvento = EventosBLL.Buscar(eventoId);
+
+        if (auxEvento != null)
+        {
+            precioEvento = auxEvento.Precio;
+        }
+
+        CalcularMonto();
+
+    }
+
 
     private void CalcularMonto()
     {
@@ -347,7 +340,6 @@
         Venta.Total = total;
     }
 
-
     private void EliminarDetalle(VentasDetalle detalle)
     {
         try
@@ -363,7 +355,17 @@
     }
 
 
+    private void Buscar()
+    {
+        if (Venta.VentaId > 0)
+        {
+            var encontrado = VentasBLL.Buscar(Venta.VentaId);
+
+            if (encontrado != null)
+                this.Venta = encontrado;
+            else
+                toast.ShowWarning("No encontrado");
+        }
+    }
 
 }
-
-
