@@ -74,10 +74,7 @@ namespace StudioEF.Reportes
         {
             int maxColumn = 1;
             PdfPTable pdfPTable = new PdfPTable(maxColumn);
-            string img = $"{Directory.GetCurrentDirectory()}{@"\wwwroot\Images\logos.png"}";
-            //  Image image = Image.GetInstance(img);
-
-            //    pdfCell = new PdfPCell(image);
+            
             pdfCell.Colspan = maxColumn;
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.Border = 0;
@@ -115,7 +112,7 @@ namespace StudioEF.Reportes
 
             pdfTable.CompleteRow();
 
-            pdfCell = new PdfPCell(new Phrase(DateTime.Now.ToString("dd/MM/yyyy H:mm tt"), fontFecha));
+            pdfCell = new PdfPCell(new Phrase(DateTime.Now.ToString("dd/MM/yyyy"), fontFecha));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.Colspan = 2;
             pdfCell.Border = 0;
