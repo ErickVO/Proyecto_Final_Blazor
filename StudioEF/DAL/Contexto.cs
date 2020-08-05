@@ -21,7 +21,7 @@ namespace StudioEF.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data source= C:\Users\LENOVO\source\repos\StudioEFDB\StudioEF.db");
+            optionsBuilder.UseSqlite(@"Data source= ./Data/StudioEF.db");
         }
 
         // ./Data/StudioEF.db // C:\Users\LENOVO\source\repos\StudioEFDB\StudioEF.db
