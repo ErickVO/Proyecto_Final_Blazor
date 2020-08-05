@@ -203,7 +203,7 @@ namespace StudioEF.BLL
                         {
                             if(articulo.Costo != 0)
                             {
-                                Costo = articulo.Costo;
+                                articulo.Costo = Costo;
                             }
                             else
                             {

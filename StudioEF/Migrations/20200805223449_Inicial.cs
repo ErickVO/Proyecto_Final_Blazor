@@ -219,11 +219,6 @@ namespace StudioEF.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Fotografos",
-                columns: new[] { "FotografoId", "Apellidos", "Cedula", "Celular", "Direccion", "FechaNacimiento", "Nombres", "Sexo", "Sueldo", "Telefono", "UsuarioId" },
-                values: new object[] { 1, "Minalla", "1231231234", "8297123444", "su casa", new DateTime(2020, 8, 4, 9, 51, 46, 320, DateTimeKind.Local).AddTicks(4512), "Juan Roque", "Hombre", 2000m, "8092124433", 1 });
-
-            migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "UsuarioId", "Contrasena", "Email", "NombreUsuario", "Nombres" },
                 values: new object[] { 1, "QQBkAG0AaQBuAA==", "ericksvicente@hotmail.com", "Admin", "Administrador" });
